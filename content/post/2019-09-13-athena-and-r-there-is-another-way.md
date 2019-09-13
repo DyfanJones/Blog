@@ -1,9 +1,9 @@
 ---
 title: Athena and R ... there is another way!?
-author: ~
+author: Dyfan Jones
 date: '2019-09-13'
 slug: athena-and-r-there-is-another-way
-categories: []
+categories: [RBlogger]
 tags: [R, Athena, Boto3, Python]
 ---
 # Intro
