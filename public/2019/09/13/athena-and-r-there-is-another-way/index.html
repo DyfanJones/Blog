@@ -76,9 +76,9 @@
 
 <h1 id="intro">Intro</h1>
 
-<p>Currently there are two key ways in connecting to Athena from R, using the <a href="https://docs.aws.amazon.com/athena/latest/ug/connect-with-odbc.html">ODBC</a> and <a href="https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html">JDBC</a> drivers. To access ODBC driver R users can use the excellent <a href="https://github.com/r-dbi/odbc">odbc package</a> supported by Rstudio. To access the JDBC driver R users can either use <a href="https://cran.r-project.org/web/packages/RJDBC/index.html">RJDBC</a> or helpful wrapper package <a href="https://github.com/nfultz/AWR.Athena">AWR.Athena</a> which wraps the RJDBC package to make the connection the Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Athena, however is there another way?</p>
+<p>Currently there are two key ways in connecting to Athena from R, using the <a href="https://docs.aws.amazon.com/athena/latest/ug/connect-with-odbc.html">ODBC</a> and <a href="https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html">JDBC</a> drivers. To access ODBC driver R users can use the excellent <a href="https://github.com/r-dbi/odbc">odbc package</a> supported by Rstudio. To access the JDBC driver R users can either use <a href="https://cran.r-project.org/web/packages/RJDBC/index.html">RJDBC</a> or helpful wrapper package <a href="https://github.com/nfultz/AWR.Athena">AWR.Athena</a> which wraps the RJDBC package to make the connection to Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Athena, however is there another way?</p>
 
-<p>Well glad you asked&hellip;yes there is! Ever since the <a href="https://rstudio.github.io/reticulate/">reticulate pacakge</a> was developed (by Rstudio) the interface into Python from R has never been simpler. This makes another route into Athena possible! Amazon has developed a Python software developement kit (SDK) called <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway">Boto3</a> by using <code>boto3</code> in combination with the R package <code>reticulate</code> a new method into accessing Athena can be made possible. Introducing the R package <a href="https://dyfanjones.github.io/RAthena/">RAthena</a>.</p>
+<p>Well glad you asked&hellip;yes there is! Ever since the <a href="https://rstudio.github.io/reticulate/">reticulate pacakge</a> was developed (by Rstudio) the interface into Python from R has never been simpler. This makes another route into Athena possible! Amazon has developed a Python software developement kit (SDK) called <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway">Boto3</a>. By using <code>boto3</code> in combination with the R package <code>reticulate</code> a new method into accessing Athena can be made possible. Introducing the R package <a href="https://dyfanjones.github.io/RAthena/">RAthena</a>.</p>
 
 <h1 id="rathena">RAthena</h1>
 
@@ -91,11 +91,11 @@
 </blockquote>
 
 <ul>
-<li><strong>Why was RAthena created when there are methods for connecting to Athena?</strong></li>
+<li><strong>Why was RAthena created when there are already methods for connecting to Athena?</strong></li>
 </ul>
 
 <blockquote>
-<p><code>RAthena</code> was created to provide an extra method to connect to Athena for R users. Nothing more nothing less.</p>
+<p><code>RAthena</code> was created to provide an extra method to connect to Athena for R users. Nothing more, nothing less.</p>
 </blockquote>
 
 <ul>
@@ -103,12 +103,12 @@
 </ul>
 
 <blockquote>
-<p>Isn&rsquo;t it obvious? Most R packages that interfaces with databases are called <code>&quot;R&lt;database&gt;&quot;</code> for example <code>RSQLite</code>, <code>RPostgreSQL</code>, etc&hellip; Plus this package is &ldquo;roughly&rdquo; the R equivalent to the excellent <code>Python</code> package <a href="https://github.com/laughingman7743/PyAthena">PyAthena</a>. So calling this pacakge <code>RAthena</code> seems the best fit.</p>
+<p>Isn&rsquo;t it obvious? Most R packages that interfaces with databases are called <code>&quot;R&lt;database&gt;&quot;</code> for example <code>RSQLite</code>, <code>RPostgreSQL</code>, etc&hellip; Plus this package is &ldquo;roughly&rdquo; the R equivalent to the superb <code>Python</code> package <a href="https://github.com/laughingman7743/PyAthena">PyAthena</a>. So calling this pacakge <code>RAthena</code> seems like the best fit.</p>
 </blockquote>
 
 <h1 id="getting-started">Getting Started</h1>
 
-<p>Now lets get into how to actually use <code>RAthena</code>. I am skip over the part were you have to set up an <a href="https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/">Amazon Web Services Account</a> (AWS Acount) and get straight into the good stuff.</p>
+<p>Now lets get into how to actually use <code>RAthena</code>. I am going to skip over the part were you have to set up an <a href="https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/">Amazon Web Services Account</a> (AWS Acount) and get straight into the good stuff.</p>
 
 <p>Before working with <code>RAthena</code>, <a href="https://www.python.org/downloads/">Python 3+</a> is require. Please install it directly or use the <a href="https://www.anaconda.com/distribution/">Anaconda Distribution</a>.</p>
 
@@ -143,14 +143,14 @@ con &lt;- dbConnect(RAthena::athena(),
 
 <p><strong>Note:</strong> <em><code>s3_staging_dir</code> requires the be the format of <code>s3 uri</code> for example &ldquo;s3://path/to/query/bucket/&rdquo;</em></p>
 
-<h3 id="system-variable-method">System Variable Method:</h3>
+<h3 id="environment-variable-method">Environment Variable Method:</h3>
 
-<p><code>RAthena</code> supports setting <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html">AWS credentials</a> into environment to avoid hard-coding. From what I have found out an easy way to set environment variables in R is to use:</p>
+<p><code>RAthena</code> supports setting <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html">AWS credentials</a> into environment variables to avoid hard-coding. From what I have found out an easy way to set up environment variables (that persists) in R is to use the <code>file.edit</code> function like so:</p>
 
 <pre><code class="language-r">file.edit(&quot;~/.Renviron&quot;)
 </code></pre>
 
-<p>And you can simply add in your variables to the file for example:</p>
+<p>And now you can simply add in your variables to the file for example:</p>
 
 <pre><code>AWS_ACCESS_KEY_ID = &lt;YOUR AWS KEY ID&gt;
 </code></pre>
@@ -207,7 +207,7 @@ con &lt;- dbConnect(athena(),
                   s3_staging_dir = 's3://path/to/query/bucket/')
 </code></pre>
 
-<p><strong>Note:</strong> <em>ARN Roles have a duration timer before they will expirer. To change the default you can increase the <code>duration_seconds</code> parameter from the default 3600 seconds (1 hours).</em></p>
+<p><strong>Note:</strong> <em>ARN Roles have a duration timer before they will expirer. To change the default you can increase the <code>duration_seconds</code> parameter from the default 3600 seconds (1 hour).</em></p>
 
 <h3 id="temporary-sessions">Temporary Sessions:</h3>
 
@@ -245,14 +245,14 @@ dbFetch(res)
 dbClearResult(res)
 </code></pre>
 
-<p>or</p>
+<p>Or &hellip;</p>
 
 <pre><code class="language-r">res &lt;- dbExecute(con, &quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&quot;)
 dbFetch(res)
 dbClearResult(res)
 </code></pre>
 
-<p>or</p>
+<p>Or &hellip;</p>
 
 <p><code>dbGetQuery</code> wraps sending, fetching and clearing results in one easy step.</p>
 
@@ -268,7 +268,7 @@ dbColumnInfo(res)
 dbClearResult(res)
 </code></pre>
 
-<p>To learn about what <code>DBI</code> methods have been implemented in <code>RAthena</code> please refer to : <a href="https://dyfanjones.github.io/RAthena/">link</a>.</p>
+<p>To learn about what <code>DBI</code> methods have been implemented in <code>RAthena</code> please refer to: <a href="https://dyfanjones.github.io/RAthena/">link</a>.</p>
 
 <h2 id="intermediate-usage">Intermediate Usage:</h2>
 
@@ -277,6 +277,11 @@ dbClearResult(res)
 <pre><code class="language-r">dbWriteTable(con, &quot;mtcars&quot;, mtcars,
              partition=c(&quot;TIMESTAMP&quot; = format(Sys.Date(), &quot;%Y%m%d&quot;)),
              s3.location = &quot;s3://mybucket/data/&quot;)
+</code></pre>
+
+<p>Once you have uploaded data into <code>Athena</code> you can query it like the following:</p>
+
+<pre><code class="language-r">dbGetQuery(con, &quot;select * from mtcars&quot;)
 </code></pre>
 
 <p>Here are all variable parameters for the <code>dbWriteTable</code> method:</p>
@@ -319,19 +324,43 @@ con &lt;- dbConnect(RAthena::athena(),
 tbl(con, sql(&quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&quot;))
 </code></pre>
 
-<p>or if you have already uploaded a table into <code>Athena</code></p>
+<p>Or if you have already uploaded a table into <code>Athena</code></p>
 
 <pre><code class="language-r">tbl(con, &quot;mtcars&quot;)
 </code></pre>
 
 <h1 id="conclusion">Conclusion</h1>
 
-<p>So hopefully this has given you insight into the up coming package <code>RAthena</code> and it&rsquo;s usefulness. This package is not meant to replace any of the other packages that connect into <code>Athena</code> but give another route into <code>Athena</code> for R users.</p>
+<p>So hopefully this has given you an insight into the up coming package <code>RAthena</code> and it&rsquo;s usefulness. This package is not meant to replace any of the other packages that connect into <code>Athena</code> but give another route into <code>Athena</code> for R users.</p>
+
+<p><strong>Final note:</strong> <code>RAthena</code> offers alot more functionality please check it out at <a href="https://github.com/DyfanJones/RAthena">Github</a>. If you have any suggestions please raise an issue at <a href="https://github.com/DyfanJones/RAthena/issues">Github Issues</a>.</p>
 
     </div>
   </article>
 
   
+<section id="comments">
+  <div id="disqus_thread"></div>
+  <script>
+  var disqus_config = function () {
+  
+  };
+  (function() {
+    var inIFrame = function() {
+      var iframe = true;
+      try { iframe = window.self !== window.top; } catch (e) {}
+      return iframe;
+    };
+    if (inIFrame()) return;
+    var d = document, s = d.createElement('script');
+    s.src = '//disqus_Jx56HfIJjT.disqus.com/embed.js'; s.async = true;
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</section>
+
 
 
 </main>
