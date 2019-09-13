@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>R on Dyfan Jones Brain Dump Centre</title>
+    <title>R on Dyfan Jones Brain Dump HQ</title>
     <link>/tags/r/</link>
-    <description>Recent content in R on Dyfan Jones Brain Dump Centre</description>
+    <description>Recent content in R on Dyfan Jones Brain Dump HQ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <lastBuildDate>Fri, 13 Sep 2019 00:00:00 +0000</lastBuildDate>
@@ -17,7 +17,8 @@
       <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
       
       <guid>/post/athena-and-r-there-is-another-way/</guid>
-      <description>Intro Currently there are two key ways in connecting to Athena from R, using the ODBC and JDBC drivers. To access ODBC driver R users can use the excellent odbc package supported by Rstudio. To access the JDBC driver R users can either use RJDBC or helpful wrapper package AWR.Athena which wraps the RJDBC package to make the connection to Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Athena, however is there another way?</description>
+      <description>RBloggers|RBloggers-feedburner
+Intro Currently there are two key ways in connecting to Athena from R, using the ODBC and JDBC drivers. To access ODBC driver R users can use the excellent odbc package supported by Rstudio. To access the JDBC driver R users can either use RJDBC or helpful wrapper package AWR.Athena which wraps the RJDBC package to make the connection to Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Athena, however is there another way?</description>
     </item>
     
   </channel>
