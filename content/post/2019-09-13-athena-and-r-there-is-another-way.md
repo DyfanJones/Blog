@@ -65,7 +65,7 @@ con <- dbConnect(RAthena::athena(),
 
 ### Environment Variable Method:
 
-`RAthena` supports setting [AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) into environment variables to avoid hard-coding. From what I have found out an easy way to set up environment variables in R is to use the `file.edit` function like so:
+`RAthena` supports setting [AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) into environment variables to avoid hard-coding. From what I have found out an easy way to set up environment variables (that persists) in R is to use the `file.edit` function like so:
 ```r
 file.edit("~/.Renviron")
 ```
