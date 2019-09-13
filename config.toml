@@ -3,7 +3,7 @@ languageCode = "en-uk"
 title = "Dyfan Jones Brain Dump Centre"
 theme = "hugo-lithium"
 googleAnalytics = ""
-disqusShortname = "disqus_Jx56HfIJjT"
+disqusShortname = "dyfanjones"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [permalinks]
