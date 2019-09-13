@@ -63,9 +63,9 @@ con <- dbConnect(RAthena::athena(),
 ```
 **Note:** *`s3_staging_dir` requires the be the format of `s3 uri` for example "s3://path/to/query/bucket/"*
 
-### System Variable Method:
+### Environment Variable Method:
 
-`RAthena` supports setting [AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) into environment to avoid hard-coding. From what I have found out an easy way to set up environment variables in R is to use the `file.edit` function like so:
+`RAthena` supports setting [AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) into environment variables to avoid hard-coding. From what I have found out an easy way to set up environment variables in R is to use the `file.edit` function like so:
 ```r
 file.edit("~/.Renviron")
 ```
@@ -124,7 +124,7 @@ con <- dbConnect(athena(),
                   s3_staging_dir = 's3://path/to/query/bucket/')
 ```
 
-**Note:** *ARN Roles have a duration timer before they will expirer. To change the default you can increase the `duration_seconds` parameter from the default 3600 seconds (1 hours).*
+**Note:** *ARN Roles have a duration timer before they will expirer. To change the default you can increase the `duration_seconds` parameter from the default 3600 seconds (1 hour).*
 
 ### Temporary Sessions:
 
@@ -183,7 +183,7 @@ dbColumnInfo(res)
 dbClearResult(res)
 ```
 
-To learn about what `DBI` methods have been implemented in `RAthena` please refer to : [link](https://dyfanjones.github.io/RAthena/).
+To learn about what `DBI` methods have been implemented in `RAthena` please refer to: [link](https://dyfanjones.github.io/RAthena/).
 
 ## Intermediate Usage:
 
@@ -234,7 +234,7 @@ con <- dbConnect(RAthena::athena(),
 tbl(con, sql("SELECT * FROM INFORMATION_SCHEMA.COLUMNS"))
 ```
 
-or if you have already uploaded a table into `Athena`
+Or if you have already uploaded a table into `Athena`
 
 ```r
 tbl(con, "mtcars")
@@ -242,6 +242,6 @@ tbl(con, "mtcars")
 
 # Conclusion
 
-So hopefully this has given you insight into the up coming package `RAthena` and it's usefulness. This package is not meant to replace any of the other packages that connect into `Athena` but give another route into `Athena` for R users.
+So hopefully this has given you an insight into the up coming package `RAthena` and it's usefulness. This package is not meant to replace any of the other packages that connect into `Athena` but give another route into `Athena` for R users.
 
 **Final note:** `RAthena` offers alot more functionality please check it out at [Github](https://github.com/DyfanJones/RAthena). If you have any suggestions please raise and issue at [Github Issues](https://github.com/DyfanJones/RAthena/issues).
