@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Hugo PacMan Theme Demo</title>
+    <link>/hugo-pacman-theme/tags/</link>
+    <description>Recent content in Tags on Hugo PacMan Theme Demo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 13 Sep 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/hugo-pacman-theme/tags/feed.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Athena</title>
+      <link>/hugo-pacman-theme/tags/athena/</link>
+      <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/hugo-pacman-theme/tags/athena/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Boto3</title>
+      <link>/hugo-pacman-theme/tags/boto3/</link>
+      <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/hugo-pacman-theme/tags/boto3/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>/hugo-pacman-theme/tags/python/</link>
+      <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/hugo-pacman-theme/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/hugo-pacman-theme/tags/r/</link>
+      <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/hugo-pacman-theme/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bar</title>
+      <link>/hugo-pacman-theme/tags/bar/</link>
+      <pubDate>Sun, 20 Mar 2016 12:13:19 +0800</pubDate>
+      
+      <guid>/hugo-pacman-theme/tags/bar/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Foo</title>
+      <link>/hugo-pacman-theme/tags/foo/</link>
+      <pubDate>Sun, 20 Mar 2016 12:13:19 +0800</pubDate>
+      
+      <guid>/hugo-pacman-theme/tags/foo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Test</title>
+      <link>/hugo-pacman-theme/tags/test/</link>
+      <pubDate>Sat, 20 Feb 2016 15:34:05 +0800</pubDate>
+      
+      <guid>/hugo-pacman-theme/tags/test/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

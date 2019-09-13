@@ -1,9 +1,12 @@
 ---
-date: '2019-09-13'
 title: All About Me
+date: 2014-04-09
+authorbox: false
+sidebar: false
+menu: main
 ---
 
-<img alt = 'carttoon_me' width='150' src='/./about_files/dj_img.png' />
+<img alt = 'cartoon_me' width='150' src='/./about_files/dj_img.png' />
 
 # Intro
 

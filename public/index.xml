@@ -12,21 +12,21 @@
     
     
     <item>
-      <title>All About Me</title>
-      <link>/about/</link>
+      <title>Athena and R ... there is another way!?</title>
+      <link>/post/athena-and-r-there-is-another-way/</link>
       <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
       
-      <guid>/about/</guid>
-      <description>Intro Hi all my name is Dyfan Jones, alot of people find it difficult to pronounce my name as it is Welsh. But here is a handy tip to help you pronounce it, &amp;ldquo;D-Oven&amp;rdquo; I am going to assume you know how to say &amp;ldquo;Jones&amp;rdquo; (there is few thousands of us in the UK). Anyways I come Nort West of England and I have been Data Scientist for roughly 5 years working at &amp;ldquo;Very.</description>
+      <guid>/post/athena-and-r-there-is-another-way/</guid>
+      <description>Intro Currently there are two key ways in connecting to Athena from R, using the ODBC and JDBC drivers. To access ODBC driver R users can use the excellent odbc package supported by Rstudio. To access the JDBC driver R users can either use RJDBC or helpful wrapper package AWR.Athena which wraps the RJDBC package to make the connection to Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Athena, however is there another way?</description>
     </item>
     
     <item>
-      <title>Athena and R ... there is another way!?</title>
-      <link>/2019/09/13/athena-and-r-there-is-another-way/</link>
-      <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
+      <title>All About Me</title>
+      <link>/about/</link>
+      <pubDate>Wed, 09 Apr 2014 00:00:00 +0000</pubDate>
       
-      <guid>/2019/09/13/athena-and-r-there-is-another-way/</guid>
-      <description>Intro Currently there are two key ways in connecting to Athena from R, using the ODBC and JDBC drivers. To access ODBC driver R users can use the excellent odbc package supported by Rstudio. To access the JDBC driver R users can either use RJDBC or helpful wrapper package AWR.Athena which wraps the RJDBC package to make the connection to Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Athena, however is there another way?</description>
+      <guid>/about/</guid>
+      <description>Intro Hi all my name is Dyfan Jones, alot of people find it difficult to pronounce my name as it is Welsh. But here is a handy tip to help you pronounce it, &amp;ldquo;D-Oven&amp;rdquo; I am going to assume you know how to say &amp;ldquo;Jones&amp;rdquo; (there is few thousands of us in the UK). Anyways I come Nort West of England and I have been Data Scientist for roughly 5 years working at &amp;ldquo;Very.</description>
     </item>
     
   </channel>

@@ -3,17 +3,12 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/about/</loc>
-    <lastmod>2019-09-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/athena/</loc>
     <lastmod>2019-09-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/2019/09/13/athena-and-r-there-is-another-way/</loc>
+    <loc>/post/athena-and-r-there-is-another-way/</loc>
     <lastmod>2019-09-13T00:00:00+00:00</lastmod>
   </url>
   
@@ -55,6 +50,11 @@
   <url>
     <loc>/tags/</loc>
     <lastmod>2019-09-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/about/</loc>
+    <lastmod>2014-04-09T00:00:00+00:00</lastmod>
   </url>
   
 </urlset>
