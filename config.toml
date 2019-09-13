@@ -3,7 +3,7 @@ languageCode = "en-uk"
 title = "Dyfan Jones Brain Dump Centre"
 theme = "hugo-lithium"
 googleAnalytics = ""
-disqusShortname = ""
+disqusShortname = "disqus_Jx56HfIJjT"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [permalinks]
@@ -20,7 +20,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     url = "https://www.linkedin.com/in/dyfan-jones-a8261799/"
 
 [params]
-    description = ""
+    description = "A website to brain dump ideas"
 
     # options for highlight.js (version, additional languages, and theme)
     highlightjsVersion = "9.12.0"
