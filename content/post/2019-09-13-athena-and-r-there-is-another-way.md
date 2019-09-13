@@ -8,9 +8,9 @@ tags: [R, Athena, Boto3, Python]
 ---
 # Intro
 
-Currently there are two key ways in connecting to Athena from R, using the [ODBC](https://docs.aws.amazon.com/athena/latest/ug/connect-with-odbc.html) and [JDBC](https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html) drivers. To access ODBC driver R users can use the excellent [odbc package](https://github.com/r-dbi/odbc) supported by Rstudio. To access the JDBC driver R users can either use [RJDBC](https://cran.r-project.org/web/packages/RJDBC/index.html) or helpful wrapper package [AWR.Athena](https://github.com/nfultz/AWR.Athena) which wraps the RJDBC package to make the connection the Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Athena, however is there another way?
+Currently there are two key ways in connecting to Athena from R, using the [ODBC](https://docs.aws.amazon.com/athena/latest/ug/connect-with-odbc.html) and [JDBC](https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html) drivers. To access ODBC driver R users can use the excellent [odbc package](https://github.com/r-dbi/odbc) supported by Rstudio. To access the JDBC driver R users can either use [RJDBC](https://cran.r-project.org/web/packages/RJDBC/index.html) or helpful wrapper package [AWR.Athena](https://github.com/nfultz/AWR.Athena) which wraps the RJDBC package to make the connection to Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Athena, however is there another way?
 
-Well glad you asked...yes there is! Ever since the [reticulate pacakge](https://rstudio.github.io/reticulate/) was developed (by Rstudio) the interface into Python from R has never been simpler. This makes another route into Athena possible! Amazon has developed a Python software developement kit (SDK) called [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway) by using `boto3` in combination with the R package `reticulate` a new method into accessing Athena can be made possible. Introducing the R package [RAthena](https://dyfanjones.github.io/RAthena/).
+Well glad you asked...yes there is! Ever since the [reticulate pacakge](https://rstudio.github.io/reticulate/) was developed (by Rstudio) the interface into Python from R has never been simpler. This makes another route into Athena possible! Amazon has developed a Python software developement kit (SDK) called [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway). By using `boto3` in combination with the R package `reticulate` a new method into accessing Athena can be made possible. Introducing the R package [RAthena](https://dyfanjones.github.io/RAthena/).
 
 # RAthena
 
@@ -18,17 +18,17 @@ Well glad you asked...yes there is! Ever since the [reticulate pacakge](https://
 
 >`Rathena` is a R package that creates a DBI (Database Interface) for the R package [DBI](https://dbi.r-dbi.org/) by using `Boto3` as the backend.
 
-* **Why was RAthena created when there are methods for connecting to Athena?**
+* **Why was RAthena created when there are already methods for connecting to Athena?**
 
-> `RAthena` was created to provide an extra method to connect to Athena for R users. Nothing more nothing less.
+> `RAthena` was created to provide an extra method to connect to Athena for R users. Nothing more, nothing less.
 
 * **Why is RAthena call RAthena?**
 
-> Isn't it obvious? Most R packages that interfaces with databases are called `"R<database>"` for example `RSQLite`, `RPostgreSQL`, etc... Plus this package is "roughly" the R equivalent to the excellent `Python` package [PyAthena](https://github.com/laughingman7743/PyAthena). So calling this pacakge `RAthena` seems the best fit.
+> Isn't it obvious? Most R packages that interfaces with databases are called `"R<database>"` for example `RSQLite`, `RPostgreSQL`, etc... Plus this package is "roughly" the R equivalent to the superb `Python` package [PyAthena](https://github.com/laughingman7743/PyAthena). So calling this pacakge `RAthena` seems like the best fit.
 
 # Getting Started
 
-Now lets get into how to actually use `RAthena`. I am skip over the part were you have to set up an [Amazon Web Services Account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/) (AWS Acount) and get straight into the good stuff.
+Now lets get into how to actually use `RAthena`. I am going to skip over the part were you have to set up an [Amazon Web Services Account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/) (AWS Acount) and get straight into the good stuff.
 
 Before working with `RAthena`, [Python 3+](https://www.python.org/downloads/) is require. Please install it directly or use the [Anaconda Distribution](https://www.anaconda.com/distribution/).
 
@@ -65,11 +65,11 @@ con <- dbConnect(RAthena::athena(),
 
 ### System Variable Method:
 
-`RAthena` supports setting [AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) into environment to avoid hard-coding. From what I have found out an easy way to set environment variables in R is to use:
+`RAthena` supports setting [AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) into environment to avoid hard-coding. From what I have found out an easy way to set up environment variables in R is to use the `file.edit` function like so:
 ```r
 file.edit("~/.Renviron")
 ```
-And you can simply add in your variables to the file for example:
+And now you can simply add in your variables to the file for example:
 ```
 AWS_ACCESS_KEY_ID = <YOUR AWS KEY ID>
 ```
@@ -243,3 +243,5 @@ tbl(con, "mtcars")
 # Conclusion
 
 So hopefully this has given you insight into the up coming package `RAthena` and it's usefulness. This package is not meant to replace any of the other packages that connect into `Athena` but give another route into `Athena` for R users.
+
+**Final note:** `RAthena` offers alot more functionality please check it out at [Github](https://github.com/DyfanJones/RAthena). If you have any suggestions please raise and issue at [Github Issues](https://github.com/DyfanJones/RAthena/issues).
