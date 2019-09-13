@@ -2,7 +2,8 @@
 date: '2019-09-13'
 title: All About Me
 ---
-![](/public/about_files/dj_img.png)
+
+<img alt = 'carttoon_me' width='150' src='/./about_files/dj_img.png' />
 
 # Intro
 
