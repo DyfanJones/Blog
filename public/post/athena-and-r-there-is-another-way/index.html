@@ -4,11 +4,12 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Athena and R ... there is another way!? - Dyfan Jones Brain Dump Centre</title>
+	<title>Athena and R ... there is another way!? - Dyfan Jones Brain Dump HQ</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
 	<meta property="og:title" content="Athena and R ... there is another way!?" />
-<meta property="og:description" content="Intro Currently there are two key ways in connecting to Athena from R, using the ODBC and JDBC drivers. To access ODBC driver R users can use the excellent odbc package supported by Rstudio. To access the JDBC driver R users can either use RJDBC or helpful wrapper package AWR.Athena which wraps the RJDBC package to make the connection to Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Athena, however is there another way?" />
+<meta property="og:description" content="RBloggers|RBloggers-feedburner
+Intro: Currently there are two key ways in connecting to Athena from R, using the ODBC and JDBC drivers. To access ODBC driver R users can use the excellent odbc package supported by Rstudio. To access the JDBC driver R users can either use RJDBC or helpful wrapper package AWR.Athena which wraps the RJDBC package to make the connection to Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Athena, however is there another way?" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/athena-and-r-there-is-another-way/" />
 <meta property="article:published_time" content="2019-09-13T00:00:00+00:00" />
@@ -28,8 +29,8 @@
 		<header class="header">
 	<div class="container">
 		<div class="logo">
-			<a class="logo__link" href="/" title="Dyfan Jones Brain Dump Centre" rel="home">
-				<div class="logo__title">Dyfan Jones Brain Dump Centre</div>
+			<a class="logo__link" href="/" title="Dyfan Jones Brain Dump HQ" rel="home">
+				<div class="logo__title">Dyfan Jones Brain Dump HQ</div>
 				<div class="logo__tagline">A place for me to dump my ideas</div>
 			</a>
 		</div>
@@ -44,6 +45,7 @@
 		</li>
 	</ul>
 </nav>
+
 
 	</div>
 </header>
@@ -69,13 +71,15 @@
 		</header><div class="content post__content clearfix">
 			
 
-<h1 id="intro">Intro</h1>
+<p><a href="https://www.r-bloggers.com">RBloggers</a>|<a href="http://feeds.feedburner.com/RBloggers">RBloggers-feedburner</a></p>
+
+<h1 id="intro">Intro:</h1>
 
 <p>Currently there are two key ways in connecting to Athena from R, using the <a href="https://docs.aws.amazon.com/athena/latest/ug/connect-with-odbc.html">ODBC</a> and <a href="https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html">JDBC</a> drivers. To access ODBC driver R users can use the excellent <a href="https://github.com/r-dbi/odbc">odbc package</a> supported by Rstudio. To access the JDBC driver R users can either use <a href="https://cran.r-project.org/web/packages/RJDBC/index.html">RJDBC</a> or helpful wrapper package <a href="https://github.com/nfultz/AWR.Athena">AWR.Athena</a> which wraps the RJDBC package to make the connection to Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Athena, however is there another way?</p>
 
 <p>Well glad you asked&hellip;yes there is! Ever since the <a href="https://rstudio.github.io/reticulate/">reticulate pacakge</a> was developed (by Rstudio) the interface into Python from R has never been simpler. This makes another route into Athena possible! Amazon has developed a Python software developement kit (SDK) called <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway">Boto3</a>. By using <code>boto3</code> in combination with the R package <code>reticulate</code> a new method into accessing Athena can be made possible. Introducing the R package <a href="https://dyfanjones.github.io/RAthena/">RAthena</a>.</p>
 
-<h1 id="rathena">RAthena</h1>
+<h1 id="rathena">RAthena:</h1>
 
 <ul>
 <li><strong>What is RAthena?</strong></li>
@@ -101,7 +105,7 @@
 <p>Isn&rsquo;t it obvious? Most R packages that interfaces with databases are called <code>&quot;R&lt;database&gt;&quot;</code> for example <code>RSQLite</code>, <code>RPostgreSQL</code>, etc&hellip; Plus this package is &ldquo;roughly&rdquo; the R equivalent to the superb <code>Python</code> package <a href="https://github.com/laughingman7743/PyAthena">PyAthena</a>. So calling this pacakge <code>RAthena</code> seems like the best fit.</p>
 </blockquote>
 
-<h1 id="getting-started">Getting Started</h1>
+<h1 id="getting-started">Getting Started:</h1>
 
 <p>Now lets get into how to actually use <code>RAthena</code>. I am going to skip over the part were you have to set up an <a href="https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/">Amazon Web Services Account</a> (AWS Acount) and get straight into the good stuff.</p>
 
@@ -324,7 +328,7 @@ tbl(con, sql(&quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&quot;))
 <pre><code class="language-r">tbl(con, &quot;mtcars&quot;)
 </code></pre>
 
-<h1 id="conclusion">Conclusion</h1>
+<h1 id="conclusion">Conclusion:</h1>
 
 <p>So hopefully this has given you an insight into the up coming package <code>RAthena</code> and it&rsquo;s usefulness. This package is not meant to replace any of the other packages that connect into <code>Athena</code> but give another route into <code>Athena</code> for R users.</p>
 
@@ -417,7 +421,7 @@ s.setAttribute('data-timestamp', +new Date());
 	<div class="container footer__container flex">
 		
 		<div class="footer__copyright">
-			&copy; 2019 Dyfan Jones Brain Dump Centre.
+			&copy; 2019 Dyfan Jones Brain Dump HQ.
 			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
 		</div>
 	</div>

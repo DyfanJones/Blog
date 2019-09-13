@@ -6,13 +6,16 @@ slug: athena-and-r-there-is-another-way
 categories: [RBlogger]
 tags: [R, Athena, Boto3, Python]
 ---
-# Intro
+
+[RBloggers](https://www.r-bloggers.com)|[RBloggers-feedburner](http://feeds.feedburner.com/RBloggers )
+
+# Intro:
 
 Currently there are two key ways in connecting to Athena from R, using the [ODBC](https://docs.aws.amazon.com/athena/latest/ug/connect-with-odbc.html) and [JDBC](https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html) drivers. To access ODBC driver R users can use the excellent [odbc package](https://github.com/r-dbi/odbc) supported by Rstudio. To access the JDBC driver R users can either use [RJDBC](https://cran.r-project.org/web/packages/RJDBC/index.html) or helpful wrapper package [AWR.Athena](https://github.com/nfultz/AWR.Athena) which wraps the RJDBC package to make the connection to Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Athena, however is there another way?
 
 Well glad you asked...yes there is! Ever since the [reticulate pacakge](https://rstudio.github.io/reticulate/) was developed (by Rstudio) the interface into Python from R has never been simpler. This makes another route into Athena possible! Amazon has developed a Python software developement kit (SDK) called [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway). By using `boto3` in combination with the R package `reticulate` a new method into accessing Athena can be made possible. Introducing the R package [RAthena](https://dyfanjones.github.io/RAthena/).
 
-# RAthena
+# RAthena:
 
 * **What is RAthena?**
 
@@ -26,7 +29,7 @@ Well glad you asked...yes there is! Ever since the [reticulate pacakge](https://
 
 > Isn't it obvious? Most R packages that interfaces with databases are called `"R<database>"` for example `RSQLite`, `RPostgreSQL`, etc... Plus this package is "roughly" the R equivalent to the superb `Python` package [PyAthena](https://github.com/laughingman7743/PyAthena). So calling this pacakge `RAthena` seems like the best fit.
 
-# Getting Started
+# Getting Started:
 
 Now lets get into how to actually use `RAthena`. I am going to skip over the part were you have to set up an [Amazon Web Services Account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/) (AWS Acount) and get straight into the good stuff.
 
@@ -246,7 +249,7 @@ Or if you have already uploaded a table into `Athena`
 tbl(con, "mtcars")
 ```
 
-# Conclusion
+# Conclusion:
 
 So hopefully this has given you an insight into the up coming package `RAthena` and it's usefulness. This package is not meant to replace any of the other packages that connect into `Athena` but give another route into `Athena` for R users.
 
