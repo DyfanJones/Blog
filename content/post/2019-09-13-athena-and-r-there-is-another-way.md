@@ -42,7 +42,13 @@ Now we have `Python 3+` we now need to install `Boto3`. If you installed `Python
 pip install boto3
 ```
 
-**`RAthena` installation function:**
+Install `RAthena`:
+
+```r
+remotes::install_github("dyfanjones/rathena")
+```
+
+**`RAthena` boto3 installation function:**
 ```r
 RAthena::install_boto()
 ```
