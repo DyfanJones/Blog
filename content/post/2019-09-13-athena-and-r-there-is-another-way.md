@@ -4,7 +4,7 @@ author: ~
 date: '2019-09-13'
 slug: athena-and-r-there-is-another-way
 categories: []
-tags: []
+tags: [R, Athena, Boto3, Python]
 ---
 # Intro
 

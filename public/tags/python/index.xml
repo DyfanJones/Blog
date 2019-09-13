@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Dyfan Jones Brain Dump Centre</title>
-    <link>/post/</link>
-    <description>Recent content in Posts on Dyfan Jones Brain Dump Centre</description>
+    <title>Python on Dyfan Jones Brain Dump Centre</title>
+    <link>/tags/python/</link>
+    <description>Recent content in Python on Dyfan Jones Brain Dump Centre</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <lastBuildDate>Fri, 13 Sep 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>

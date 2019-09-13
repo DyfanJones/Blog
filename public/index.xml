@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>A Hugo website</title>
+    <title>Dyfan Jones Brain Dump Centre</title>
     <link>/</link>
-    <description>Recent content on A Hugo website</description>
+    <description>Recent content on Dyfan Jones Brain Dump Centre</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
+    <language>en-uk</language>
     <lastBuildDate>Fri, 13 Sep 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>All About Me</title>
+      <link>/about/</link>
+      <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/about/</guid>
+      <description>Intro Hi all my name is Dyfan Jones, alot of people find it difficult to pronounce my name as it is Welsh. But here is a handy tip to help you pronounce it, &amp;ldquo;D-Oven&amp;rdquo; I am going to assume you know how to say &amp;ldquo;Jones&amp;rdquo; (there is few thousands of us in the UK). Anyways I come Nort West of England and I have been Data Scientist for roughly 5 years working at &amp;ldquo;Very.</description>
+    </item>
     
     <item>
       <title>Athena and R ... there is another way!?</title>
@@ -18,15 +27,6 @@
       
       <guid>/2019/09/13/athena-and-r-there-is-another-way/</guid>
       <description>Intro Currently there are two key ways in connecting to Athena from R, using the ODBC and JDBC drivers. To access ODBC driver R users can use the excellent odbc package supported by Rstudio. To access the JDBC driver R users can either use RJDBC or helpful wrapper package AWR.Athena which wraps the RJDBC package to make the connection the Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Athena, however is there another way?</description>
-    </item>
-    
-    <item>
-      <title>All About Me</title>
-      <link>/about/</link>
-      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
-      
-      <guid>/about/</guid>
-      <description>Intro Hi all my name is Dyfan Jones, alot of people find it difficult to pronounce my name as it is Welsh. But here is a handy tip to help you pronounce it, &amp;ldquo;D-Oven&amp;rdquo; I am going to assume you know how to say &amp;ldquo;Jones&amp;rdquo; (there is few thousands of us in the UK). Anyways I come Nort West of England and I have been Data Scientist for roughly 5 years working at &amp;ldquo;Very.</description>
     </item>
     
   </channel>
