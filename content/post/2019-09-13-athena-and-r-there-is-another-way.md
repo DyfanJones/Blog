@@ -195,6 +195,12 @@ dbWriteTable(con, "mtcars", mtcars,
              s3.location = "s3://mybucket/data/")
 ```
 
+Once you have uploaded data into `Athena` you can query it like the following:
+
+```r
+dbGetQuery(con, "select * from mtcars")
+```
+
 Here are all variable parameters for the `dbWriteTable` method:
 
 >**conn:** An AthenaConnection object, produced by dbConnect()
