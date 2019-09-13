@@ -2,7 +2,7 @@
 date: '2019-09-13'
 title: All About Me
 ---
-![cartoon_me](/public/about_files/dj_img.png)
+![](/public/about_files/dj_img.png)
 
 # Intro
 
