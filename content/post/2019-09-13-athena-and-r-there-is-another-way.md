@@ -161,13 +161,13 @@ res <- dbSendQuery(con, "SELECT * FROM INFORMATION_SCHEMA.COLUMNS")
 dbFetch(res)
 dbClearResult(res)
 ```
-or
+Or ...
 ```r
 res <- dbExecute(con, "SELECT * FROM INFORMATION_SCHEMA.COLUMNS")
 dbFetch(res)
 dbClearResult(res)
 ```
-or
+Or ...
 
 `dbGetQuery` wraps sending, fetching and clearing results in one easy step.
 ```r
