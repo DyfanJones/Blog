@@ -110,7 +110,7 @@ con <- dbConnect(RAthena::athena(),
 ```
 ### ARN Roles:
 
-ARN roles are fairly useful if you need to assume a role that can connect to another AWS account and use the `Athena` in that account. Or whether you want to create a temporary connection with different permissions than your current role (there are other reasons why to use ARN roles please check them out in the [AWS documentation](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)).
+ARN roles are fairly useful if you need to assume a role that can connect to another AWS account and use the `Athena` in that account. Or whether you want to create a temporary connection with different permissions than your current role ([AWS documentation](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)).
 
 **Creating ARN role credentials before connecting to Athena:**
 ```r
