@@ -9,7 +9,7 @@
 	<meta name="description" content="">
 	<meta property="og:title" content="Athena and R ... there is another way!?" />
 <meta property="og:description" content="RBloggers|RBloggers-feedburner
-Intro: Currently there are two key ways in connecting to Amazon Athena from R, using the ODBC and JDBC drivers. To access ODBC driver R users can use the excellent odbc package supported by Rstudio. To access the JDBC driver R users can either use RJDBC or helpful wrapper package AWR.Athena which wraps the RJDBC package to make the connection to Amazon Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Amazon Athena, however is there another way?" />
+Intro: Currently there are two key ways in connecting to Amazon Athena from R, using the ODBC and JDBC drivers. To access the ODBC driver R users can use the excellent odbc package supported by Rstudio. To access the JDBC driver R users can either use the RJDBC R package or the helpful wrapper package AWR.Athena which wraps the RJDBC package to make the connection to Amazon Athena through the JDBC driver simpler." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/athena-and-r-there-is-another-way/" />
 <meta property="article:published_time" content="2019-09-13T00:00:00+00:00" />
@@ -75,7 +75,7 @@ Intro: Currently there are two key ways in connecting to Amazon Athena from R, u
 
 <h1 id="intro">Intro:</h1>
 
-<p>Currently there are two key ways in connecting to Amazon Athena from R, using the <a href="https://docs.aws.amazon.com/athena/latest/ug/connect-with-odbc.html">ODBC</a> and <a href="https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html">JDBC</a> drivers. To access ODBC driver R users can use the excellent <a href="https://github.com/r-dbi/odbc">odbc package</a> supported by Rstudio. To access the JDBC driver R users can either use <a href="https://cran.r-project.org/web/packages/RJDBC/index.html">RJDBC</a> or helpful wrapper package <a href="https://github.com/nfultz/AWR.Athena">AWR.Athena</a> which wraps the RJDBC package to make the connection to Amazon Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Amazon Athena, however is there another way?</p>
+<p>Currently there are two key ways in connecting to Amazon Athena from R, using the <a href="https://docs.aws.amazon.com/athena/latest/ug/connect-with-odbc.html">ODBC</a> and <a href="https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html">JDBC</a> drivers. To access the ODBC driver R users can use the excellent <a href="https://github.com/r-dbi/odbc">odbc package</a> supported by Rstudio. To access the JDBC driver R users can either use the <a href="https://cran.r-project.org/web/packages/RJDBC/index.html">RJDBC</a> R package or the helpful wrapper package <a href="https://github.com/nfultz/AWR.Athena">AWR.Athena</a> which wraps the <code>RJDBC</code> package to make the connection to Amazon Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Amazon Athena, however is there another way?</p>
 
 <p>Well glad you asked&hellip;yes there is! Ever since the <a href="https://rstudio.github.io/reticulate/">reticulate package</a> was developed (by Rstudio) the interface into Python from R has never been simpler. This makes another route into Athena possible! Amazon has developed a Python software development kit (SDK) called <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway">Boto3</a>. By using <code>boto3</code> in combination with the R package <code>reticulate</code> a new method into accessing Athena can be made possible. Introducing the R package <a href="https://dyfanjones.github.io/RAthena/">RAthena</a>.</p>
 
@@ -86,7 +86,7 @@ Intro: Currently there are two key ways in connecting to Amazon Athena from R, u
 </ul>
 
 <blockquote>
-<p><code>Rathena</code> is a R package that creates a DBI (Database Interface) for the R package <a href="https://dbi.r-dbi.org/">DBI</a> by using <code>Boto3</code> as the backend.</p>
+<p><code>Rathena</code> is a R package that creates a DBI (Database Interface) for R, using the R package <a href="https://dbi.r-dbi.org/">DBI</a> and the Python package<code>Boto3</code> as the backend.</p>
 </blockquote>
 
 <ul>
@@ -102,7 +102,7 @@ Intro: Currently there are two key ways in connecting to Amazon Athena from R, u
 </ul>
 
 <blockquote>
-<p>Isn&rsquo;t it obvious? Most R packages that interfaces with databases are called <code>&quot;R&lt;database&gt;&quot;</code> for example <code>RSQLite</code>, <code>RPostgreSQL</code>, etc&hellip; Plus this package is &ldquo;roughly&rdquo; the R equivalent to the superb <code>Python</code> package <a href="https://github.com/laughingman7743/PyAthena">PyAthena</a>. So calling this package <code>RAthena</code> seems like the best fit.</p>
+<p>Isn&rsquo;t it obvious? Most R packages that interface with a database are called <code>&quot;R&lt;database&gt;&quot;</code> for example <code>RSQLite</code>, <code>RPostgreSQL</code>, etc&hellip; Plus this package is &ldquo;roughly&rdquo; the R equivalent to the superb <code>Python</code> package <a href="https://github.com/laughingman7743/PyAthena">PyAthena</a>. So calling this package <code>RAthena</code> seems like the best choice.</p>
 </blockquote>
 
 <h1 id="getting-started">Getting Started:</h1>
@@ -111,7 +111,7 @@ Intro: Currently there are two key ways in connecting to Amazon Athena from R, u
 
 <p>Before working with <code>RAthena</code>, <a href="https://www.python.org/downloads/">Python 3+</a> is require. Please install it directly or use the <a href="https://www.anaconda.com/distribution/">Anaconda Distribution</a>.</p>
 
-<p>Now we have <code>Python 3+</code> we now need to install <code>Boto3</code>. If you installed <code>Python 3+</code> with the Anaconda Distribution I believe <code>Boto3</code> comes as standard, if so then you can skip this step, but for everyone else you can install <code>Boto3</code> either by the <code>pip</code> command or the inbuilt installation function in <code>RAthena</code>.</p>
+<p>Now we have <code>Python 3+</code> we now need to install <code>Boto3</code>. If you installed <code>Python 3+</code> with the Anaconda Distribution I believe <code>Boto3</code> comes as standard (you can skip <code>boto3</code> installation step), but for everyone else you can install <code>Boto3</code> either by the <code>pip</code> command or the inbuilt installation function in <code>RAthena</code>.</p>
 
 <p><strong>pip command:</strong></p>
 
@@ -132,7 +132,7 @@ Intro: Currently there are two key ways in connecting to Amazon Athena from R, u
 
 <h2 id="connecting-to-athena">Connecting to Athena</h2>
 
-<p>Now we have everything that is required we are now ready to connect to <code>Athena</code>. <code>RAthena</code> provides several method to connect to <code>Athena</code> ranging from hard-coding credentials to using Amazon Role Name Roles (ARN roles).</p>
+<p>Now we have everything that is required we are now ready to connect to <code>Athena</code>. <code>RAthena</code> provides several method to connect to <code>Athena</code> ranging from hard-coding credentials to using Amazon Resource Name Roles (ARN roles).</p>
 
 <h3 id="hard-coding-method">Hard-Coding Method:</h3>
 
@@ -145,16 +145,16 @@ con &lt;- dbConnect(RAthena::athena(),
                  s3_staging_dir = &quot;&lt;LOCATION FOR ATHENA QUERY OUTPUT&gt;&quot;)
 </code></pre>
 
-<p><strong>Note:</strong> <em><code>s3_staging_dir</code> requires the be the format of <code>s3 uri</code> for example &ldquo;s3://path/to/query/bucket/&rdquo;</em></p>
+<p><strong>Note:</strong> <em><code>s3_staging_dir</code> requires to be in the format of <code>s3 uri</code> for example &ldquo;s3://path/to/query/bucket/&rdquo;</em></p>
 
 <h3 id="environment-variable-method">Environment Variable Method:</h3>
 
-<p><code>RAthena</code> supports setting <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html">AWS credentials</a> into environment variables to avoid hard-coding. From what I have found out an easy way to set up environment variables (that persists) in R is to use the <code>file.edit</code> function like so:</p>
+<p><code>RAthena</code> supports <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html">AWS credentials</a> set into the environment variables to avoid hard-coding. From what I have found out an easy way to set up environment variables (that persists) in R is to use the <code>file.edit</code> function like so:</p>
 
 <pre><code class="language-r">file.edit(&quot;~/.Renviron&quot;)
 </code></pre>
 
-<p>And now you can simply add in your variables to the file for example:</p>
+<p>And now you can simply add in your environment variables in the file you are editing for example:</p>
 
 <pre><code>AWS_ACCESS_KEY_ID = &lt;YOUR AWS KEY ID&gt;
 </code></pre>
@@ -168,7 +168,7 @@ con &lt;- dbConnect(RAthena::athena(),
 
 <h3 id="aws-profile-names">AWS Profile Names:</h3>
 
-<p>Another method is to use AWS Profile Names. AWS profile names can be set either manually in the <code>~/.aws</code> directory or by using the <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html">AWS Command Line Interface (AWS CLI)</a>. Once you have set up your profile name you can connect to <code>Athena</code>:</p>
+<p>Another method is to use AWS Profile Names. AWS profile names can be setup either manually in the <code>~/.aws</code> directory or by using the <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html">AWS Command Line Interface (AWS CLI)</a>. Once you have setup your profile name you can connect to <code>Athena</code>:</p>
 
 <p><strong>Using Default Profile Name:</strong></p>
 
@@ -187,7 +187,7 @@ con &lt;- dbConnect(RAthena::athena(),
 
 <h3 id="arn-roles">ARN Roles:</h3>
 
-<p>ARN roles are fairly useful if you need to assume a role that can connect to another AWS account and use the <code>Athena</code> in that account. Or whether you want to create a temporary connection that will expire (there are other reasons why to use ARN roles please check them out in the <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">AWS documentation</a>).</p>
+<p>ARN roles are fairly useful if you need to assume a role that can connect to another AWS account and use the <code>Athena</code> in that account. Or whether you want to create a temporary connection with different permissions than your current role (there are other reasons why to use ARN roles please check them out in the <a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">AWS documentation</a>).</p>
 
 <p><strong>Creating ARN role credentials before connecting to Athena:</strong></p>
 

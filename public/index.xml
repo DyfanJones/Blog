@@ -28,7 +28,7 @@ Intro Hi all my name is Dyfan Jones, alot of people find it difficult to pronoun
       
       <guid>/post/athena-and-r-there-is-another-way/</guid>
       <description>RBloggers|RBloggers-feedburner
-Intro: Currently there are two key ways in connecting to Amazon Athena from R, using the ODBC and JDBC drivers. To access ODBC driver R users can use the excellent odbc package supported by Rstudio. To access the JDBC driver R users can either use RJDBC or helpful wrapper package AWR.Athena which wraps the RJDBC package to make the connection to Amazon Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Amazon Athena, however is there another way?</description>
+Intro: Currently there are two key ways in connecting to Amazon Athena from R, using the ODBC and JDBC drivers. To access the ODBC driver R users can use the excellent odbc package supported by Rstudio. To access the JDBC driver R users can either use the RJDBC R package or the helpful wrapper package AWR.Athena which wraps the RJDBC package to make the connection to Amazon Athena through the JDBC driver simpler.</description>
     </item>
     
   </channel>
