@@ -12,7 +12,7 @@ menu: main
 
 # Intro
 
-Hi all my name is Dyfan Jones, alot of people find it difficult to pronounce my name as it is Welsh. But here is a handy tip to help you pronounce it, "D-Oven". I am going to assume you know how to say "Jones" (there is few thousands of us in the UK). Anyways I come the North West of England and I have been Data Scientist for roughly 5 years working at "Very.co.uk". Qualification wise I have a MSc in Mathematical Science from the University of Liverpool. 
+Hi all my name is Dyfan Jones, alot of people find it difficult to pronounce my name as it is Welsh. But here is a handy tip to help you pronounce it, "D-Oven". I am going to assume you know how to say "Jones" (there is few thousands of us in the UK). Anyways I come from the North West of England and I have been Data Scientist for roughly 5 years working at "Very.co.uk". Qualification wise I have a MSc in Mathematical Science from the University of Liverpool. 
 
 # About me
 
