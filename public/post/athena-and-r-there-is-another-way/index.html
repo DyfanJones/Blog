@@ -187,9 +187,9 @@ con &lt;- dbConnect(RAthena::athena(),
 
 <h3 id="arn-roles">ARN Roles:</h3>
 
-<p>ARN roles are fairly useful if you need to assume a role that can connect to another AWS account and use the <code>Athena</code> in that account. Or whether you want to create a temporary connection with different permissions than your current role (<a href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html">AWS documentation</a>).</p>
+<p>ARN roles are fairly useful if you need to assume a role that can connect to another AWS account and use the <code>Athena</code> in that account. Or whether you want to create a temporary connection with different permissions than your current role (<a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html">AWS ARN Documentation</a>).</p>
 
-<p><strong>Creating ARN role credentials before connecting to Athena:</strong></p>
+<p><strong>Assuming ARN role credentials before connecting to Athena:</strong></p>
 
 <pre><code class="language-r">library(RAthena)
 library(DBI)
