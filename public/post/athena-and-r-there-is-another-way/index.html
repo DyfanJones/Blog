@@ -77,7 +77,7 @@ Intro: Currently there are two key ways in connecting to Amazon Athena from R, u
 
 <p>Currently there are two key ways in connecting to Amazon Athena from R, using the <a href="https://docs.aws.amazon.com/athena/latest/ug/connect-with-odbc.html">ODBC</a> and <a href="https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html">JDBC</a> drivers. To access ODBC driver R users can use the excellent <a href="https://github.com/r-dbi/odbc">odbc package</a> supported by Rstudio. To access the JDBC driver R users can either use <a href="https://cran.r-project.org/web/packages/RJDBC/index.html">RJDBC</a> or helpful wrapper package <a href="https://github.com/nfultz/AWR.Athena">AWR.Athena</a> which wraps the RJDBC package to make the connection to Amazon Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Amazon Athena, however is there another way?</p>
 
-<p>Well glad you asked&hellip;yes there is! Ever since the <a href="https://rstudio.github.io/reticulate/">reticulate pacakge</a> was developed (by Rstudio) the interface into Python from R has never been simpler. This makes another route into Athena possible! Amazon has developed a Python software developement kit (SDK) called <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway">Boto3</a>. By using <code>boto3</code> in combination with the R package <code>reticulate</code> a new method into accessing Athena can be made possible. Introducing the R package <a href="https://dyfanjones.github.io/RAthena/">RAthena</a>.</p>
+<p>Well glad you asked&hellip;yes there is! Ever since the <a href="https://rstudio.github.io/reticulate/">reticulate pacakge</a> was developed (by Rstudio) the interface into Python from R has never been simpler. This makes another route into Athena possible! Amazon has developed a Python software development kit (SDK) called <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway">Boto3</a>. By using <code>boto3</code> in combination with the R package <code>reticulate</code> a new method into accessing Athena can be made possible. Introducing the R package <a href="https://dyfanjones.github.io/RAthena/">RAthena</a>.</p>
 
 <h1 id="rathena">RAthena:</h1>
 
@@ -102,7 +102,7 @@ Intro: Currently there are two key ways in connecting to Amazon Athena from R, u
 </ul>
 
 <blockquote>
-<p>Isn&rsquo;t it obvious? Most R packages that interfaces with databases are called <code>&quot;R&lt;database&gt;&quot;</code> for example <code>RSQLite</code>, <code>RPostgreSQL</code>, etc&hellip; Plus this package is &ldquo;roughly&rdquo; the R equivalent to the superb <code>Python</code> package <a href="https://github.com/laughingman7743/PyAthena">PyAthena</a>. So calling this pacakge <code>RAthena</code> seems like the best fit.</p>
+<p>Isn&rsquo;t it obvious? Most R packages that interfaces with databases are called <code>&quot;R&lt;database&gt;&quot;</code> for example <code>RSQLite</code>, <code>RPostgreSQL</code>, etc&hellip; Plus this package is &ldquo;roughly&rdquo; the R equivalent to the superb <code>Python</code> package <a href="https://github.com/laughingman7743/PyAthena">PyAthena</a>. So calling this package <code>RAthena</code> seems like the best fit.</p>
 </blockquote>
 
 <h1 id="getting-started">Getting Started:</h1>
@@ -211,7 +211,7 @@ con &lt;- dbConnect(athena(),
                   s3_staging_dir = 's3://path/to/query/bucket/')
 </code></pre>
 
-<p><strong>Note:</strong> <em>ARN Roles have a duration timer before they will expirer. To change the default you can increase the <code>duration_seconds</code> parameter from the default 3600 seconds (1 hour).</em></p>
+<p><strong>Note:</strong> <em>ARN Roles have a duration timer before they will expire. To change the default you can increase the <code>duration_seconds</code> parameter from the default 3600 seconds (1 hour).</em></p>
 
 <h3 id="temporary-sessions">Temporary Sessions:</h3>
 
@@ -237,7 +237,7 @@ con &lt;- dbConnect(athena(),
 
 <p>Now we have created a connection to <code>Athena</code> we can ulitise <code>DBI</code> methods to query <code>Athena</code> for example:</p>
 
-<p><strong>All avialable tables in Athena:</strong></p>
+<p><strong>All available tables in Athena:</strong></p>
 
 <pre><code class="language-r">dbListTables(con)
 </code></pre>
@@ -309,7 +309,7 @@ dbClearResult(res)
 
 <p><strong>s3.location</strong> s3 bucket to store Athena table, must be set as a s3 uri for example (&ldquo;s3://mybucket/data/&ldquo;)</p>
 
-<p><strong>file.type:</strong> What file type to store data.frame on s3, RAthena currently supports [&ldquo;csv&rdquo;, &ldquo;tsv&rdquo;, &ldquo;parquet&rdquo;]. <strong>Note:</strong> <em>file.type &ldquo;parquet&rdquo; is supported by R package <a href="https://github.com/apache/arrow/tree/master/r"><code>arrow</code></a> and will need to be installed seperately if you wish to upload data.frames in &ldquo;parquet&rdquo; format.</em></p>
+<p><strong>file.type:</strong> What file type to store data.frame on s3, RAthena currently supports [&ldquo;csv&rdquo;, &ldquo;tsv&rdquo;, &ldquo;parquet&rdquo;]. <strong>Note:</strong> <em>file.type &ldquo;parquet&rdquo; is supported by R package <a href="https://github.com/apache/arrow/tree/master/r"><code>arrow</code></a> and will need to be installed separately if you wish to upload data.frames in &ldquo;parquet&rdquo; format.</em></p>
 
 <p><strong>&hellip;:</strong> Other arguments used by individual methods.</p>
 </blockquote>

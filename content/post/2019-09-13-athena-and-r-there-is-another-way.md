@@ -13,7 +13,7 @@ tags: [R, Athena, Boto3, Python]
 
 Currently there are two key ways in connecting to Amazon Athena from R, using the [ODBC](https://docs.aws.amazon.com/athena/latest/ug/connect-with-odbc.html) and [JDBC](https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html) drivers. To access ODBC driver R users can use the excellent [odbc package](https://github.com/r-dbi/odbc) supported by Rstudio. To access the JDBC driver R users can either use [RJDBC](https://cran.r-project.org/web/packages/RJDBC/index.html) or helpful wrapper package [AWR.Athena](https://github.com/nfultz/AWR.Athena) which wraps the RJDBC package to make the connection to Amazon Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Amazon Athena, however is there another way?
 
-Well glad you asked...yes there is! Ever since the [reticulate pacakge](https://rstudio.github.io/reticulate/) was developed (by Rstudio) the interface into Python from R has never been simpler. This makes another route into Athena possible! Amazon has developed a Python software developement kit (SDK) called [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway). By using `boto3` in combination with the R package `reticulate` a new method into accessing Athena can be made possible. Introducing the R package [RAthena](https://dyfanjones.github.io/RAthena/).
+Well glad you asked...yes there is! Ever since the [reticulate pacakge](https://rstudio.github.io/reticulate/) was developed (by Rstudio) the interface into Python from R has never been simpler. This makes another route into Athena possible! Amazon has developed a Python software development kit (SDK) called [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway). By using `boto3` in combination with the R package `reticulate` a new method into accessing Athena can be made possible. Introducing the R package [RAthena](https://dyfanjones.github.io/RAthena/).
 
 # RAthena:
 
@@ -27,7 +27,7 @@ Well glad you asked...yes there is! Ever since the [reticulate pacakge](https://
 
 * **Why is RAthena call RAthena?**
 
-> Isn't it obvious? Most R packages that interfaces with databases are called `"R<database>"` for example `RSQLite`, `RPostgreSQL`, etc... Plus this package is "roughly" the R equivalent to the superb `Python` package [PyAthena](https://github.com/laughingman7743/PyAthena). So calling this pacakge `RAthena` seems like the best fit.
+> Isn't it obvious? Most R packages that interfaces with databases are called `"R<database>"` for example `RSQLite`, `RPostgreSQL`, etc... Plus this package is "roughly" the R equivalent to the superb `Python` package [PyAthena](https://github.com/laughingman7743/PyAthena). So calling this package `RAthena` seems like the best fit.
 
 # Getting Started:
 
@@ -133,7 +133,7 @@ con <- dbConnect(athena(),
                   s3_staging_dir = 's3://path/to/query/bucket/')
 ```
 
-**Note:** *ARN Roles have a duration timer before they will expirer. To change the default you can increase the `duration_seconds` parameter from the default 3600 seconds (1 hour).*
+**Note:** *ARN Roles have a duration timer before they will expire. To change the default you can increase the `duration_seconds` parameter from the default 3600 seconds (1 hour).*
 
 ### Temporary Sessions:
 
@@ -159,7 +159,7 @@ con <- dbConnect(athena(),
 
 Now we have created a connection to `Athena` we can ulitise `DBI` methods to query `Athena` for example:
 
-**All avialable tables in Athena:**
+**All available tables in Athena:**
 ```r
 dbListTables(con)
 ```
@@ -230,7 +230,7 @@ Here are all variable parameters for the `dbWriteTable` method:
 
 > **s3.location** s3 bucket to store Athena table, must be set as a s3 uri for example ("s3://mybucket/data/")
 
-> **file.type:** What file type to store data.frame on s3, RAthena currently supports ["csv", "tsv", "parquet"]. **Note:** *file.type "parquet" is supported by R package [`arrow`](https://github.com/apache/arrow/tree/master/r) and will need to be installed seperately if you wish to upload data.frames in "parquet" format.*
+> **file.type:** What file type to store data.frame on s3, RAthena currently supports ["csv", "tsv", "parquet"]. **Note:** *file.type "parquet" is supported by R package [`arrow`](https://github.com/apache/arrow/tree/master/r) and will need to be installed separately if you wish to upload data.frames in "parquet" format.*
 
 > **...:** Other arguments used by individual methods.
 
