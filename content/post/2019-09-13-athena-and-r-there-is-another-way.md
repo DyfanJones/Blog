@@ -183,7 +183,7 @@ Or ...
 dbGetQuery(con, "SELECT * FROM INFORMATION_SCHEMA.COLUMNS")
 ```
 
-**Note:** *You might of noticed that if you have `data.table` installed `RAthena` will attempt to return the data as a `data.table`. This is to improve speed when larger queries are returned from `Athena`. If you don't have `data.table`, `RAthena` will return the output as a `data.frame`.*
+**Note:** *You might of noticed that if you have `data.table` installed, `RAthena` will attempt to return the data as a `data.table`. This is to improve speed when larger queries are returned from `Athena`. If you don't have `data.table`, `RAthena` will return the output as a `data.frame`.*
 
 **Get Column information**
 ```r
@@ -204,7 +204,7 @@ dbWriteTable(con, "mtcars", mtcars,
              s3.location = "s3://mybucket/data/")
 ```
 
-Once you have uploaded data into `Athena` you can query it like the following:
+Once you have uploaded data into `Athena` you can query it in the following:
 
 ```r
 dbGetQuery(con, "select * from mtcars")

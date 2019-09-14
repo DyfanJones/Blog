@@ -263,7 +263,7 @@ dbClearResult(res)
 <pre><code class="language-r">dbGetQuery(con, &quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&quot;)
 </code></pre>
 
-<p><strong>Note:</strong> <em>You might of noticed that if you have <code>data.table</code> installed <code>RAthena</code> will attempt to return the data as a <code>data.table</code>. This is to improve speed when larger queries are returned from <code>Athena</code>. If you don&rsquo;t have <code>data.table</code>, <code>RAthena</code> will return the output as a <code>data.frame</code>.</em></p>
+<p><strong>Note:</strong> <em>You might of noticed that if you have <code>data.table</code> installed, <code>RAthena</code> will attempt to return the data as a <code>data.table</code>. This is to improve speed when larger queries are returned from <code>Athena</code>. If you don&rsquo;t have <code>data.table</code>, <code>RAthena</code> will return the output as a <code>data.frame</code>.</em></p>
 
 <p><strong>Get Column information</strong></p>
 
@@ -283,7 +283,7 @@ dbClearResult(res)
              s3.location = &quot;s3://mybucket/data/&quot;)
 </code></pre>
 
-<p>Once you have uploaded data into <code>Athena</code> you can query it like the following:</p>
+<p>Once you have uploaded data into <code>Athena</code> you can query it in the following:</p>
 
 <pre><code class="language-r">dbGetQuery(con, &quot;select * from mtcars&quot;)
 </code></pre>
