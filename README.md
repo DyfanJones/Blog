@@ -5,4 +5,4 @@
 A location for me to Brain Dump Ideas and write blogs
 
 
-[Brain Dump HQ](https://sharp-mcclintock-49df1a.netlify.com/)
+[Brain Dump HQ](https://dyfanjones.netlify.com/)
