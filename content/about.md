@@ -18,7 +18,7 @@ Hi all, my name is Dyfan Jones, a lot of people find it difficult to pronounce m
 
 I am one of those people who has to know what the algorithm is doing under the hood. I find it difficult to just grab a pre-canned algorithm and use it without knowing the assumptions and what is it doing, thats not my style.
 
-For coding I am a big open source fan and enjoy the 2 key languages for Data Science `R` and `Python`. I really don't have a preference for one over the other instead I am in the camp of "use the language that is best for the problem in hand"!
+For coding, I am a big open source fan and enjoy the 2 key languages for Data Science R and Python. I really don’t have a preference for one over the other, instead I am in the camp of 'use the language that is best for the problem in hand!'.
 
 # Current Projects
 
