@@ -259,4 +259,4 @@ tbl(con, "mtcars")
 
 So hopefully this has given you an insight into the up coming package `RAthena` and it's usefulness. This package is not meant to replace any of the other packages that connect into `Athena` but give another route into `Athena` for R users.
 
-**Final note:** `RAthena` offers alot more functionality please check it out at [Github](https://github.com/DyfanJones/RAthena). If you have any suggestions please raise an issue at [Github Issues](https://github.com/DyfanJones/RAthena/issues).
+**Final note:** `RAthena` offers a lot more functionality please check it out at [Github](https://github.com/DyfanJones/RAthena). If you have any suggestions please raise an issue at [Github Issues](https://github.com/DyfanJones/RAthena/issues).

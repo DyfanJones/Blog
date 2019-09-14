@@ -5,6 +5,7 @@ paginate = "10" # Number of posts per page
 theme = "Mainroad"
 disqusShortname = "dyfanjones" # Enable comments by entering your Disqus shortname
 googleAnalytics = "" # Enable Google Analytics by entering your tracking id
+ignoreFiles = ["\\.ipynb$", ".ipynb_checkpoints$", "\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [Author]
   name = "Dyfan Jones"
