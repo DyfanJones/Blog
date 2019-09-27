@@ -3,6 +3,7 @@ title: All About Me
 date: '2019-09-13'
 authorbox: false
 sidebar: false
+comments: false
 menu: main
 ---
 
