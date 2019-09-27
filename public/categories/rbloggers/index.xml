@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>RBloggers on Dyfan Jones Brain Dump HQ</title>
@@ -285,8 +286,7 @@ tbl(con, sql(&amp;quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&amp;quot;))
 &lt;p&gt;So hopefully this has given you an insight into the up coming package &lt;code&gt;RAthena&lt;/code&gt; and it&amp;rsquo;s usefulness. This package is not meant to replace any of the other packages that connect into &lt;code&gt;Athena&lt;/code&gt; but give another route into &lt;code&gt;Athena&lt;/code&gt; for R users.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Final note:&lt;/strong&gt; &lt;code&gt;RAthena&lt;/code&gt; offers a lot more functionality please check it out at &lt;a href=&#34;https://github.com/DyfanJones/RAthena&#34;&gt;Github&lt;/a&gt;. If you have any suggestions please raise an issue at &lt;a href=&#34;https://github.com/DyfanJones/RAthena/issues&#34;&gt;Github Issues&lt;/a&gt;.&lt;/p&gt;
-
-      </description>
+</description>
     </item>
     
   </channel>
