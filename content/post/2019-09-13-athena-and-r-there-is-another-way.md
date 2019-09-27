@@ -19,7 +19,7 @@ Well glad you asked...yes there is! Ever since the [reticulate package](https://
 
 * **What is RAthena?**
 
->`Rathena` is a R package that creates a DBI (Database Interface) for R, using the R package [DBI](https://dbi.r-dbi.org/) and the Python package`Boto3` as the backend.
+>`Rathena` is a R package that creates a DBI (Database Interface) for R, using the R package [DBI](https://dbi.r-dbi.org/) and the Python package `Boto3` as the backend.
 
 * **Why was RAthena created when there are already methods for connecting to Athena?**
 

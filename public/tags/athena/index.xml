@@ -33,7 +33,7 @@
 &lt;/ul&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;&lt;code&gt;Rathena&lt;/code&gt; is a R package that creates a DBI (Database Interface) for R, using the R package &lt;a href=&#34;https://dbi.r-dbi.org/&#34;&gt;DBI&lt;/a&gt; and the Python package&lt;code&gt;Boto3&lt;/code&gt; as the backend.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Rathena&lt;/code&gt; is a R package that creates a DBI (Database Interface) for R, using the R package &lt;a href=&#34;https://dbi.r-dbi.org/&#34;&gt;DBI&lt;/a&gt; and the Python package &lt;code&gt;Boto3&lt;/code&gt; as the backend.&lt;/p&gt;
 &lt;/blockquote&gt;
 
 &lt;ul&gt;
