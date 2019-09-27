@@ -8,7 +8,7 @@
     <language>en-uk</language>
     <lastBuildDate>Fri, 13 Sep 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -17,8 +17,276 @@
       <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
       
       <guid>/post/athena-and-r-there-is-another-way/</guid>
-      <description>RBloggers|RBloggers-feedburner
-Intro: Currently there are two key ways in connecting to Amazon Athena from R, using the ODBC and JDBC drivers. To access the ODBC driver R users can use the excellent odbc package supported by Rstudio. To access the JDBC driver R users can either use the RJDBC R package or the helpful wrapper package AWR.Athena which wraps the RJDBC package to make the connection to Amazon Athena through the JDBC driver simpler.</description>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;https://www.r-bloggers.com&#34;&gt;RBloggers&lt;/a&gt;|&lt;a href=&#34;http://feeds.feedburner.com/RBloggers&#34;&gt;RBloggers-feedburner&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;intro&#34;&gt;Intro:&lt;/h1&gt;
+
+&lt;p&gt;Currently there are two key ways in connecting to Amazon Athena from R, using the &lt;a href=&#34;https://docs.aws.amazon.com/athena/latest/ug/connect-with-odbc.html&#34;&gt;ODBC&lt;/a&gt; and &lt;a href=&#34;https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html&#34;&gt;JDBC&lt;/a&gt; drivers. To access the ODBC driver R users can use the excellent &lt;a href=&#34;https://github.com/r-dbi/odbc&#34;&gt;odbc package&lt;/a&gt; supported by Rstudio. To access the JDBC driver R users can either use the &lt;a href=&#34;https://cran.r-project.org/web/packages/RJDBC/index.html&#34;&gt;RJDBC&lt;/a&gt; R package or the helpful wrapper package &lt;a href=&#34;https://github.com/nfultz/AWR.Athena&#34;&gt;AWR.Athena&lt;/a&gt; which wraps the &lt;code&gt;RJDBC&lt;/code&gt; package to make the connection to Amazon Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Amazon Athena, however is there another way?&lt;/p&gt;
+
+&lt;p&gt;Well glad you asked&amp;hellip;yes there is! Ever since the &lt;a href=&#34;https://rstudio.github.io/reticulate/&#34;&gt;reticulate package&lt;/a&gt; was developed (by Rstudio) the interface into Python from R has never been simpler. This makes another route into Athena possible! Amazon has developed a Python software development kit (SDK) called &lt;a href=&#34;https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway&#34;&gt;Boto3&lt;/a&gt;. By using &lt;code&gt;boto3&lt;/code&gt; in combination with the R package &lt;code&gt;reticulate&lt;/code&gt; a new method into accessing Athena can be made possible. Introducing the R package &lt;a href=&#34;https://dyfanjones.github.io/RAthena/&#34;&gt;RAthena&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&#34;rathena&#34;&gt;RAthena:&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;What is RAthena?&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;Rathena&lt;/code&gt; is a R package that creates a DBI (Database Interface) for R, using the R package &lt;a href=&#34;https://dbi.r-dbi.org/&#34;&gt;DBI&lt;/a&gt; and the Python package&lt;code&gt;Boto3&lt;/code&gt; as the backend.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Why was RAthena created when there are already methods for connecting to Athena?&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;RAthena&lt;/code&gt; was created to provide an extra method to connect to Athena for R users. Nothing more, nothing less.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Why is RAthena call RAthena?&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Isn&amp;rsquo;t it obvious? Most R packages that interface with a database are called &lt;code&gt;&amp;quot;R&amp;lt;database&amp;gt;&amp;quot;&lt;/code&gt; for example &lt;code&gt;RSQLite&lt;/code&gt;, &lt;code&gt;RPostgreSQL&lt;/code&gt;, etc&amp;hellip; Plus this package is &amp;ldquo;roughly&amp;rdquo; the R equivalent to the superb &lt;code&gt;Python&lt;/code&gt; package &lt;a href=&#34;https://github.com/laughingman7743/PyAthena&#34;&gt;PyAthena&lt;/a&gt;. So calling this package &lt;code&gt;RAthena&lt;/code&gt; seems like the best choice.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;getting-started&#34;&gt;Getting Started:&lt;/h1&gt;
+
+&lt;p&gt;Now lets get into how to actually use &lt;code&gt;RAthena&lt;/code&gt;. I am going to skip over the part were you have to set up an &lt;a href=&#34;https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/&#34;&gt;Amazon Web Services Account&lt;/a&gt; (AWS Acount) and get straight into the good stuff.&lt;/p&gt;
+
+&lt;p&gt;Before working with &lt;code&gt;RAthena&lt;/code&gt;, &lt;a href=&#34;https://www.python.org/downloads/&#34;&gt;Python 3+&lt;/a&gt; is require. Please install it directly or use the &lt;a href=&#34;https://www.anaconda.com/distribution/&#34;&gt;Anaconda Distribution&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now we have &lt;code&gt;Python 3+&lt;/code&gt; we now need to install &lt;code&gt;Boto3&lt;/code&gt;. If you installed &lt;code&gt;Python 3+&lt;/code&gt; with the Anaconda Distribution I believe &lt;code&gt;Boto3&lt;/code&gt; comes as standard (you can skip &lt;code&gt;boto3&lt;/code&gt; installation step), but for everyone else you can install &lt;code&gt;Boto3&lt;/code&gt; either by the &lt;code&gt;pip&lt;/code&gt; command or the inbuilt installation function in &lt;code&gt;RAthena&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;pip command:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;pip install boto3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Install &lt;code&gt;RAthena&lt;/code&gt;:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;remotes::install_github(&amp;quot;dyfanjones/rathena&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;&lt;code&gt;RAthena&lt;/code&gt; boto3 installation function:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;RAthena::install_boto()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;usage&#34;&gt;Usage&lt;/h1&gt;
+
+&lt;h2 id=&#34;connecting-to-athena&#34;&gt;Connecting to Athena&lt;/h2&gt;
+
+&lt;p&gt;Now we have everything that is required we are now ready to connect to &lt;code&gt;Athena&lt;/code&gt;. &lt;code&gt;RAthena&lt;/code&gt; provides several method to connect to &lt;code&gt;Athena&lt;/code&gt; ranging from hard-coding credentials to using Amazon Resource Name Roles (ARN roles).&lt;/p&gt;
+
+&lt;h3 id=&#34;hard-coding-method&#34;&gt;Hard-Coding Method:&lt;/h3&gt;
+
+&lt;p&gt;This method isn&amp;rsquo;t recommended as your credentials are hard-coded.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(DBI)
+con &amp;lt;- dbConnect(RAthena::athena(),
+                 aws_access_key_id = &amp;quot;&amp;lt;YOUR AWS KEY ID&amp;gt;&amp;quot;,
+                 aws_secret_access_key = &amp;quot;&amp;lt;YOUR SECRET ACCESS KEY&amp;gt;&amp;quot;,
+                 s3_staging_dir = &amp;quot;&amp;lt;LOCATION FOR ATHENA QUERY OUTPUT&amp;gt;&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; &lt;em&gt;&lt;code&gt;s3_staging_dir&lt;/code&gt; requires to be in the format of &lt;code&gt;s3 uri&lt;/code&gt; for example &amp;ldquo;s3://path/to/query/bucket/&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;environment-variable-method&#34;&gt;Environment Variable Method:&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;RAthena&lt;/code&gt; supports &lt;a href=&#34;https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html&#34;&gt;AWS credentials&lt;/a&gt; set into the environment variables to avoid hard-coding. From what I have found out an easy way to set up environment variables (that persists) in R is to use the &lt;code&gt;file.edit&lt;/code&gt; function like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;file.edit(&amp;quot;~/.Renviron&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And now you can simply add in your environment variables in the file you are editing for example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;AWS_ACCESS_KEY_ID = &amp;lt;YOUR AWS KEY ID&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once you have set your environment variables you can connect to Athena in the following method:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(DBI)
+con &amp;lt;- dbConnect(RAthena::athena(),
+                 s3_staging_dir = &amp;quot;&amp;lt;LOCATION FOR ATHENA QUERY OUTPUT&amp;gt;&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;aws-profile-names&#34;&gt;AWS Profile Names:&lt;/h3&gt;
+
+&lt;p&gt;Another method is to use AWS Profile Names. AWS profile names can be setup either manually in the &lt;code&gt;~/.aws&lt;/code&gt; directory or by using the &lt;a href=&#34;https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html&#34;&gt;AWS Command Line Interface (AWS CLI)&lt;/a&gt;. Once you have setup your profile name you can connect to &lt;code&gt;Athena&lt;/code&gt;:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Using Default Profile Name:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(DBI)
+con &amp;lt;- dbConnect(RAthena::athena(),
+                 s3_staging_dir = &amp;quot;&amp;lt;LOCATION FOR ATHENA QUERY OUTPUT&amp;gt;&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Using Non-Default Profile Name:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(DBI)
+con &amp;lt;- dbConnect(RAthena::athena(),
+                 profile_name = &amp;quot;rathena&amp;quot;,
+                 s3_staging_dir = &amp;quot;&amp;lt;LOCATION FOR ATHENA QUERY OUTPUT&amp;gt;&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;arn-roles&#34;&gt;ARN Roles:&lt;/h3&gt;
+
+&lt;p&gt;ARN roles are fairly useful if you need to assume a role that can connect to another AWS account and use the &lt;code&gt;Athena&lt;/code&gt; in that account. Or whether you want to create a temporary connection with different permissions than your current role (&lt;a href=&#34;https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html&#34;&gt;AWS ARN Documentation&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Assuming ARN role credentials before connecting to Athena:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(RAthena)
+library(DBI)
+assume_role(profile_name = &amp;quot;YOUR_PROFILE_NAME&amp;quot;,
+            role_arn = &amp;quot;arn:aws:sts::123456789012:assumed-role/role_name/role_session_name&amp;quot;,
+            set_env = TRUE)
+
+# Connect to Athena using ARN Role
+con &amp;lt;- dbConnect(athena(),
+                s3_staging_dir = &amp;quot;s3://path/to/query/bucket/&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Connect to Athena directly using ARN role:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(DBI)
+con &amp;lt;- dbConnect(athena(),
+                  profile_name = &amp;quot;YOUR_PROFILE_NAME&amp;quot;,
+                  role_arn = &amp;quot;arn:aws:sts::123456789012:assumed-role/role_name/role_session_name&amp;quot;,
+                  s3_staging_dir = &#39;s3://path/to/query/bucket/&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; &lt;em&gt;ARN Roles have a duration timer before they will expire. To change the default you can increase the &lt;code&gt;duration_seconds&lt;/code&gt; parameter from the default 3600 seconds (1 hour).&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;temporary-sessions&#34;&gt;Temporary Sessions:&lt;/h3&gt;
+
+&lt;p&gt;Finally you can create temporary credentials before connecting to &lt;code&gt;Athena&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(RAthena)
+library(DBI)
+
+# Create Temporary Credentials duration 1 hour
+get_session_token(&amp;quot;YOUR_PROFILE_NAME&amp;quot;,
+                  serial_number=&#39;arn:aws:iam::123456789012:mfa/user&#39;,
+                  token_code = &amp;quot;531602&amp;quot;,
+                  set_env = TRUE)
+
+# Connect to Athena using temporary credentials
+con &amp;lt;- dbConnect(athena(),
+                s3_staging_dir = &amp;quot;s3://path/to/query/bucket/&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; &lt;em&gt;This method will work for users who have set up &lt;a href=&#34;https://aws.amazon.com/iam/details/mfa/&#34;&gt;Multi-Factor Authentication&lt;/a&gt; (MFA).&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;basic-usage&#34;&gt;Basic Usage&lt;/h2&gt;
+
+&lt;p&gt;Now we have created a connection to &lt;code&gt;Athena&lt;/code&gt; we can ulitise &lt;code&gt;DBI&lt;/code&gt; methods to query &lt;code&gt;Athena&lt;/code&gt; for example:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;All available tables in Athena:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dbListTables(con)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Send Query to Athena&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;res &amp;lt;- dbSendQuery(con, &amp;quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&amp;quot;)
+dbFetch(res)
+dbClearResult(res)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Or &amp;hellip;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;res &amp;lt;- dbExecute(con, &amp;quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&amp;quot;)
+dbFetch(res)
+dbClearResult(res)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Or &amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;dbGetQuery&lt;/code&gt; wraps sending, fetching and clearing results in one easy step.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dbGetQuery(con, &amp;quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; &lt;em&gt;You might of noticed that if you have &lt;code&gt;data.table&lt;/code&gt; installed, &lt;code&gt;RAthena&lt;/code&gt; will attempt to return the data as a &lt;code&gt;data.table&lt;/code&gt;. This is to improve speed when larger queries are returned from &lt;code&gt;Athena&lt;/code&gt;. If you don&amp;rsquo;t have &lt;code&gt;data.table&lt;/code&gt;, &lt;code&gt;RAthena&lt;/code&gt; will return the output as a &lt;code&gt;data.frame&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Get Column information&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;res &amp;lt;- dbSendQuery(con, &amp;quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&amp;quot;)
+dbColumnInfo(res)
+dbClearResult(res)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To learn about what &lt;code&gt;DBI&lt;/code&gt; methods have been implemented in &lt;code&gt;RAthena&lt;/code&gt; please refer to: &lt;a href=&#34;https://dyfanjones.github.io/RAthena/&#34;&gt;link&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;intermediate-usage&#34;&gt;Intermediate Usage:&lt;/h2&gt;
+
+&lt;p&gt;It is all very well querying data from &lt;code&gt;Athena&lt;/code&gt; but what is more useful is to upload data as well. &lt;code&gt;RAthena&lt;/code&gt; has addressed this and implemented a method in &lt;code&gt;dbWriteTable&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dbWriteTable(con, &amp;quot;mtcars&amp;quot;, mtcars,
+             partition=c(&amp;quot;TIMESTAMP&amp;quot; = format(Sys.Date(), &amp;quot;%Y%m%d&amp;quot;)),
+             s3.location = &amp;quot;s3://mybucket/data/&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once you have uploaded data into &lt;code&gt;Athena&lt;/code&gt; you can query it in the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dbGetQuery(con, &amp;quot;select * from mtcars&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here are all variable parameters for the &lt;code&gt;dbWriteTable&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;conn:&lt;/strong&gt; An AthenaConnection object, produced by dbConnect()&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;name:&lt;/strong&gt; A character string specifying a table name. Names will be automatically quoted so you can use any sequence of characters, not just any valid bare table name.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;value:&lt;/strong&gt; A data.frame to write to the database.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;overwrite:&lt;/strong&gt; Allow overwriting the destination table. Cannot be &amp;lsquo;TRUE&amp;rsquo; if &amp;lsquo;append&amp;rsquo; is also &amp;lsquo;TRUE&amp;rsquo;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;append:&lt;/strong&gt; Allow appending to the destination table. Cannot be &amp;lsquo;TRUE&amp;rsquo; if &amp;lsquo;overwrite&amp;rsquo; is also &amp;lsquo;TRUE&amp;rsquo;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;row.names:&lt;/strong&gt; Either TRUE, FALSE, NA or a string. If TRUE, always translate row names to a column called &amp;ldquo;row_names&amp;rdquo;. If FALSE, never translate row names. If NA, translate rownames only if they&amp;rsquo;re a character vector. A string is equivalent to TRUE, but allows you to override the default name. For backward compatibility, NULL is equivalent to FALSE.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;field.types:&lt;/strong&gt; Additional field types used to override derived types.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;partition:&lt;/strong&gt; Partition Athena table (needs to be a named list or vector) for example: c(var1 = &amp;ldquo;2019-20-13&amp;rdquo;)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;s3.location&lt;/strong&gt; s3 bucket to store Athena table, must be set as a s3 uri for example (&amp;ldquo;s3://mybucket/data/&amp;ldquo;)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;file.type:&lt;/strong&gt; What file type to store data.frame on s3, RAthena currently supports [&amp;ldquo;csv&amp;rdquo;, &amp;ldquo;tsv&amp;rdquo;, &amp;ldquo;parquet&amp;rdquo;]. &lt;strong&gt;Note:&lt;/strong&gt; &lt;em&gt;file.type &amp;ldquo;parquet&amp;rdquo; is supported by R package &lt;a href=&#34;https://github.com/apache/arrow/tree/master/r&#34;&gt;&lt;code&gt;arrow&lt;/code&gt;&lt;/a&gt; and will need to be installed separately if you wish to upload data.frames in &amp;ldquo;parquet&amp;rdquo; format.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;hellip;:&lt;/strong&gt; Other arguments used by individual methods.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&#34;tidyverse-usage&#34;&gt;Tidyverse Usage:&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;RAthena&lt;/code&gt; can integrate with the famous R package &lt;a href=&#34;https://github.com/tidyverse/dplyr&#34;&gt;dplyr&lt;/a&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(DBI)
+library(dplyr)
+
+con &amp;lt;- dbConnect(RAthena::athena(),
+                 profile_name = &amp;quot;rathena&amp;quot;,
+                 s3_staging_dir = &amp;quot;&amp;lt;LOCATION FOR ATHENA QUERY OUTPUT&amp;gt;&amp;quot;)
+
+tbl(con, sql(&amp;quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Or if you have already uploaded a table into &lt;code&gt;Athena&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;tbl(con, &amp;quot;mtcars&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;conclusion&#34;&gt;Conclusion:&lt;/h1&gt;
+
+&lt;p&gt;So hopefully this has given you an insight into the up coming package &lt;code&gt;RAthena&lt;/code&gt; and it&amp;rsquo;s usefulness. This package is not meant to replace any of the other packages that connect into &lt;code&gt;Athena&lt;/code&gt; but give another route into &lt;code&gt;Athena&lt;/code&gt; for R users.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Final note:&lt;/strong&gt; &lt;code&gt;RAthena&lt;/code&gt; offers a lot more functionality please check it out at &lt;a href=&#34;https://github.com/DyfanJones/RAthena&#34;&gt;Github&lt;/a&gt;. If you have any suggestions please raise an issue at &lt;a href=&#34;https://github.com/DyfanJones/RAthena/issues&#34;&gt;Github Issues&lt;/a&gt;.&lt;/p&gt;
+</description>
     </item>
     
   </channel>
