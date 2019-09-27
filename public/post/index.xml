@@ -1,23 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-  <title>Posts on Dyfan Jones Brain Dump HQ</title>
-  <link>/post/</link>
-  <description>Recent content in Posts on Dyfan Jones Brain Dump HQ</description>
-  <generator>Hugo -- gohugo.io</generator>
-<language>en-uk</language>
-<lastBuildDate>Fri, 13 Sep 2019 00:00:00 +0000</lastBuildDate>
-
-<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
-
-
-<item>
-  <title>Athena and R ... there is another way!?</title>
-  <link>/post/athena-and-r-there-is-another-way/</link>
-  <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
-  
-<guid>/post/athena-and-r-there-is-another-way/</guid>
-  <description>
+    <title>Posts on Dyfan Jones Brain Dump HQ</title>
+    <link>/post/</link>
+    <description>Recent content in Posts on Dyfan Jones Brain Dump HQ</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-uk</language>
+    <lastBuildDate>Fri, 13 Sep 2019 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Athena and R ... there is another way!?</title>
+      <link>/post/athena-and-r-there-is-another-way/</link>
+      <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/athena-and-r-there-is-another-way/</guid>
+      <description>
 
 &lt;p&gt;&lt;a href=&#34;https://www.r-bloggers.com&#34;&gt;RBloggers&lt;/a&gt;|&lt;a href=&#34;http://feeds.feedburner.com/RBloggers&#34;&gt;RBloggers-feedburner&lt;/a&gt;&lt;/p&gt;
 
@@ -286,8 +285,9 @@ tbl(con, sql(&amp;quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&amp;quot;))
 &lt;p&gt;So hopefully this has given you an insight into the up coming package &lt;code&gt;RAthena&lt;/code&gt; and it&amp;rsquo;s usefulness. This package is not meant to replace any of the other packages that connect into &lt;code&gt;Athena&lt;/code&gt; but give another route into &lt;code&gt;Athena&lt;/code&gt; for R users.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Final note:&lt;/strong&gt; &lt;code&gt;RAthena&lt;/code&gt; offers a lot more functionality please check it out at &lt;a href=&#34;https://github.com/DyfanJones/RAthena&#34;&gt;Github&lt;/a&gt;. If you have any suggestions please raise an issue at &lt;a href=&#34;https://github.com/DyfanJones/RAthena/issues&#34;&gt;Github Issues&lt;/a&gt;.&lt;/p&gt;
-</description>
-  </item>
-  
-</channel>
-  </rss>
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
