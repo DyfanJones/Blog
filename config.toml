@@ -1,4 +1,4 @@
-baseurl = "https://dyfanjones.me/"
+baseurl = "/"
 title = "Dyfan Jones Brain Dump HQ"
 languageCode = "en-uk"
 paginate = "10" # Number of posts per page
