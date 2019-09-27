@@ -286,6 +286,18 @@ tbl(con, sql(&amp;quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&amp;quot;))
 
 &lt;p&gt;&lt;strong&gt;Final note:&lt;/strong&gt; &lt;code&gt;RAthena&lt;/code&gt; offers a lot more functionality please check it out at &lt;a href=&#34;https://github.com/DyfanJones/RAthena&#34;&gt;Github&lt;/a&gt;. If you have any suggestions please raise an issue at &lt;a href=&#34;https://github.com/DyfanJones/RAthena/issues&#34;&gt;Github Issues&lt;/a&gt;.&lt;/p&gt;
 </description>
+      
+                  <category>R</category>
+      
+                  <category>Athena</category>
+      
+                  <category>Boto3</category>
+      
+                  <category>Python</category>
+      
+      
+            <category>RBloggers</category>
+      
     </item>
     
   </channel>

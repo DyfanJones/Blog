@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-uk">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Athena and R ... there is another way!? - Dyfan Jones Brain Dump HQ</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<meta property="og:title" content="Athena and R ... there is another way!?" />
+<meta property="og:description" content="RBloggers|RBloggers-feedburner
+Intro: Currently there are two key ways in connecting to Amazon Athena from R, using the ODBC and JDBC drivers. To access the ODBC driver R users can use the excellent odbc package supported by Rstudio. To access the JDBC driver R users can either use the RJDBC R package or the helpful wrapper package AWR.Athena which wraps the RJDBC package to make the connection to Amazon Athena through the JDBC driver simpler." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/r/athena-and-r-there-is-another-way/" />
+<meta property="article:published_time" content="2019-09-13T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-09-13T00:00:00+00:00" />
+
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Dyfan Jones Brain Dump HQ" rel="home">
+				<div class="logo__title">Dyfan Jones Brain Dump HQ</div>
+				<div class="logo__tagline">A place for me to dump my ideas</div>
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/home/about/">All About Me</a>
+		</li>
+	</ul>
+</nav>
+
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">Athena and R ... there is another way!?</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
+	<time class="meta__text" datetime="2019-09-13T00:00:00">September 13, 2019</time>
+</div>
+
+<div class="meta__item-categories meta__item">
+  <span class="article-duration">7 min read &nbsp;</span>
+	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
+	<span class="meta__text"><a class="meta__link" href="/categories/rbloggers" rel="category">RBloggers</a></span>
+</div>
+</div>
+		</header><div class="content post__content clearfix">
+			
+
+<p><a href="https://www.r-bloggers.com">RBloggers</a>|<a href="http://feeds.feedburner.com/RBloggers">RBloggers-feedburner</a></p>
+
+<h1 id="intro">Intro:</h1>
+
+<p>Currently there are two key ways in connecting to Amazon Athena from R, using the <a href="https://docs.aws.amazon.com/athena/latest/ug/connect-with-odbc.html">ODBC</a> and <a href="https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html">JDBC</a> drivers. To access the ODBC driver R users can use the excellent <a href="https://github.com/r-dbi/odbc">odbc package</a> supported by Rstudio. To access the JDBC driver R users can either use the <a href="https://cran.r-project.org/web/packages/RJDBC/index.html">RJDBC</a> R package or the helpful wrapper package <a href="https://github.com/nfultz/AWR.Athena">AWR.Athena</a> which wraps the <code>RJDBC</code> package to make the connection to Amazon Athena through the JDBC driver simpler. These methods are an excellent way for R to connect to Amazon Athena, however is there another way?</p>
+
+<p>Well glad you asked&hellip;yes there is! Ever since the <a href="https://rstudio.github.io/reticulate/">reticulate package</a> was developed (by Rstudio) the interface into Python from R has never been simpler. This makes another route into Athena possible! Amazon has developed a Python software development kit (SDK) called <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway">Boto3</a>. By using <code>boto3</code> in combination with the R package <code>reticulate</code> a new method into accessing Athena can be made possible. Introducing the R package <a href="https://dyfanjones.github.io/RAthena/">RAthena</a>.</p>
+
+<h1 id="rathena">RAthena:</h1>
+
+<ul>
+<li><strong>What is RAthena?</strong></li>
+</ul>
+
+<blockquote>
+<p><code>Rathena</code> is a R package that creates a DBI (Database Interface) for R, using the R package <a href="https://dbi.r-dbi.org/">DBI</a> and the Python package <code>Boto3</code> as the backend.</p>
+</blockquote>
+
+<ul>
+<li><strong>Why was RAthena created when there are already methods for connecting to Athena?</strong></li>
+</ul>
+
+<blockquote>
+<p><code>RAthena</code> was created to provide an extra method to connect to Athena for R users. Nothing more, nothing less.</p>
+</blockquote>
+
+<ul>
+<li><strong>Why is RAthena call RAthena?</strong></li>
+</ul>
+
+<blockquote>
+<p>Isn&rsquo;t it obvious? Most R packages that interface with a database are called <code>&quot;R&lt;database&gt;&quot;</code> for example <code>RSQLite</code>, <code>RPostgreSQL</code>, etc&hellip; Plus this package is &ldquo;roughly&rdquo; the R equivalent to the superb <code>Python</code> package <a href="https://github.com/laughingman7743/PyAthena">PyAthena</a>. So calling this package <code>RAthena</code> seems like the best choice.</p>
+</blockquote>
+
+<h1 id="getting-started">Getting Started:</h1>
+
+<p>Now lets get into how to actually use <code>RAthena</code>. I am going to skip over the part were you have to set up an <a href="https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/">Amazon Web Services Account</a> (AWS Acount) and get straight into the good stuff.</p>
+
+<p>Before working with <code>RAthena</code>, <a href="https://www.python.org/downloads/">Python 3+</a> is require. Please install it directly or use the <a href="https://www.anaconda.com/distribution/">Anaconda Distribution</a>.</p>
+
+<p>Now we have <code>Python 3+</code> we now need to install <code>Boto3</code>. If you installed <code>Python 3+</code> with the Anaconda Distribution I believe <code>Boto3</code> comes as standard (you can skip <code>boto3</code> installation step), but for everyone else you can install <code>Boto3</code> either by the <code>pip</code> command or the inbuilt installation function in <code>RAthena</code>.</p>
+
+<p><strong>pip command:</strong></p>
+
+<pre><code>pip install boto3
+</code></pre>
+
+<p><strong>Install <code>RAthena</code>:</strong></p>
+
+<pre><code class="language-r">remotes::install_github(&quot;dyfanjones/rathena&quot;)
+</code></pre>
+
+<p><strong><code>RAthena</code> boto3 installation function:</strong></p>
+
+<pre><code class="language-r">RAthena::install_boto()
+</code></pre>
+
+<h1 id="usage">Usage</h1>
+
+<h2 id="connecting-to-athena">Connecting to Athena</h2>
+
+<p>Now we have everything that is required we are now ready to connect to <code>Athena</code>. <code>RAthena</code> provides several method to connect to <code>Athena</code> ranging from hard-coding credentials to using Amazon Resource Name Roles (ARN roles).</p>
+
+<h3 id="hard-coding-method">Hard-Coding Method:</h3>
+
+<p>This method isn&rsquo;t recommended as your credentials are hard-coded.</p>
+
+<pre><code class="language-r">library(DBI)
+con &lt;- dbConnect(RAthena::athena(),
+                 aws_access_key_id = &quot;&lt;YOUR AWS KEY ID&gt;&quot;,
+                 aws_secret_access_key = &quot;&lt;YOUR SECRET ACCESS KEY&gt;&quot;,
+                 s3_staging_dir = &quot;&lt;LOCATION FOR ATHENA QUERY OUTPUT&gt;&quot;)
+</code></pre>
+
+<p><strong>Note:</strong> <em><code>s3_staging_dir</code> requires to be in the format of <code>s3 uri</code> for example &ldquo;s3://path/to/query/bucket/&rdquo;</em></p>
+
+<h3 id="environment-variable-method">Environment Variable Method:</h3>
+
+<p><code>RAthena</code> supports <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html">AWS credentials</a> set into the environment variables to avoid hard-coding. From what I have found out an easy way to set up environment variables (that persists) in R is to use the <code>file.edit</code> function like so:</p>
+
+<pre><code class="language-r">file.edit(&quot;~/.Renviron&quot;)
+</code></pre>
+
+<p>And now you can simply add in your environment variables in the file you are editing for example:</p>
+
+<pre><code>AWS_ACCESS_KEY_ID = &lt;YOUR AWS KEY ID&gt;
+</code></pre>
+
+<p>Once you have set your environment variables you can connect to Athena in the following method:</p>
+
+<pre><code class="language-r">library(DBI)
+con &lt;- dbConnect(RAthena::athena(),
+                 s3_staging_dir = &quot;&lt;LOCATION FOR ATHENA QUERY OUTPUT&gt;&quot;)
+</code></pre>
+
+<h3 id="aws-profile-names">AWS Profile Names:</h3>
+
+<p>Another method is to use AWS Profile Names. AWS profile names can be setup either manually in the <code>~/.aws</code> directory or by using the <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html">AWS Command Line Interface (AWS CLI)</a>. Once you have setup your profile name you can connect to <code>Athena</code>:</p>
+
+<p><strong>Using Default Profile Name:</strong></p>
+
+<pre><code class="language-r">library(DBI)
+con &lt;- dbConnect(RAthena::athena(),
+                 s3_staging_dir = &quot;&lt;LOCATION FOR ATHENA QUERY OUTPUT&gt;&quot;)
+</code></pre>
+
+<p><strong>Using Non-Default Profile Name:</strong></p>
+
+<pre><code class="language-r">library(DBI)
+con &lt;- dbConnect(RAthena::athena(),
+                 profile_name = &quot;rathena&quot;,
+                 s3_staging_dir = &quot;&lt;LOCATION FOR ATHENA QUERY OUTPUT&gt;&quot;)
+</code></pre>
+
+<h3 id="arn-roles">ARN Roles:</h3>
+
+<p>ARN roles are fairly useful if you need to assume a role that can connect to another AWS account and use the <code>Athena</code> in that account. Or whether you want to create a temporary connection with different permissions than your current role (<a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html">AWS ARN Documentation</a>).</p>
+
+<p><strong>Assuming ARN role credentials before connecting to Athena:</strong></p>
+
+<pre><code class="language-r">library(RAthena)
+library(DBI)
+assume_role(profile_name = &quot;YOUR_PROFILE_NAME&quot;,
+            role_arn = &quot;arn:aws:sts::123456789012:assumed-role/role_name/role_session_name&quot;,
+            set_env = TRUE)
+
+# Connect to Athena using ARN Role
+con &lt;- dbConnect(athena(),
+                s3_staging_dir = &quot;s3://path/to/query/bucket/&quot;)
+</code></pre>
+
+<p><strong>Connect to Athena directly using ARN role:</strong></p>
+
+<pre><code class="language-r">library(DBI)
+con &lt;- dbConnect(athena(),
+                  profile_name = &quot;YOUR_PROFILE_NAME&quot;,
+                  role_arn = &quot;arn:aws:sts::123456789012:assumed-role/role_name/role_session_name&quot;,
+                  s3_staging_dir = 's3://path/to/query/bucket/')
+</code></pre>
+
+<p><strong>Note:</strong> <em>ARN Roles have a duration timer before they will expire. To change the default you can increase the <code>duration_seconds</code> parameter from the default 3600 seconds (1 hour).</em></p>
+
+<h3 id="temporary-sessions">Temporary Sessions:</h3>
+
+<p>Finally you can create temporary credentials before connecting to <code>Athena</code>.</p>
+
+<pre><code class="language-r">library(RAthena)
+library(DBI)
+
+# Create Temporary Credentials duration 1 hour
+get_session_token(&quot;YOUR_PROFILE_NAME&quot;,
+                  serial_number='arn:aws:iam::123456789012:mfa/user',
+                  token_code = &quot;531602&quot;,
+                  set_env = TRUE)
+
+# Connect to Athena using temporary credentials
+con &lt;- dbConnect(athena(),
+                s3_staging_dir = &quot;s3://path/to/query/bucket/&quot;)
+</code></pre>
+
+<p><strong>Note:</strong> <em>This method will work for users who have set up <a href="https://aws.amazon.com/iam/details/mfa/">Multi-Factor Authentication</a> (MFA).</em></p>
+
+<h2 id="basic-usage">Basic Usage</h2>
+
+<p>Now we have created a connection to <code>Athena</code> we can ulitise <code>DBI</code> methods to query <code>Athena</code> for example:</p>
+
+<p><strong>All available tables in Athena:</strong></p>
+
+<pre><code class="language-r">dbListTables(con)
+</code></pre>
+
+<p><strong>Send Query to Athena</strong></p>
+
+<pre><code class="language-r">res &lt;- dbSendQuery(con, &quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&quot;)
+dbFetch(res)
+dbClearResult(res)
+</code></pre>
+
+<p>Or &hellip;</p>
+
+<pre><code class="language-r">res &lt;- dbExecute(con, &quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&quot;)
+dbFetch(res)
+dbClearResult(res)
+</code></pre>
+
+<p>Or &hellip;</p>
+
+<p><code>dbGetQuery</code> wraps sending, fetching and clearing results in one easy step.</p>
+
+<pre><code class="language-r">dbGetQuery(con, &quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&quot;)
+</code></pre>
+
+<p><strong>Note:</strong> <em>You might of noticed that if you have <code>data.table</code> installed, <code>RAthena</code> will attempt to return the data as a <code>data.table</code>. This is to improve speed when larger queries are returned from <code>Athena</code>. If you don&rsquo;t have <code>data.table</code>, <code>RAthena</code> will return the output as a <code>data.frame</code>.</em></p>
+
+<p><strong>Get Column information</strong></p>
+
+<pre><code class="language-r">res &lt;- dbSendQuery(con, &quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&quot;)
+dbColumnInfo(res)
+dbClearResult(res)
+</code></pre>
+
+<p>To learn about what <code>DBI</code> methods have been implemented in <code>RAthena</code> please refer to: <a href="https://dyfanjones.github.io/RAthena/">link</a>.</p>
+
+<h2 id="intermediate-usage">Intermediate Usage:</h2>
+
+<p>It is all very well querying data from <code>Athena</code> but what is more useful is to upload data as well. <code>RAthena</code> has addressed this and implemented a method in <code>dbWriteTable</code></p>
+
+<pre><code class="language-r">dbWriteTable(con, &quot;mtcars&quot;, mtcars,
+             partition=c(&quot;TIMESTAMP&quot; = format(Sys.Date(), &quot;%Y%m%d&quot;)),
+             s3.location = &quot;s3://mybucket/data/&quot;)
+</code></pre>
+
+<p>Once you have uploaded data into <code>Athena</code> you can query it in the following:</p>
+
+<pre><code class="language-r">dbGetQuery(con, &quot;select * from mtcars&quot;)
+</code></pre>
+
+<p>Here are all variable parameters for the <code>dbWriteTable</code> method:</p>
+
+<blockquote>
+<p><strong>conn:</strong> An AthenaConnection object, produced by dbConnect()</p>
+
+<p><strong>name:</strong> A character string specifying a table name. Names will be automatically quoted so you can use any sequence of characters, not just any valid bare table name.</p>
+
+<p><strong>value:</strong> A data.frame to write to the database.</p>
+
+<p><strong>overwrite:</strong> Allow overwriting the destination table. Cannot be &lsquo;TRUE&rsquo; if &lsquo;append&rsquo; is also &lsquo;TRUE&rsquo;.</p>
+
+<p><strong>append:</strong> Allow appending to the destination table. Cannot be &lsquo;TRUE&rsquo; if &lsquo;overwrite&rsquo; is also &lsquo;TRUE&rsquo;.</p>
+
+<p><strong>row.names:</strong> Either TRUE, FALSE, NA or a string. If TRUE, always translate row names to a column called &ldquo;row_names&rdquo;. If FALSE, never translate row names. If NA, translate rownames only if they&rsquo;re a character vector. A string is equivalent to TRUE, but allows you to override the default name. For backward compatibility, NULL is equivalent to FALSE.</p>
+
+<p><strong>field.types:</strong> Additional field types used to override derived types.</p>
+
+<p><strong>partition:</strong> Partition Athena table (needs to be a named list or vector) for example: c(var1 = &ldquo;2019-20-13&rdquo;)</p>
+
+<p><strong>s3.location</strong> s3 bucket to store Athena table, must be set as a s3 uri for example (&ldquo;s3://mybucket/data/&ldquo;)</p>
+
+<p><strong>file.type:</strong> What file type to store data.frame on s3, RAthena currently supports [&ldquo;csv&rdquo;, &ldquo;tsv&rdquo;, &ldquo;parquet&rdquo;]. <strong>Note:</strong> <em>file.type &ldquo;parquet&rdquo; is supported by R package <a href="https://github.com/apache/arrow/tree/master/r"><code>arrow</code></a> and will need to be installed separately if you wish to upload data.frames in &ldquo;parquet&rdquo; format.</em></p>
+
+<p><strong>&hellip;:</strong> Other arguments used by individual methods.</p>
+</blockquote>
+
+<h2 id="tidyverse-usage">Tidyverse Usage:</h2>
+
+<p><code>RAthena</code> can integrate with the famous R package <a href="https://github.com/tidyverse/dplyr">dplyr</a>.</p>
+
+<pre><code class="language-r">library(DBI)
+library(dplyr)
+
+con &lt;- dbConnect(RAthena::athena(),
+                 profile_name = &quot;rathena&quot;,
+                 s3_staging_dir = &quot;&lt;LOCATION FOR ATHENA QUERY OUTPUT&gt;&quot;)
+
+tbl(con, sql(&quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&quot;))
+</code></pre>
+
+<p>Or if you have already uploaded a table into <code>Athena</code></p>
+
+<pre><code class="language-r">tbl(con, &quot;mtcars&quot;)
+</code></pre>
+
+<h1 id="conclusion">Conclusion:</h1>
+
+<p>So hopefully this has given you an insight into the up coming package <code>RAthena</code> and it&rsquo;s usefulness. This package is not meant to replace any of the other packages that connect into <code>Athena</code> but give another route into <code>Athena</code> for R users.</p>
+
+<p><strong>Final note:</strong> <code>RAthena</code> offers a lot more functionality please check it out at <a href="https://github.com/DyfanJones/RAthena">Github</a>. If you have any suggestions please raise an issue at <a href="https://github.com/DyfanJones/RAthena/issues">Github Issues</a>.</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/r/" rel="tag">R</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/athena/" rel="tag">Athena</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/boto3/" rel="tag">Boto3</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/python/" rel="tag">Python</a></li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Dyfan Jones avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Dyfan Jones</span>
+	</div>
+	<div class="authorbox__description">
+		Dyfan Jones a humble Data Scientist
+	</div>
+</div>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://dyfanjones.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q" aria-label="SEARCH...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/r/athena-and-r-there-is-another-way/">Athena and R ... there is another way!?</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/categories/rbloggers">Rbloggers</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/athena" title="Athena">Athena</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/boto3" title="Boto3">Boto3</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python" title="Python">Python</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/r" title="R">R</a>
+	</div>
+</div>
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="LinkedIn" rel="noopener noreferrer" href="https://linkedin.com/in/dyfan-jones-a8261799" target="_blank">
+				<svg class="widget-social__link-icon icon icon-linkedin" width="24" height="24" viewBox="0 0 352 352"><path d="M0,40v272c0,21.9,18.1,40,40,40h272c21.9,0,40-18.1,40-40V40c0-21.9-18.1-40-40-40H40C18.1,0,0,18.1,0,40z M312,32 c4.6,0,8,3.4,8,8v272c0,4.6-3.4,8-8,8H40c-4.6,0-8-3.4-8-8V40c0-4.6,3.4-8,8-8H312z M59.5,87c0,15.2,12.3,27.5,27.5,27.5 c15.2,0,27.5-12.3,27.5-27.5c0-15.2-12.3-27.5-27.5-27.5C71.8,59.5,59.5,71.8,59.5,87z M187,157h-1v-21h-45v152h47v-75 c0-19.8,3.9-39,28.5-39c24.2,0,24.5,22.4,24.5,40v74h47v-83.5c0-40.9-8.7-72-56.5-72C208.5,132.5,193.3,145.1,187,157z M64,288h47.5 V136H64V288z"/></svg>
+				<span>LinkedIn</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/DyfanJones" target="_blank">
+				<svg class="widget-social__link-icon icon icon-github" width="24" height="24" viewBox="0 0 384 374"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:dyfan.r.jones@gmail.com">
+				<svg class="widget-social__link-icon icon icon-mail" width="24" height="24" viewBox="0 0 416 288"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>dyfan.r.jones@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2019 Dyfan Jones Brain Dump HQ.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>
