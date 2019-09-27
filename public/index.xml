@@ -11,33 +11,12 @@
     
     
     <item>
-      <title>All About Me</title>
-      <link>/about/</link>
+      <title>Homes</title>
+      <link>/home/</link>
       <pubDate>Fri, 13 Sep 2019 00:00:00 +0000</pubDate>
       
-      <guid>/about/</guid>
-      <description>
-
-&lt;p&gt;&lt;img alt = &#39;cartoon_me&#39; width=&#39;150&#39; src=&#39;/./about_files/dj_img.png&#39; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/DyfanJones&#34;&gt;Github&lt;/a&gt; | &lt;a href=&#34;https://www.linkedin.com/in/dyfan-jones-a8261799/&#34;&gt;LinkedIn&lt;/a&gt;&lt;/p&gt;
-
-&lt;h1 id=&#34;intro&#34;&gt;Intro&lt;/h1&gt;
-
-&lt;p&gt;Hi all, my name is Dyfan Jones, a lot of people find it difficult to pronounce my name because it is Welsh. But here is a handy tip to help you pronounce it, “D-Oven”. I am going to assume you know how to say “Jones” (there are a few thousand of us in the UK). Anyway I come from the North West of England and I have been a Data Scientist for roughly 5 years working at &amp;lsquo;Very.co.uk&amp;rsquo;. Qualification wise, I have an MSc in Mathematical Science from the University of Liverpool.&lt;/p&gt;
-
-&lt;h1 id=&#34;about-me&#34;&gt;About me&lt;/h1&gt;
-
-&lt;p&gt;I am one of those people who has to know what the algorithm is doing under the hood. I find it difficult to just grab a pre-canned algorithm and use it without knowing the assumptions and what is it doing, thats not my style.&lt;/p&gt;
-
-&lt;p&gt;For coding, I am a big open source fan and enjoy the 2 key languages for Data Science R and Python. I really don’t have a preference for one over the other, instead I am in the camp of &amp;lsquo;use the language that is best for the problem in hand!&amp;rsquo;.&lt;/p&gt;
-
-&lt;h1 id=&#34;current-projects&#34;&gt;Current Projects&lt;/h1&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/DyfanJones/RAthena&#34;&gt;Rathena&lt;/a&gt;: A DBI-compliant interface for R to Amazon Athena using Python Boto3 SDK backend&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+      <guid>/home/</guid>
+      <description></description>
     </item>
     
     <item>
