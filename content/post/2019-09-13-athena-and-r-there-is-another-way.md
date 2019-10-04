@@ -66,9 +66,9 @@ This method isn't recommended as your credentials are hard-coded.
 ```r
 library(DBI)
 con <- dbConnect(RAthena::athena(),
-                 aws_access_key_id = "<YOUR AWS KEY ID>",
-                 aws_secret_access_key = "<YOUR SECRET ACCESS KEY>",
-                 s3_staging_dir = "<LOCATION FOR ATHENA QUERY OUTPUT>")
+                 aws_access_key_id = "YOUR AWS KEY ID",
+                 aws_secret_access_key = "YOUR SECRET ACCESS KEY",
+                 s3_staging_dir = "LOCATION FOR ATHENA QUERY OUTPUT")
 ```
 **Note:** *`s3_staging_dir` requires to be in the format of `s3 uri` for example "s3://path/to/query/bucket/"*
 
@@ -88,7 +88,7 @@ Once you have set your environment variables you can connect to Athena in the fo
 ```r
 library(DBI)
 con <- dbConnect(RAthena::athena(),
-                 s3_staging_dir = "<LOCATION FOR ATHENA QUERY OUTPUT>")
+                 s3_staging_dir = "LOCATION FOR ATHENA QUERY OUTPUT")
 ```
 
 ### AWS Profile Names:
@@ -99,14 +99,14 @@ Another method is to use AWS Profile Names. AWS profile names can be setup eithe
 ```r
 library(DBI)
 con <- dbConnect(RAthena::athena(),
-                 s3_staging_dir = "<LOCATION FOR ATHENA QUERY OUTPUT>")
+                 s3_staging_dir = "LOCATION FOR ATHENA QUERY OUTPUT")
 ```
 **Using Non-Default Profile Name:**
 ```r
 library(DBI)
 con <- dbConnect(RAthena::athena(),
                  profile_name = "rathena",
-                 s3_staging_dir = "<LOCATION FOR ATHENA QUERY OUTPUT>")
+                 s3_staging_dir = "LOCATION FOR ATHENA QUERY OUTPUT")
 ```
 ### ARN Roles:
 
@@ -244,7 +244,7 @@ library(dplyr)
 
 con <- dbConnect(RAthena::athena(),
                  profile_name = "rathena",
-                 s3_staging_dir = "<LOCATION FOR ATHENA QUERY OUTPUT>")
+                 s3_staging_dir = "LOCATION FOR ATHENA QUERY OUTPUT")
 
 tbl(con, sql("SELECT * FROM INFORMATION_SCHEMA.COLUMNS"))
 ```
