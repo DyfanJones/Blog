@@ -5,10 +5,62 @@
     <description>Recent content in Athena on Dyfan Jones Brain Dump HQ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <lastBuildDate>Fri, 13 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 26 Oct 2019 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/tags/athena/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>RAthena 1.3.0 has arrived</title>
+      <link>/post/rathena-1-3-0-has-arrived/</link>
+      <pubDate>Sat, 26 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/rathena-1-3-0-has-arrived/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;https://www.r-bloggers.com&#34;&gt;RBloggers&lt;/a&gt;|&lt;a href=&#34;http://feeds.feedburner.com/RBloggers&#34;&gt;RBloggers-feedburner&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;recap&#34;&gt;Recap:&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/DyfanJones/RAthena&#34;&gt;&lt;code&gt;RAthena&lt;/code&gt;&lt;/a&gt; is a R package that interfaces into Amazon Athena. However, it doesn&amp;rsquo;t use the standard &lt;code&gt;ODBC&lt;/code&gt; and &lt;code&gt;JDBC&lt;/code&gt; drivers like &lt;code&gt;AWR.Athena&lt;/code&gt; and &lt;code&gt;metis&lt;/code&gt;. Instead &lt;code&gt;RAthena&lt;/code&gt; utilises Python&amp;rsquo;s SDK (software development kit) into Amazon, &lt;a href=&#34;https://boto3.amazonaws.com/v1/documentation/api/latest/index.html&#34;&gt;&lt;code&gt;Boto3&lt;/code&gt;&lt;/a&gt;. It does this by using the &lt;a href=&#34;https://rstudio.github.io/reticulate/&#34;&gt;&lt;code&gt;reticulate&lt;/code&gt;&lt;/a&gt; package that provides an interface into Python. What this means is that &lt;code&gt;RAthena&lt;/code&gt; doesn&amp;rsquo;t require any driver installation or setup. That can be particularly difficult when you are considering setting up the ODBC drivers and you are not familiar with how ODBC works on your current operating system. If you wish to use ODBC, RStudio has provided a good user guide &lt;a href=&#34;https://db.rstudio.com/best-practices/drivers/&#34;&gt;Setting up ODBC Drivers&lt;/a&gt; to help set up ODBC drivers on your system. However if you do not wish to go down that route &lt;code&gt;RAthena&lt;/code&gt; might be a good option for you.&lt;/p&gt;
+
+&lt;h1 id=&#34;new-features-in-rathena&#34;&gt;New Features in &lt;code&gt;RAthena&lt;/code&gt;:&lt;/h1&gt;
+
+&lt;p&gt;Anyway, getting back to &lt;code&gt;RAthena&lt;/code&gt; and what does the new update provide. One of the key changes in &lt;code&gt;RAthena&lt;/code&gt; is the method of transferring data to and from AWS Athena. &lt;code&gt;RAthena&lt;/code&gt; now utilising &lt;a href=&#34;https://rdatatable.gitlab.io/data.table/&#34;&gt;&lt;code&gt;data.table&lt;/code&gt;&lt;/a&gt; for this process. The reason for this change is the raw speed &lt;code&gt;data.table&lt;/code&gt;. When transferring data to and from AWS Athena the last thing you want is a bottle neck in R just preparing the data before it even transfers it to AWS Athena. This bottle neck can easily be 50 - 100x longer without the use of &lt;code&gt;data.table&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;The next change is &lt;code&gt;bigint&lt;/code&gt;, and how it is converted from AWS Athena to R. In the past &lt;code&gt;RAthena&lt;/code&gt; would just convert &lt;code&gt;integer64&lt;/code&gt; to &lt;code&gt;bigint&lt;/code&gt; when writing to AWS Athena, however it would then convert &lt;code&gt;bigint&lt;/code&gt; back into R as a normal &lt;code&gt;integer&lt;/code&gt;. Which means it is constrained to 32-bit integers. This has now been fixed. When reading &lt;code&gt;bigint&lt;/code&gt; from AWS Athena &lt;code&gt;RAthena&lt;/code&gt; will now convert it into &lt;code&gt;integer64&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h1 id=&#34;sum-up&#34;&gt;Sum Up:&lt;/h1&gt;
+
+&lt;p&gt;&lt;code&gt;RAthena&lt;/code&gt; now provides a faster method in reading and writing data from AWS Athena (thanks &lt;code&gt;data.table&lt;/code&gt;). With the correct handling of AWS Athena &lt;code&gt;bigint&lt;/code&gt;. So please give &lt;code&gt;RAthena&lt;/code&gt; a try and let me know what you think of the package. Suggestions/Bugs/Enhancements are always welcome and they will help the package to improve: &lt;a href=&#34;https://github.com/DyfanJones/RAthena/issues&#34;&gt;https://github.com/DyfanJones/RAthena/issues&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;installation-methods&#34;&gt;Installation methods:&lt;/h2&gt;
+
+&lt;p&gt;Just in case you are not aware &lt;a href=&#34;https://cran.r-project.org/web/packages/RAthena/index.html&#34;&gt;&lt;code&gt;Rathena&lt;/code&gt;&lt;/a&gt; is available on the CRAN and GitHub.&lt;/p&gt;
+
+&lt;p&gt;CRAN:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;install.packages(&amp;quot;RAthena&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;GitHub development version:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;remotes::install_github(&amp;quot;dyfanjones/RAthena&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+      
+                  <category>R</category>
+      
+                  <category>Athena</category>
+      
+                  <category>Boto3</category>
+      
+                  <category>Python</category>
+      
+      
+            <category>RBloggers</category>
+      
+    </item>
     
     <item>
       <title>Athena and R ... there is another way!?</title>
@@ -87,9 +139,9 @@
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(DBI)
 con &amp;lt;- dbConnect(RAthena::athena(),
-                 aws_access_key_id = &amp;quot;&amp;lt;YOUR AWS KEY ID&amp;gt;&amp;quot;,
-                 aws_secret_access_key = &amp;quot;&amp;lt;YOUR SECRET ACCESS KEY&amp;gt;&amp;quot;,
-                 s3_staging_dir = &amp;quot;&amp;lt;LOCATION FOR ATHENA QUERY OUTPUT&amp;gt;&amp;quot;)
+                 aws_access_key_id = &amp;quot;YOUR AWS KEY ID&amp;quot;,
+                 aws_secret_access_key = &amp;quot;YOUR SECRET ACCESS KEY&amp;quot;,
+                 s3_staging_dir = &amp;quot;LOCATION FOR ATHENA QUERY OUTPUT&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; &lt;em&gt;&lt;code&gt;s3_staging_dir&lt;/code&gt; requires to be in the format of &lt;code&gt;s3 uri&lt;/code&gt; for example &amp;ldquo;s3://path/to/query/bucket/&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
@@ -110,7 +162,7 @@ con &amp;lt;- dbConnect(RAthena::athena(),
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(DBI)
 con &amp;lt;- dbConnect(RAthena::athena(),
-                 s3_staging_dir = &amp;quot;&amp;lt;LOCATION FOR ATHENA QUERY OUTPUT&amp;gt;&amp;quot;)
+                 s3_staging_dir = &amp;quot;LOCATION FOR ATHENA QUERY OUTPUT&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&#34;aws-profile-names&#34;&gt;AWS Profile Names:&lt;/h3&gt;
@@ -121,7 +173,7 @@ con &amp;lt;- dbConnect(RAthena::athena(),
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(DBI)
 con &amp;lt;- dbConnect(RAthena::athena(),
-                 s3_staging_dir = &amp;quot;&amp;lt;LOCATION FOR ATHENA QUERY OUTPUT&amp;gt;&amp;quot;)
+                 s3_staging_dir = &amp;quot;LOCATION FOR ATHENA QUERY OUTPUT&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;strong&gt;Using Non-Default Profile Name:&lt;/strong&gt;&lt;/p&gt;
@@ -129,7 +181,7 @@ con &amp;lt;- dbConnect(RAthena::athena(),
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(DBI)
 con &amp;lt;- dbConnect(RAthena::athena(),
                  profile_name = &amp;quot;rathena&amp;quot;,
-                 s3_staging_dir = &amp;quot;&amp;lt;LOCATION FOR ATHENA QUERY OUTPUT&amp;gt;&amp;quot;)
+                 s3_staging_dir = &amp;quot;LOCATION FOR ATHENA QUERY OUTPUT&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h3 id=&#34;arn-roles&#34;&gt;ARN Roles:&lt;/h3&gt;
@@ -270,7 +322,7 @@ library(dplyr)
 
 con &amp;lt;- dbConnect(RAthena::athena(),
                  profile_name = &amp;quot;rathena&amp;quot;,
-                 s3_staging_dir = &amp;quot;&amp;lt;LOCATION FOR ATHENA QUERY OUTPUT&amp;gt;&amp;quot;)
+                 s3_staging_dir = &amp;quot;LOCATION FOR ATHENA QUERY OUTPUT&amp;quot;)
 
 tbl(con, sql(&amp;quot;SELECT * FROM INFORMATION_SCHEMA.COLUMNS&amp;quot;))
 &lt;/code&gt;&lt;/pre&gt;
