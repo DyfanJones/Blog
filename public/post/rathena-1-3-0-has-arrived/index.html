@@ -4,20 +4,20 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Athena - Dyfan Jones Brain Dump HQ</title>
+	<title>RAthena 1.3.0 has arrived - Dyfan Jones Brain Dump HQ</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta property="og:title" content="Athena" />
-<meta property="og:description" content="Dyfan Jones Blog about stuff" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="/tags/athena/" />
-
-<meta property="og:updated_time" content="2019-10-26T00:00:00+00:00" />
+	<meta property="og:title" content="RAthena 1.3.0 has arrived" />
+<meta property="og:description" content="RBloggers|RBloggers-feedburner
+Recap: RAthena is a R package that interfaces into Amazon Athena. However, it doesn&rsquo;t use the standard ODBC and JDBC drivers like AWR.Athena and metis. Instead RAthena utilises Python&rsquo;s SDK (software development kit) into Amazon, Boto3. It does this by using the reticulate package that provides an interface into Python. What this means is that RAthena doesn&rsquo;t require any driver installation or setup. That can be particularly difficult when you are considering setting up the ODBC drivers and you are not familiar with how ODBC works on your current operating system." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/rathena-1-3-0-has-arrived/" />
+<meta property="article:published_time" content="2019-10-26T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-10-26T00:00:00+00:00" />
 
 	
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
 	<link rel="dns-prefetch" href="//fonts.gstatic.com">
-	<link rel="alternate" type="application/rss+xml" href="/tags/athena/index.xml" title="Dyfan Jones Brain Dump HQ">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
 	<link rel="stylesheet" href="/css/style.css">
 	
@@ -52,17 +52,11 @@
 		<div class="wrapper flex">
 			<div class="primary">
 			
-<main class="main list" role="main">
-	<header class="main__header">
-		<h1 class="main__title">Athena</h1>
-	</header><article class="list__item post">
-	<header class="list__header">
-		<h3 class="list__title post__title ">
-			<a href="/post/rathena-1-3-0-has-arrived/" rel="bookmark">
-			RAthena 1.3.0 has arrived
-			</a>
-		</h3>
-		<div class="list__meta meta">
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">RAthena 1.3.0 has arrived</h1>
+			<div class="post__meta meta">
 <div class="meta__item-datetime meta__item">
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
 	<time class="meta__text" datetime="2019-10-26T00:00:00">October 26, 2019</time>
@@ -74,42 +68,92 @@
 	<span class="meta__text"><a class="meta__link" href="/categories/rbloggers" rel="category">RBloggers</a></span>
 </div>
 </div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		RBloggers|RBloggers-feedburner
-Recap: RAthena is a R package that interfaces into Amazon Athena. However, it doesn&rsquo;t use the standard ODBC and JDBC drivers like AWR.Athena and metis. Instead RAthena utilises Python&rsquo;s SDK (software development kit) into Amazon, Boto3. It does this by using the reticulate package that provides an interface into Python. What this means is that RAthena doesn&rsquo;t require any driver installation or setup. That can be particularly difficult when you are considering setting up the ODBC drivers and you are not familiar with how ODBC works on your current operating system.
+		</header><div class="content post__content clearfix">
+			
+
+<p><a href="https://www.r-bloggers.com">RBloggers</a>|<a href="http://feeds.feedburner.com/RBloggers">RBloggers-feedburner</a></p>
+
+<h1 id="recap">Recap:</h1>
+
+<p><a href="https://github.com/DyfanJones/RAthena"><code>RAthena</code></a> is a R package that interfaces into Amazon Athena. However, it doesn&rsquo;t use the standard <code>ODBC</code> and <code>JDBC</code> drivers like <code>AWR.Athena</code> and <code>metis</code>. Instead <code>RAthena</code> utilises Python&rsquo;s SDK (software development kit) into Amazon, <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html"><code>Boto3</code></a>. It does this by using the <a href="https://rstudio.github.io/reticulate/"><code>reticulate</code></a> package that provides an interface into Python. What this means is that <code>RAthena</code> doesn&rsquo;t require any driver installation or setup. That can be particularly difficult when you are considering setting up the ODBC drivers and you are not familiar with how ODBC works on your current operating system. If you wish to use ODBC, RStudio has provided a good user guide <a href="https://db.rstudio.com/best-practices/drivers/">Setting up ODBC Drivers</a> to help set up ODBC drivers on your system. However if you do not wish to go down that route <code>RAthena</code> might be a good option for you.</p>
+
+<h1 id="new-features-in-rathena">New Features in <code>RAthena</code>:</h1>
+
+<p>Anyway, getting back to <code>RAthena</code> and what does the new update provide. One of the key changes in <code>RAthena</code> is the method of transferring data to and from AWS Athena. <code>RAthena</code> now utilising <a href="https://rdatatable.gitlab.io/data.table/"><code>data.table</code></a> for this process. The reason for this change is the raw speed <code>data.table</code>. When transferring data to and from AWS Athena the last thing you want is a bottle neck in R just preparing the data before it even transfers it to AWS Athena. This bottle neck can easily be 50 - 100x longer without the use of <code>data.table</code>.</p>
+
+<p>The next change is <code>bigint</code>, and how it is converted from AWS Athena to R. In the past <code>RAthena</code> would just convert <code>integer64</code> to <code>bigint</code> when writing to AWS Athena, however it would then convert <code>bigint</code> back into R as a normal <code>integer</code>. Which means it is constrained to 32-bit integers. This has now been fixed. When reading <code>bigint</code> from AWS Athena <code>RAthena</code> will now convert it into <code>integer64</code>.</p>
+
+<h1 id="sum-up">Sum Up:</h1>
+
+<p><code>RAthena</code> now provides a faster method in reading and writing data from AWS Athena (thanks <code>data.table</code>). With the correct handling of AWS Athena <code>bigint</code>. So please give <code>RAthena</code> a try and let me know what you think of the package. Suggestions/Bugs/Enhancements are always welcome and they will help the package to improve: <a href="https://github.com/DyfanJones/RAthena/issues">https://github.com/DyfanJones/RAthena/issues</a>.</p>
+
+<h2 id="installation-methods">Installation methods:</h2>
+
+<p>Just in case you are not aware <a href="https://cran.r-project.org/web/packages/RAthena/index.html"><code>Rathena</code></a> is available on the CRAN and GitHub.</p>
+
+<p>CRAN:</p>
+
+<pre><code>install.packages(&quot;RAthena&quot;)
+</code></pre>
+
+<p>GitHub development version:</p>
+
+<pre><code>remotes::install_github(&quot;dyfanjones/RAthena&quot;)
+</code></pre>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/r/" rel="tag">R</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/athena/" rel="tag">Athena</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/boto3/" rel="tag">Boto3</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/python/" rel="tag">Python</a></li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Dyfan Jones avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Dyfan Jones</span>
 	</div>
-</article><article class="list__item post">
-	<header class="list__header">
-		<h3 class="list__title post__title ">
-			<a href="/post/athena-and-r-there-is-another-way/" rel="bookmark">
-			Athena and R ... there is another way!?
-			</a>
-		</h3>
-		<div class="list__meta meta">
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
-	<time class="meta__text" datetime="2019-09-13T00:00:00">September 13, 2019</time>
+	<div class="authorbox__description">
+		Dyfan Jones a humble Data Scientist
+	</div>
 </div>
 
-<div class="meta__item-categories meta__item">
-  <span class="article-duration">7 min read &nbsp;</span>
-	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
-	<span class="meta__text"><a class="meta__link" href="/categories/rbloggers" rel="category">RBloggers</a></span>
-</div>
-</div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		RBloggers|RBloggers-feedburner
-Intro: Currently there are two key ways in connecting to Amazon Athena from R, using the ODBC and JDBC drivers. To access the ODBC driver R users can use the excellent odbc package supported by Rstudio. To access the JDBC driver R users can either use the RJDBC R package or the helpful wrapper package AWR.Athena which wraps the RJDBC package to make the connection to Amazon Athena through the JDBC driver simpler.
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/post/athena-and-r-there-is-another-way/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Athena and R ... there is another way!?</p></a>
 	</div>
-</article>
-</main>
+</nav>
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://dyfanjones.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
 
 
 			</div>
-			
-<aside class="sidebar"><div class="widget-search widget">
+			<aside class="sidebar"><div class="widget-search widget">
 	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
 		<label>
 			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q" aria-label="SEARCH...">

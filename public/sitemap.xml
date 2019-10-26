@@ -3,12 +3,57 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/home/about/</loc>
-    <lastmod>2019-09-13T00:00:00+00:00</lastmod>
+    <loc>/tags/athena/</loc>
+    <lastmod>2019-10-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/athena/</loc>
+    <loc>/tags/boto3/</loc>
+    <lastmod>2019-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2019-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2019-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2019-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/python/</loc>
+    <lastmod>2019-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2019-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/rathena-1-3-0-has-arrived/</loc>
+    <lastmod>2019-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/rbloggers/</loc>
+    <lastmod>2019-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2019-10-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/home/about/</loc>
     <lastmod>2019-09-13T00:00:00+00:00</lastmod>
   </url>
   
@@ -18,47 +63,7 @@
   </url>
   
   <url>
-    <loc>/tags/boto3/</loc>
-    <lastmod>2019-09-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/</loc>
-    <lastmod>2019-09-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/</loc>
-    <lastmod>2019-09-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/home/</loc>
-    <lastmod>2019-09-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/post/</loc>
-    <lastmod>2019-09-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/python/</loc>
-    <lastmod>2019-09-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2019-09-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/rbloggers/</loc>
-    <lastmod>2019-09-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
     <lastmod>2019-09-13T00:00:00+00:00</lastmod>
   </url>
   
