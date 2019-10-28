@@ -4,14 +4,15 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>RAthena 1.3.0 has arrived - Dyfan Jones Brain Dump HQ</title>
+	<title>An Amazon SDK for R!? - Dyfan Jones Brain Dump HQ</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-	<meta property="og:title" content="RAthena 1.3.0 has arrived" />
+	<meta property="og:title" content="An Amazon SDK for R!?" />
 <meta property="og:description" content="RBloggers|RBloggers-feedburner
-Recap: RAthena is a R package that interfaces into Amazon Athena. However, it doesn&rsquo;t use the standard ODBC and JDBC drivers like AWR.Athena and metis. Instead RAthena utilises Python&rsquo;s SDK (software development kit) into Amazon, Boto3. It does this by using the reticulate package that provides an interface into Python. What this means is that RAthena doesn&rsquo;t require any driver installation or setup. That can be particularly difficult when you are considering setting up the ODBC drivers and you are not familiar with how ODBC works on your current operating system." />
+Intro: For a long time I have found it difficult to leverage the benefits of cloud computer in my R model builds. This was mainly down to the initial lack of understanding of cloud compute and the setting up of R on cloud computer environment.
+I then noticed that AWS was bring out a new product AWS Sagemaker, and the possiblities of what it could provide seemed like a dream come true." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/post/rathena-1-3-0-has-arrived/" />
+<meta property="og:url" content="/post/an-amazon-sdk-for-r/" />
 <meta property="article:published_time" content="2019-10-26T00:00:00+00:00" />
 <meta property="article:modified_time" content="2019-10-26T00:00:00+00:00" />
 
@@ -55,7 +56,7 @@ Recap: RAthena is a R package that interfaces into Amazon Athena. However, it do
 <main class="main" role="main">
 	<article class="post">
 		<header class="post__header">
-			<h1 class="post__title">RAthena 1.3.0 has arrived</h1>
+			<h1 class="post__title">An Amazon SDK for R!?</h1>
 			<div class="post__meta meta">
 <div class="meta__item-datetime meta__item">
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
@@ -63,43 +64,126 @@ Recap: RAthena is a R package that interfaces into Amazon Athena. However, it do
 </div>
 
 <div class="meta__item-categories meta__item">
-  <span class="article-duration">2 min read &nbsp;</span>
+  <span class="article-duration">5 min read &nbsp;</span>
 	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
 	<span class="meta__text"><a class="meta__link" href="/categories/rbloggers" rel="category">RBloggers</a></span>
 </div>
 </div>
-		</header><div class="content post__content clearfix">
+		</header>
+		<figure class="post__thumbnail">
+			<img src="/post/2019-10-26-an-amazon-sdk-for-r_files/R_SDK.png" alt="An Amazon SDK for R!?">
+		</figure><div class="content post__content clearfix">
 			
 
 <p><a href="https://www.r-bloggers.com">RBloggers</a>|<a href="http://feeds.feedburner.com/RBloggers">RBloggers-feedburner</a></p>
 
-<h1 id="recap">Recap:</h1>
+<h1 id="intro">Intro:</h1>
 
-<p><a href="https://github.com/DyfanJones/RAthena"><code>RAthena</code></a> is a R package that interfaces into Amazon Athena. However, it doesn&rsquo;t use the standard <code>ODBC</code> and <code>JDBC</code> drivers like <code>AWR.Athena</code> and <code>metis</code>. Instead <code>RAthena</code> utilises Python&rsquo;s SDK (software development kit) into Amazon, <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html"><code>Boto3</code></a>. It does this by using the <a href="https://rstudio.github.io/reticulate/"><code>reticulate</code></a> package that provides an interface into Python. What this means is that <code>RAthena</code> doesn&rsquo;t require any driver installation or setup. That can be particularly difficult when you are considering setting up the ODBC drivers and you are not familiar with how ODBC works on your current operating system. If you wish to use ODBC, RStudio has provided a good user guide <a href="https://db.rstudio.com/best-practices/drivers/">Setting up ODBC Drivers</a> to help set up ODBC drivers on your system. However if you do not wish to go down that route <code>RAthena</code> might be a good option for you.</p>
+<p>For a long time I have found it difficult to leverage the benefits of cloud computer in my R model builds. This was mainly down to the initial lack of understanding of cloud compute and the setting up of R on cloud computer environment.</p>
 
-<h1 id="new-features-in-rathena">New Features in <code>RAthena</code>:</h1>
+<p>I then noticed that AWS was bring out a new product <a href="https://aws.amazon.com/sagemaker/">AWS Sagemaker</a>, and the possiblities of what it could provide seemed like a dream come true.</p>
 
-<p>Anyway, getting back to <code>RAthena</code> and what does the new update provide. One of the key changes in <code>RAthena</code> is the method of transferring data to and from AWS Athena. <code>RAthena</code> now utilising <a href="https://rdatatable.gitlab.io/data.table/"><code>data.table</code></a> for this process. The reason for this change is the raw speed <code>data.table</code>. When transferring data to and from AWS Athena the last thing you want is a bottle neck in R just preparing the data before it even transfers it to AWS Athena. This bottle neck can easily be 50 - 100x longer without the use of <code>data.table</code>.</p>
+<blockquote>
+<p>Amazon SageMaker provides every developer and data scientist with the ability to build, train, and deploy machine learning models quickly. Amazon SageMaker is a fully-managed service that covers the entire machine learning workflow to label and prepare your data, choose an algorithm, train the model, tune and optimize it for deployment, make predictions, and take action. Your models get to production faster with much less effort and lower cost.</p>
+</blockquote>
 
-<p>The next change is <code>bigint</code>, and how it is converted from AWS Athena to R. In the past <code>RAthena</code> would just convert <code>integer64</code> to <code>bigint</code> when writing to AWS Athena, however it would then convert <code>bigint</code> back into R as a normal <code>integer</code>. Which means it is constrained to 32-bit integers. This has now been fixed. When reading <code>bigint</code> from AWS Athena <code>RAthena</code> will now convert it into <code>integer64</code>.</p>
+<p>But the question still remained:</p>
 
-<h1 id="sum-up">Sum Up:</h1>
+<ul>
+<li>How can I utilise R in the cloud?</li>
+</ul>
 
-<p><code>RAthena</code> now provides a faster method in reading and writing data from AWS Athena (thanks <code>data.table</code>). With the correct handling of AWS Athena <code>bigint</code>. So please give <code>RAthena</code> a try and let me know what you think of the package. Suggestions/Bugs/Enhancements are always welcome and they will help the package to improve: <a href="https://github.com/DyfanJones/RAthena/issues">https://github.com/DyfanJones/RAthena/issues</a>.</p>
+<p>This question seems daft as AWS sagemaker surely answered this. Well not exactly. True it provides a simple way set up an R environment in the cloud but it didn&rsquo;t give a means to access other AWS products for example <a href="https://aws.amazon.com/s3/">AWS S3</a> and <a href="https://aws.amazon.com/athena/">AWS Athena</a>. For Python one the other hand it is very simple. Amazon has provide a SDK for Python called <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html"><code>boto3</code></a>, which comes pre-installed onto AWS Sagemaker.</p>
 
-<h2 id="installation-methods">Installation methods:</h2>
+<p>Lucky for R users RStudio developed the package <a href="https://rstudio.github.io/reticulate/"><code>reticulate</code></a> that let R interfaced into Python. In combination with <code>boto3</code> R could get access to all of AWS products from Sagemaker. However where there other method for R?</p>
 
-<p>Just in case you are not aware <a href="https://cran.r-project.org/web/packages/RAthena/index.html"><code>Rathena</code></a> is available on the CRAN and GitHub.</p>
+<h1 id="aws-interfaces-for-r">AWS interfaces for R:</h1>
 
-<p>CRAN:</p>
+<h2 id="paws-https-paws-r-github-io-an-r-sdk"><a href="https://paws-r.github.io/"><code>paws</code></a> an R SDK:</h2>
 
-<pre><code>install.packages(&quot;RAthena&quot;)
+<blockquote>
+<p>Paws is a Package for Amazon Web Services in R. Paws provides access to the full suite of AWS services from within R.(<a href="https://github.com/paws-r/paws">https://github.com/paws-r/paws</a>)</p>
+</blockquote>
+
+<p>When I wanted to programatically connect to AWS I would resort to Python. AWS&rsquo;s boto3 is an excellent means to connect to AWS and leverage it&rsquo;s functionality. However now R has it&rsquo;s own SDK, into AWS. This came as a little surprise to me as I started to accept that R might never have an SDK for AWS how wrong I was.</p>
+
+<p>What particularly shocked me was how well developed and easy the package was. It felt natural to switch between Python&rsquo;s <code>boto3</code> and R&rsquo;s <code>paws</code>. Almost like it was a long lost brother.</p>
+
+<p>Here is a quick example to show the comparison between <code>boto3</code> and <code>paws</code>. Returning a list of all objects in S3 inside a prefix:</p>
+
+<p><strong>Python</strong></p>
+
+<pre><code>import boto3
+
+s3 = boto3.Session().client(&quot;s3&quot;)
+obj = s3.list_objects(Bucket = 'mybucket', Prefix = &quot;prefix_1/&quot;)
+[x.get(&quot;Key&quot;) for x in obj.get(&quot;Contents&quot;)]
+
 </code></pre>
 
-<p>GitHub development version:</p>
+<p><strong>R</strong></p>
 
-<pre><code>remotes::install_github(&quot;dyfanjones/RAthena&quot;)
+<pre><code>s3 &lt;- paws::s3()
+
+obj &lt;- s3$list_objects(Bucket = 'mybucket', Prefix = &quot;prefix_1/&quot;)
+lapply(obj$Contents, function(x) x$Key)
 </code></pre>
+
+<p>From this quick example it is clear that the <code>paws</code> SDK&rsquo;s syntax is extremely similar to <code>boto3</code>, although with an R twist. But this is only a good thing, as hundreds of people know the <code>boto3</code> already and therefore they will be familiar with <code>paws</code> by association. I can&rsquo;t express the potential for R users now they have a SDK into AWS. Don&rsquo;t take my word for it though please download <code>paws</code> and give it ago, I am sure you will be pleasantly surprised like myself.</p>
+
+<pre><code>install.packages(&quot;paws&quot;)
+</code></pre>
+
+<p><strong>Note:</strong> For more examples, the developers of <code>paws</code> have created some example code <a href="https://github.com/paws-r/paws/tree/master/examples">https://github.com/paws-r/paws/tree/master/examples</a> and a  documentation website <a href="https://paws-r.github.io/">https://paws-r.github.io/</a>.</p>
+
+<h2 id="botor-https-daroczig-github-io-botor"><a href="https://daroczig.github.io/botor/"><code>botor</code></a> :</h2>
+
+<blockquote>
+<p>This R package provides raw access to the ‘Amazon Web Services’ (‘AWS’) ‘SDK’ via the ‘boto3’ Python module and some convenient helper functions (currently for S3 and KMS) and workarounds, eg taking care of spawning new resources in forked R processes. (<a href="https://daroczig.github.io/botor/">https://daroczig.github.io/botor/</a>)</p>
+</blockquote>
+
+<p>When using <code>botor</code> on AWS Sagemaker, R users can easily interact with all of AWS products in the exact same manner as a Python user. However <code>botor</code>&rsquo;s convenient helper functions certainly do make the exeperience working on sagemaker. Here is a quick example to demostrate how easy/ useful these helper function are:</p>
+
+<p><em>Upload iris data.frame to s3 bucket</em></p>
+
+<pre><code>library(botor)
+
+write_s3(iris, data.table::fwrite, &quot;s3://mybucket/iris.csv&quot;)
+</code></pre>
+
+<p><em>Read s3 file back into R as a data.frame</em></p>
+
+<pre><code>read_s3(&quot;s3:://mybucket/iris.csv&quot;, data.table::fread)
+
+</code></pre>
+
+<p>These convenient helper functions are not limited to just reading/writing data in csv format. They can also be used to upload R models, which can be really useful when wanted to store pre-built models. Here is a quick example of what I like to call a <em>crap</em> model.</p>
+
+<pre><code>train &lt;- iris[1:20,1:4]
+test &lt;- iris[21:40,1:4]
+ 
+model &lt;- lm(Petal.Width ~., train)
+
+</code></pre>
+
+<p><em>Uploading and downloading R models to S3</em></p>
+
+<pre><code>s3_write(model, saveRDS, &quot;s3://dstk-data-pii-prod/data-science/Central/crap_model.RDS&quot;)
+s3_model &lt;- s3_read(&quot;s3://dstk-data-pii-prod/data-science/Central/crap_model.RDS&quot;, readRDS)
+</code></pre>
+
+<p>It is really clear to see how useful <code>botor</code> is when working in AWS.</p>
+
+<h2 id="cloudyr-project">Cloudyr Project:</h2>
+
+<p>I personally havent used the AWS cloudyr packages, however I don&rsquo;t want to leave them out. The <a href="https://cloudyr.github.io/">cloudyr project</a> aim is to bring R onto the cloud compute:
+&gt; The goal of this initiative is to make cloud computing with R easier, starting with robust tools for working with cloud computing platforms.</p>
+
+<p>Please go to the cloudyr github <a href="https://github.com/cloudyr">https://github.com/cloudyr</a> as alot of work has gone into making R easier to work with cloud computing. They have alot of documentation plus they are actively developing R packages to make user experience better.</p>
+
+<h1 id="summary">Summary:</h1>
+
+<p>I believe that all of these packages are critical if you wish to work in AWS when using R. <code>paws</code> certainly give a R feel utilising AWS products. <code>botor</code> helper functions make the experience very easily and helpful. Personally I would love Amazon to include these package in Sagemaker. Without them Sagemaker becomes near impossible to work with,  R users.</p>
 
 		</div>
 		<footer class="post__footer">
@@ -108,7 +192,7 @@ Recap: RAthena is a R package that interfaces into Amazon Athena. However, it do
 	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
 	<ul class="tags__list">
 		<li class="tags__item"><a class="tags__link btn" href="/tags/r/" rel="tag">R</a></li>
-		<li class="tags__item"><a class="tags__link btn" href="/tags/athena/" rel="tag">Athena</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/paws/" rel="tag">paws</a></li>
 		<li class="tags__item"><a class="tags__link btn" href="/tags/boto3/" rel="tag">Boto3</a></li>
 		<li class="tags__item"><a class="tags__link btn" href="/tags/python/" rel="tag">Python</a></li>
 	</ul>
@@ -131,10 +215,7 @@ Recap: RAthena is a R package that interfaces into Amazon Athena. However, it do
 
 <nav class="post-nav flex">
 	<div class="post-nav__item post-nav__item--prev">
-		<a class="post-nav__link" href="/post/athena-and-r-there-is-another-way/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">Athena and R ... there is another way!?</p></a>
-	</div>
-	<div class="post-nav__item post-nav__item--next">
-		<a class="post-nav__link" href="/post/an-amazon-sdk-for-r/" rel="next"><span class="post-nav__caption">Next&thinsp;»</span><p class="post-nav__post-title">An Amazon SDK for R!?</p></a>
+		<a class="post-nav__link" href="/post/rathena-1-3-0-has-arrived/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">RAthena 1.3.0 has arrived</p></a>
 	</div>
 </nav>
 
