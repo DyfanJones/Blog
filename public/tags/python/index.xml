@@ -27,18 +27,12 @@
 &lt;p&gt;I then noticed that AWS was bring out a new product &lt;a href=&#34;https://aws.amazon.com/sagemaker/&#34;&gt;AWS Sagemaker&lt;/a&gt;, and the possiblities of what it could provide seemed like a dream come true.&lt;/p&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;Amazon SageMaker provides every developer and data scientist with the ability to build, train, and deploy machine learning models quickly. Amazon SageMaker is a fully-managed service that covers the entire machine learning workflow to label and prepare your data, choose an algorithm, train the model, tune and optimize it for deployment, make predictions, and take action. Your models get to production faster with much less effort and lower cost.&lt;/p&gt;
+&lt;p&gt;Amazon SageMaker provides every developer and data scientist with the ability to build, train, and deploy machine learning models quickly. Amazon SageMaker is a fully-managed service that covers the entire machine learning workflow to label and prepare your data, choose an algorithm, train the model, tune and optimize it for deployment, make predictions, and take action. Your models get to production faster with much less effort and lower cost. (&lt;a href=&#34;https://aws.amazon.com/sagemaker/&#34;&gt;https://aws.amazon.com/sagemaker/&lt;/a&gt;)&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;But the question still remained:&lt;/p&gt;
+&lt;p&gt;Does it work for R developers??? Well not exactly. True it provides a simple way set up an R environment in the cloud but it didn&amp;rsquo;t give a means to access other AWS products for example &lt;a href=&#34;https://aws.amazon.com/s3/&#34;&gt;AWS S3&lt;/a&gt; and &lt;a href=&#34;https://aws.amazon.com/athena/&#34;&gt;AWS Athena&lt;/a&gt;. For Python on the other hand it is very simple. Amazon has provided a SDK for Python called &lt;a href=&#34;https://boto3.amazonaws.com/v1/documentation/api/latest/index.html&#34;&gt;&lt;code&gt;boto3&lt;/code&gt;&lt;/a&gt;, which comes pre-installed on AWS Sagemaker.&lt;/p&gt;
 
-&lt;ul&gt;
-&lt;li&gt;How can I utilise R in the cloud?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;This question seems daft as AWS sagemaker surely answered this. Well not exactly. True it provides a simple way set up an R environment in the cloud but it didn&amp;rsquo;t give a means to access other AWS products for example &lt;a href=&#34;https://aws.amazon.com/s3/&#34;&gt;AWS S3&lt;/a&gt; and &lt;a href=&#34;https://aws.amazon.com/athena/&#34;&gt;AWS Athena&lt;/a&gt;. For Python one the other hand it is very simple. Amazon has provide a SDK for Python called &lt;a href=&#34;https://boto3.amazonaws.com/v1/documentation/api/latest/index.html&#34;&gt;&lt;code&gt;boto3&lt;/code&gt;&lt;/a&gt;, which comes pre-installed onto AWS Sagemaker.&lt;/p&gt;
-
-&lt;p&gt;Lucky for R users RStudio developed the package &lt;a href=&#34;https://rstudio.github.io/reticulate/&#34;&gt;&lt;code&gt;reticulate&lt;/code&gt;&lt;/a&gt; that let R interfaced into Python. In combination with &lt;code&gt;boto3&lt;/code&gt; R could get access to all of AWS products from Sagemaker. However where there other method for R?&lt;/p&gt;
+&lt;p&gt;Lucky for R users RStudio developed a package called &lt;a href=&#34;https://rstudio.github.io/reticulate/&#34;&gt;&lt;code&gt;reticulate&lt;/code&gt;&lt;/a&gt; that let R interfaced into Python. In combination with &lt;code&gt;boto3&lt;/code&gt; R finally could get access to all of AWS products from Sagemaker. However where there other method for R?&lt;/p&gt;
 
 &lt;h1 id=&#34;aws-interfaces-for-r&#34;&gt;AWS interfaces for R:&lt;/h1&gt;
 
@@ -80,8 +74,10 @@ lapply(obj$Contents, function(x) x$Key)
 athena &amp;lt;- paws::athena()
 
 # Submit query to AWS Athena
-res &amp;lt;- athena$start_query_execution(QueryString = &amp;quot;show Databases&amp;quot;,
-                                    ResultConfiguration = list(OutputLocation = &amp;quot;s3://mybucket/queries/&amp;quot;))
+res &amp;lt;- athena$start_query_execution(
+            QueryString = &amp;quot;show Databases&amp;quot;,
+            ResultConfiguration = 
+                list(OutputLocation = &amp;quot;s3://mybucket/queries/&amp;quot;))
 
 # Get Status of query
 result &amp;lt;- get_query_execution(QueryExecutionId = res$QueryExecutionId)
@@ -89,7 +85,10 @@ result &amp;lt;- get_query_execution(QueryExecutionId = res$QueryExecutionId)
 # Return results if query is successful
 if(result$QueryExecution$Status$State == &amp;quot;FAILED&amp;quot;) {
   stop(result$QueryExecution$Status$StateChangeReason, call. = FALSE)
-} else {output &amp;lt;- athena$get_query_results(QueryExecutionId = res$QueryExecutionId, MaxResults = 1)}
+} else {output &amp;lt;- 
+          athena$get_query_results(
+              QueryExecutionId = res$QueryExecutionId,
+              MaxResults = 1)}
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;From initial view it might look daunting however this is exactly the same interface that &lt;code&gt;boto3&lt;/code&gt; provides when working with AWS Athena. The good news is that &lt;code&gt;noctua&lt;/code&gt; wraps all of this and creates the DBI method &lt;code&gt;dbGetQuery&lt;/code&gt; for &lt;code&gt;paws&lt;/code&gt;.&lt;/p&gt;
@@ -133,16 +132,19 @@ model &amp;lt;- lm(Petal.Width ~., train)
 
 &lt;p&gt;&lt;em&gt;Uploading and downloading R models to S3&lt;/em&gt;&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;s3_write(model, saveRDS, &amp;quot;s3://dstk-data-pii-prod/data-science/Central/crap_model.RDS&amp;quot;)
-s3_model &amp;lt;- s3_read(&amp;quot;s3://dstk-data-pii-prod/data-science/Central/crap_model.RDS&amp;quot;, readRDS)
+&lt;pre&gt;&lt;code&gt;s3_write(model, saveRDS, &amp;quot;s3://mybucket/crap_model.RDS&amp;quot;)
+s3_model &amp;lt;- s3_read(&amp;quot;s3://mybucket/crap_model.RDS&amp;quot;, readRDS)
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;It is really clear to see how useful &lt;code&gt;botor&lt;/code&gt; is when working in AWS.&lt;/p&gt;
 
 &lt;h2 id=&#34;cloudyr-project&#34;&gt;Cloudyr Project:&lt;/h2&gt;
 
-&lt;p&gt;I personally havent used the AWS cloudyr packages, however I don&amp;rsquo;t want to leave them out. The &lt;a href=&#34;https://cloudyr.github.io/&#34;&gt;cloudyr project&lt;/a&gt; aim is to bring R onto the cloud compute:
-&amp;gt; The goal of this initiative is to make cloud computing with R easier, starting with robust tools for working with cloud computing platforms.&lt;/p&gt;
+&lt;p&gt;I personally havent used the AWS cloudyr packages, however I don&amp;rsquo;t want to leave them out. The &lt;a href=&#34;https://cloudyr.github.io/&#34;&gt;cloudyr project&lt;/a&gt; aim is to bring R onto the cloud compute:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The goal of this initiative is to make cloud computing with R easier, starting with robust tools for working with cloud computing platforms.(&lt;a href=&#34;https://cloudyr.github.io/&#34;&gt;https://cloudyr.github.io/&lt;/a&gt;)&lt;/p&gt;
+&lt;/blockquote&gt;
 
 &lt;p&gt;Please go to the cloudyr github &lt;a href=&#34;https://github.com/cloudyr&#34;&gt;https://github.com/cloudyr&lt;/a&gt; as alot of work has gone into making R easier to work with cloud computing. They have alot of documentation plus they are actively developing R packages to make user experience better.&lt;/p&gt;
 

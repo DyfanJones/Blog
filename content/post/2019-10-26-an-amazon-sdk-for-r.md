@@ -17,15 +17,11 @@ For a long time I have found it difficult to leverage the benefits of cloud comp
 
 I then noticed that AWS was bring out a new product [AWS Sagemaker](https://aws.amazon.com/sagemaker/), and the possiblities of what it could provide seemed like a dream come true. 
 
-> Amazon SageMaker provides every developer and data scientist with the ability to build, train, and deploy machine learning models quickly. Amazon SageMaker is a fully-managed service that covers the entire machine learning workflow to label and prepare your data, choose an algorithm, train the model, tune and optimize it for deployment, make predictions, and take action. Your models get to production faster with much less effort and lower cost.
+> Amazon SageMaker provides every developer and data scientist with the ability to build, train, and deploy machine learning models quickly. Amazon SageMaker is a fully-managed service that covers the entire machine learning workflow to label and prepare your data, choose an algorithm, train the model, tune and optimize it for deployment, make predictions, and take action. Your models get to production faster with much less effort and lower cost. (https://aws.amazon.com/sagemaker/)
 
-But the question still remained:
+Does it work for R developers??? Well not exactly. True it provides a simple way set up an R environment in the cloud but it didn't give a means to access other AWS products for example [AWS S3](https://aws.amazon.com/s3/) and [AWS Athena](https://aws.amazon.com/athena/). For Python on the other hand it is very simple. Amazon has provided a SDK for Python called [`boto3`](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html), which comes pre-installed on AWS Sagemaker. 
 
-* How can I utilise R in the cloud?
-
-This question seems daft as AWS sagemaker surely answered this. Well not exactly. True it provides a simple way set up an R environment in the cloud but it didn't give a means to access other AWS products for example [AWS S3](https://aws.amazon.com/s3/) and [AWS Athena](https://aws.amazon.com/athena/). For Python one the other hand it is very simple. Amazon has provide a SDK for Python called [`boto3`](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html), which comes pre-installed onto AWS Sagemaker. 
-
-Lucky for R users RStudio developed the package [`reticulate`](https://rstudio.github.io/reticulate/) that let R interfaced into Python. In combination with `boto3` R could get access to all of AWS products from Sagemaker. However where there other method for R? 
+Lucky for R users RStudio developed a package called [`reticulate`](https://rstudio.github.io/reticulate/) that let R interfaced into Python. In combination with `boto3` R finally could get access to all of AWS products from Sagemaker. However where there other method for R? 
 
 # AWS interfaces for R:
 
@@ -66,8 +62,10 @@ Submit a query to Athena using `paws`
 athena <- paws::athena()
 
 # Submit query to AWS Athena
-res <- athena$start_query_execution(QueryString = "show Databases",
-                                    ResultConfiguration = list(OutputLocation = "s3://mybucket/queries/"))
+res <- athena$start_query_execution(
+            QueryString = "show Databases",
+            ResultConfiguration = 
+                list(OutputLocation = "s3://mybucket/queries/"))
 
 # Get Status of query
 result <- get_query_execution(QueryExecutionId = res$QueryExecutionId)
@@ -75,7 +73,10 @@ result <- get_query_execution(QueryExecutionId = res$QueryExecutionId)
 # Return results if query is successful
 if(result$QueryExecution$Status$State == "FAILED") {
   stop(result$QueryExecution$Status$StateChangeReason, call. = FALSE)
-} else {output <- athena$get_query_results(QueryExecutionId = res$QueryExecutionId, MaxResults = 1)}
+} else {output <- 
+          athena$get_query_results(
+              QueryExecutionId = res$QueryExecutionId,
+              MaxResults = 1)}
 ```
 
 From initial view it might look daunting however this is exactly the same interface that `boto3` provides when working with AWS Athena. The good news is that `noctua` wraps all of this and creates the DBI method `dbGetQuery` for `paws`.
@@ -122,8 +123,8 @@ model <- lm(Petal.Width ~., train)
 *Uploading and downloading R models to S3*
 
 ```
-s3_write(model, saveRDS, "s3://dstk-data-pii-prod/data-science/Central/crap_model.RDS")
-s3_model <- s3_read("s3://dstk-data-pii-prod/data-science/Central/crap_model.RDS", readRDS)
+s3_write(model, saveRDS, "s3://mybucket/crap_model.RDS")
+s3_model <- s3_read("s3://mybucket/crap_model.RDS", readRDS)
 ```
 
 It is really clear to see how useful `botor` is when working in AWS.
@@ -131,7 +132,8 @@ It is really clear to see how useful `botor` is when working in AWS.
 ## Cloudyr Project:
 
 I personally havent used the AWS cloudyr packages, however I don't want to leave them out. The [cloudyr project](https://cloudyr.github.io/) aim is to bring R onto the cloud compute:
-> The goal of this initiative is to make cloud computing with R easier, starting with robust tools for working with cloud computing platforms.
+
+> The goal of this initiative is to make cloud computing with R easier, starting with robust tools for working with cloud computing platforms.(https://cloudyr.github.io/)
 
 Please go to the cloudyr github https://github.com/cloudyr as alot of work has gone into making R easier to work with cloud computing. They have alot of documentation plus they are actively developing R packages to make user experience better.
 
