@@ -58,7 +58,29 @@ obj <- s3$list_objects(Bucket = 'mybucket', Prefix = "prefix_1/")
 lapply(obj$Contents, function(x) x$Key)
 ```
 
-From this quick example it is clear that the `paws` SDK's syntax is extremely similar to `boto3`, although with an R twist. But this is only a good thing, as hundreds of people know the `boto3 ` already and therefore they will be familiar with `paws` by association. I can't express the potential for R users now they have a SDK into AWS. Don't take my word for it though please download `paws` and give it ago, I am sure you will be pleasantly surprised like myself.
+From this quick example it is clear that the `paws` SDK's syntax is extremely similar to `boto3`, although with an R twist. But this is only a good thing, as hundreds of people know the `boto3 ` already and therefore they will be familiar with `paws` by association. I can't express the potential for R users now they have a SDK into AWS. A good project that utilises the `paws` sdk is the package [`noctua`](https://cran.r-project.org/web/packages/noctua/index.html). `noctua` creates a wrapper of the `paws` connection to AWS Athena and developes a `DBI` interface for R users. We will go into the package `noctua` in the next blog. First here is the example how to work with AWS Athena when using `paws`.
+
+Submit a query to Athena using `paws`
+```
+# create an AWS Athena object
+athena <- paws::athena()
+
+# Submit query to AWS Athena
+res <- athena$start_query_execution(QueryString = "show Databases",
+                                    ResultConfiguration = list(OutputLocation = "s3://mybucket/queries/"))
+
+# Get Status of query
+result <- get_query_execution(QueryExecutionId = res$QueryExecutionId)
+
+# Return results if query is successful
+if(result$QueryExecution$Status$State == "FAILED") {
+  stop(result$QueryExecution$Status$StateChangeReason, call. = FALSE)
+} else {output <- athena$get_query_results(QueryExecutionId = res$QueryExecutionId, MaxResults = 1)}
+```
+
+From initial view it might look daunting however this is exactly the same interface that `boto3` provides when working with AWS Athena. The good news is that `noctua` wraps all of this and creates the DBI method `dbGetQuery` for `paws`.
+
+`paws` is an excellent R SDK into AWS, so please download `paws` and give it ago, I am sure you will be pleasantly surprised like myself.
 
 ```
 install.packages("paws")

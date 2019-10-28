@@ -72,7 +72,29 @@ obj &amp;lt;- s3$list_objects(Bucket = &#39;mybucket&#39;, Prefix = &amp;quot;pr
 lapply(obj$Contents, function(x) x$Key)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;From this quick example it is clear that the &lt;code&gt;paws&lt;/code&gt; SDK&amp;rsquo;s syntax is extremely similar to &lt;code&gt;boto3&lt;/code&gt;, although with an R twist. But this is only a good thing, as hundreds of people know the &lt;code&gt;boto3&lt;/code&gt; already and therefore they will be familiar with &lt;code&gt;paws&lt;/code&gt; by association. I can&amp;rsquo;t express the potential for R users now they have a SDK into AWS. Don&amp;rsquo;t take my word for it though please download &lt;code&gt;paws&lt;/code&gt; and give it ago, I am sure you will be pleasantly surprised like myself.&lt;/p&gt;
+&lt;p&gt;From this quick example it is clear that the &lt;code&gt;paws&lt;/code&gt; SDK&amp;rsquo;s syntax is extremely similar to &lt;code&gt;boto3&lt;/code&gt;, although with an R twist. But this is only a good thing, as hundreds of people know the &lt;code&gt;boto3&lt;/code&gt; already and therefore they will be familiar with &lt;code&gt;paws&lt;/code&gt; by association. I can&amp;rsquo;t express the potential for R users now they have a SDK into AWS. A good project that utilises the &lt;code&gt;paws&lt;/code&gt; sdk is the package &lt;a href=&#34;https://cran.r-project.org/web/packages/noctua/index.html&#34;&gt;&lt;code&gt;noctua&lt;/code&gt;&lt;/a&gt;. &lt;code&gt;noctua&lt;/code&gt; creates a wrapper of the &lt;code&gt;paws&lt;/code&gt; connection to AWS Athena and developes a &lt;code&gt;DBI&lt;/code&gt; interface for R users. We will go into the package &lt;code&gt;noctua&lt;/code&gt; in the next blog. First here is the example how to work with AWS Athena when using &lt;code&gt;paws&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Submit a query to Athena using &lt;code&gt;paws&lt;/code&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# create an AWS Athena object
+athena &amp;lt;- paws::athena()
+
+# Submit query to AWS Athena
+res &amp;lt;- athena$start_query_execution(QueryString = &amp;quot;show Databases&amp;quot;,
+                                    ResultConfiguration = list(OutputLocation = &amp;quot;s3://mybucket/queries/&amp;quot;))
+
+# Get Status of query
+result &amp;lt;- get_query_execution(QueryExecutionId = res$QueryExecutionId)
+
+# Return results if query is successful
+if(result$QueryExecution$Status$State == &amp;quot;FAILED&amp;quot;) {
+  stop(result$QueryExecution$Status$StateChangeReason, call. = FALSE)
+} else {output &amp;lt;- athena$get_query_results(QueryExecutionId = res$QueryExecutionId, MaxResults = 1)}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;From initial view it might look daunting however this is exactly the same interface that &lt;code&gt;boto3&lt;/code&gt; provides when working with AWS Athena. The good news is that &lt;code&gt;noctua&lt;/code&gt; wraps all of this and creates the DBI method &lt;code&gt;dbGetQuery&lt;/code&gt; for &lt;code&gt;paws&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;paws&lt;/code&gt; is an excellent R SDK into AWS, so please download &lt;code&gt;paws&lt;/code&gt; and give it ago, I am sure you will be pleasantly surprised like myself.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code&gt;install.packages(&amp;quot;paws&amp;quot;)
 &lt;/code&gt;&lt;/pre&gt;
