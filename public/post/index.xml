@@ -148,7 +148,7 @@ s3_model &amp;lt;- s3_read(&amp;quot;s3://mybucket/crap_model.RDS&amp;quot;, rea
 
 &lt;h1 id=&#34;summary&#34;&gt;Summary:&lt;/h1&gt;
 
-&lt;p&gt;I believe that all of these packages are critical if you wish to work with AWS when using R. As R has a SDK for AWS it would be great if AWS adds it to the base image for AWS Sagemaer, as it will make R developers &lt;code&gt;paws&lt;/code&gt; certainly give a R feel utilising AWS products. &lt;code&gt;botor&lt;/code&gt; helper functions make the experience very easily and helpful. Personally I would love Amazon to include these package in Sagemaker. Without them Sagemaker becomes near impossible to work with,  R users.&lt;/p&gt;
+&lt;p&gt;I believe that all of these packages are critical if you wish to work with AWS when using R. As R has a SDK &lt;code&gt;paws&lt;/code&gt; for AWS it would be great if AWS adds it to the base image for AWS Sagemaer, as it will allow R developers to utilise AWS products in their AWS sagemaker environments. Alternatively the &lt;code&gt;botor&lt;/code&gt; package would be another package for AWS to concider putting in their AWS Sagemaker image.&lt;/p&gt;
 </description>
       
                   <category>R</category>

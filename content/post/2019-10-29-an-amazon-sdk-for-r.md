@@ -137,4 +137,4 @@ As I haven't utilised the wide range of packages that the `cloudyr project` prov
 
 # Summary:
 
-I believe that all of these packages are critical if you wish to work with AWS when using R. As R has a SDK for AWS it would be great if AWS adds it to the base image for AWS Sagemaer, as it will make R developers `paws` certainly give a R feel utilising AWS products. `botor` helper functions make the experience very easily and helpful. Personally I would love Amazon to include these package in Sagemaker. Without them Sagemaker becomes near impossible to work with,  R users.
+I believe that all of these packages are critical if you wish to work with AWS when using R. As R has a SDK `paws` for AWS it would be great if AWS adds it to the base image for AWS Sagemaer, as it will allow R developers to utilise AWS products in their AWS sagemaker environments. Alternatively the `botor` package would be another package for AWS to concider putting in their AWS Sagemaker image.
