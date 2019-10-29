@@ -27,9 +27,9 @@ It isn't all bad news, RStudio has developed a package called [`reticulate`](htt
 
 > Paws is a Package for Amazon Web Services in R. Paws provides access to the full suite of AWS services from within R.(https://github.com/paws-r/paws)
 
-When I want to programatically connect to AWS I would resort to Python. AWS's `boto3` is an excellent means to connect to AWS and leverage it's functionality. However R now has it's own SDK, into AWS. This came as a little surprise to me as I started to accept that R might never have an SDK for AWS how wrong I was. 
+When I want to programatically connect to AWS I usually turn to Python. AWS's `boto3` is an excellent means of connecting to AWS and leverage it's functionality. However R now has it's own SDK into AWS. This came as a little surprise to me as I started to accept that R might never have an SDK for AWS. How wrong I was. 
 
-What particularly shocked me was how well developed and easy the package was. It felt natural to switch between Python's `boto3` and R's `paws`. Almost like it was a long lost brother. 
+What particularly shocked me was how well developed and easy the package was to use. It felt natural to switch between `boto3` and `paws`. Almost like it was a long lost brother. 
 
 *Here is a quick example to show the comparison between `boto3` and `paws`. Returning a list of all objects in S3 inside a prefix:*
 
@@ -66,7 +66,7 @@ res <- athena$start_query_execution(
                 list(OutputLocation = "s3://mybucket/queries/"))
 
 # Get Status of query
-result <- get_query_execution(QueryExecutionId = res$QueryExecutionId)
+result <- athena$get_query_execution(QueryExecutionId = res$QueryExecutionId)
 
 # Return results if query is successful
 if(result$QueryExecution$Status$State == "FAILED") {

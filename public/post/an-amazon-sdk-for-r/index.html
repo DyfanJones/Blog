@@ -96,9 +96,9 @@ Intro: For a long time I have found it difficult to leverage the benefits of clo
 <p>Paws is a Package for Amazon Web Services in R. Paws provides access to the full suite of AWS services from within R.(<a href="https://github.com/paws-r/paws">https://github.com/paws-r/paws</a>)</p>
 </blockquote>
 
-<p>When I want to programatically connect to AWS I would resort to Python. AWS&rsquo;s <code>boto3</code> is an excellent means to connect to AWS and leverage it&rsquo;s functionality. However R now has it&rsquo;s own SDK, into AWS. This came as a little surprise to me as I started to accept that R might never have an SDK for AWS how wrong I was.</p>
+<p>When I want to programatically connect to AWS I usually turn to Python. AWS&rsquo;s <code>boto3</code> is an excellent means of connecting to AWS and leverage it&rsquo;s functionality. However R now has it&rsquo;s own SDK into AWS. This came as a little surprise to me as I started to accept that R might never have an SDK for AWS. How wrong I was.</p>
 
-<p>What particularly shocked me was how well developed and easy the package was. It felt natural to switch between Python&rsquo;s <code>boto3</code> and R&rsquo;s <code>paws</code>. Almost like it was a long lost brother.</p>
+<p>What particularly shocked me was how well developed and easy the package was to use. It felt natural to switch between <code>boto3</code> and <code>paws</code>. Almost like it was a long lost brother.</p>
 
 <p><em>Here is a quick example to show the comparison between <code>boto3</code> and <code>paws</code>. Returning a list of all objects in S3 inside a prefix:</em></p>
 
@@ -134,7 +134,7 @@ res &lt;- athena$start_query_execution(
                 list(OutputLocation = &quot;s3://mybucket/queries/&quot;))
 
 # Get Status of query
-result &lt;- get_query_execution(QueryExecutionId = res$QueryExecutionId)
+result &lt;- athena$get_query_execution(QueryExecutionId = res$QueryExecutionId)
 
 # Return results if query is successful
 if(result$QueryExecution$Status$State == &quot;FAILED&quot;) {

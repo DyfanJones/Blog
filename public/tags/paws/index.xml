@@ -40,9 +40,9 @@
 &lt;p&gt;Paws is a Package for Amazon Web Services in R. Paws provides access to the full suite of AWS services from within R.(&lt;a href=&#34;https://github.com/paws-r/paws&#34;&gt;https://github.com/paws-r/paws&lt;/a&gt;)&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;When I want to programatically connect to AWS I would resort to Python. AWS&amp;rsquo;s &lt;code&gt;boto3&lt;/code&gt; is an excellent means to connect to AWS and leverage it&amp;rsquo;s functionality. However R now has it&amp;rsquo;s own SDK, into AWS. This came as a little surprise to me as I started to accept that R might never have an SDK for AWS how wrong I was.&lt;/p&gt;
+&lt;p&gt;When I want to programatically connect to AWS I usually turn to Python. AWS&amp;rsquo;s &lt;code&gt;boto3&lt;/code&gt; is an excellent means of connecting to AWS and leverage it&amp;rsquo;s functionality. However R now has it&amp;rsquo;s own SDK into AWS. This came as a little surprise to me as I started to accept that R might never have an SDK for AWS. How wrong I was.&lt;/p&gt;
 
-&lt;p&gt;What particularly shocked me was how well developed and easy the package was. It felt natural to switch between Python&amp;rsquo;s &lt;code&gt;boto3&lt;/code&gt; and R&amp;rsquo;s &lt;code&gt;paws&lt;/code&gt;. Almost like it was a long lost brother.&lt;/p&gt;
+&lt;p&gt;What particularly shocked me was how well developed and easy the package was to use. It felt natural to switch between &lt;code&gt;boto3&lt;/code&gt; and &lt;code&gt;paws&lt;/code&gt;. Almost like it was a long lost brother.&lt;/p&gt;
 
 &lt;p&gt;&lt;em&gt;Here is a quick example to show the comparison between &lt;code&gt;boto3&lt;/code&gt; and &lt;code&gt;paws&lt;/code&gt;. Returning a list of all objects in S3 inside a prefix:&lt;/em&gt;&lt;/p&gt;
 
@@ -78,7 +78,7 @@ res &amp;lt;- athena$start_query_execution(
                 list(OutputLocation = &amp;quot;s3://mybucket/queries/&amp;quot;))
 
 # Get Status of query
-result &amp;lt;- get_query_execution(QueryExecutionId = res$QueryExecutionId)
+result &amp;lt;- athena$get_query_execution(QueryExecutionId = res$QueryExecutionId)
 
 # Return results if query is successful
 if(result$QueryExecution$Status$State == &amp;quot;FAILED&amp;quot;) {
