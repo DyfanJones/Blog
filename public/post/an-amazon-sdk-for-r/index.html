@@ -9,12 +9,11 @@
 	<meta name="description" content="">
 	<meta property="og:title" content="An Amazon SDK for R!?" />
 <meta property="og:description" content="RBloggers|RBloggers-feedburner
-Intro: For a long time I have found it difficult to leverage the benefits of cloud computer in my R model builds. This was mainly down to the initial lack of understanding of cloud compute and the setting up of R on cloud computer environment.
-I then noticed that AWS was bring out a new product AWS Sagemaker, and the possiblities of what it could provide seemed like a dream come true." />
+Intro: For a long time I have found it difficult to leverage the benefits of cloud computer in my R model builds. This was mainly down to the initial lack of understanding of cloud compute and the setting up of R on cloud computer environments. When I noticed that AWS was bringing out a new product AWS Sagemaker, the possiblities of what it could provide seemed like a dream come true." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/an-amazon-sdk-for-r/" />
-<meta property="article:published_time" content="2019-10-26T00:00:00+00:00" />
-<meta property="article:modified_time" content="2019-10-26T00:00:00+00:00" />
+<meta property="article:published_time" content="2019-10-29T00:00:00+00:00" />
+<meta property="article:modified_time" content="2019-10-29T00:00:00+00:00" />
 
 	
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -60,18 +59,18 @@ I then noticed that AWS was bring out a new product AWS Sagemaker, and the possi
 			<div class="post__meta meta">
 <div class="meta__item-datetime meta__item">
 	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
-	<time class="meta__text" datetime="2019-10-26T00:00:00">October 26, 2019</time>
+	<time class="meta__text" datetime="2019-10-29T00:00:00">October 29, 2019</time>
 </div>
 
 <div class="meta__item-categories meta__item">
-  <span class="article-duration">5 min read &nbsp;</span>
+  <span class="article-duration">6 min read &nbsp;</span>
 	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
 	<span class="meta__text"><a class="meta__link" href="/categories/rbloggers" rel="category">RBloggers</a></span>
 </div>
 </div>
 		</header>
 		<figure class="post__thumbnail">
-			<img src="/post/2019-10-26-an-amazon-sdk-for-r_files/R_SDK.png" alt="An Amazon SDK for R!?">
+			<img src="/post/2019-10-29-an-amazon-sdk-for-r_files/R_SDK.png" alt="An Amazon SDK for R!?">
 		</figure><div class="content post__content clearfix">
 			
 
@@ -79,17 +78,15 @@ I then noticed that AWS was bring out a new product AWS Sagemaker, and the possi
 
 <h1 id="intro">Intro:</h1>
 
-<p>For a long time I have found it difficult to leverage the benefits of cloud computer in my R model builds. This was mainly down to the initial lack of understanding of cloud compute and the setting up of R on cloud computer environment.</p>
-
-<p>I then noticed that AWS was bring out a new product <a href="https://aws.amazon.com/sagemaker/">AWS Sagemaker</a>, and the possiblities of what it could provide seemed like a dream come true.</p>
+<p>For a long time I have found it difficult to leverage the benefits of cloud computer in my R model builds. This was mainly down to the initial lack of understanding of cloud compute and the setting up of R on cloud computer environments. When I noticed that AWS was bringing out a new product <a href="https://aws.amazon.com/sagemaker/">AWS Sagemaker</a>, the possiblities of what it could provide seemed like a dream come true.</p>
 
 <blockquote>
 <p>Amazon SageMaker provides every developer and data scientist with the ability to build, train, and deploy machine learning models quickly. Amazon SageMaker is a fully-managed service that covers the entire machine learning workflow to label and prepare your data, choose an algorithm, train the model, tune and optimize it for deployment, make predictions, and take action. Your models get to production faster with much less effort and lower cost. (<a href="https://aws.amazon.com/sagemaker/">https://aws.amazon.com/sagemaker/</a>)</p>
 </blockquote>
 
-<p>Does it work for R developers??? Well not exactly. True it provides a simple way set up an R environment in the cloud but it didn&rsquo;t give a means to access other AWS products for example <a href="https://aws.amazon.com/s3/">AWS S3</a> and <a href="https://aws.amazon.com/athena/">AWS Athena</a>. For Python on the other hand it is very simple. Amazon has provided a SDK for Python called <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html"><code>boto3</code></a>, which comes pre-installed on AWS Sagemaker.</p>
+<p>A question about AWS Sagemake came to mind: <em>Does it work for R developers???</em> Well&hellip;not exactly. True it provides a simple way set up an R environment in the cloud but it doesn&rsquo;t give the means to access other AWS products for example <a href="https://aws.amazon.com/s3/">AWS S3</a> and <a href="https://aws.amazon.com/athena/">AWS Athena</a> out of the box. However for Python this is not a problem. Amazon has provided a SDK for Python called <a href="https://boto3.amazonaws.com/v1/documentation/api/latest/index.html"><code>boto3</code></a>, which comes pre-installed on AWS Sagemaker.</p>
 
-<p>Lucky for R users RStudio developed a package called <a href="https://rstudio.github.io/reticulate/"><code>reticulate</code></a> that let R interfaced into Python. In combination with <code>boto3</code> R finally could get access to all of AWS products from Sagemaker. However where there other method for R?</p>
+<p>It isn&rsquo;t all bad news, RStudio has developed a package called <a href="https://rstudio.github.io/reticulate/"><code>reticulate</code></a> that lets R interfaced into Python. So using <code>reticulate</code> in combination with <code>boto3</code> gives R full access to all of AWS products from Sagemaker similar to Python. However are there any other methods for R user to connect to AWS?</p>
 
 <h1 id="aws-interfaces-for-r">AWS interfaces for R:</h1>
 
@@ -99,11 +96,11 @@ I then noticed that AWS was bring out a new product AWS Sagemaker, and the possi
 <p>Paws is a Package for Amazon Web Services in R. Paws provides access to the full suite of AWS services from within R.(<a href="https://github.com/paws-r/paws">https://github.com/paws-r/paws</a>)</p>
 </blockquote>
 
-<p>When I wanted to programatically connect to AWS I would resort to Python. AWS&rsquo;s boto3 is an excellent means to connect to AWS and leverage it&rsquo;s functionality. However now R has it&rsquo;s own SDK, into AWS. This came as a little surprise to me as I started to accept that R might never have an SDK for AWS how wrong I was.</p>
+<p>When I want to programatically connect to AWS I would resort to Python. AWS&rsquo;s <code>boto3</code> is an excellent means to connect to AWS and leverage it&rsquo;s functionality. However R now has it&rsquo;s own SDK, into AWS. This came as a little surprise to me as I started to accept that R might never have an SDK for AWS how wrong I was.</p>
 
 <p>What particularly shocked me was how well developed and easy the package was. It felt natural to switch between Python&rsquo;s <code>boto3</code> and R&rsquo;s <code>paws</code>. Almost like it was a long lost brother.</p>
 
-<p>Here is a quick example to show the comparison between <code>boto3</code> and <code>paws</code>. Returning a list of all objects in S3 inside a prefix:</p>
+<p><em>Here is a quick example to show the comparison between <code>boto3</code> and <code>paws</code>. Returning a list of all objects in S3 inside a prefix:</em></p>
 
 <p><strong>Python</strong></p>
 
@@ -125,7 +122,7 @@ lapply(obj$Contents, function(x) x$Key)
 
 <p>From this quick example it is clear that the <code>paws</code> SDK&rsquo;s syntax is extremely similar to <code>boto3</code>, although with an R twist. But this is only a good thing, as hundreds of people know the <code>boto3</code> already and therefore they will be familiar with <code>paws</code> by association. I can&rsquo;t express the potential for R users now they have a SDK into AWS. A good project that utilises the <code>paws</code> sdk is the package <a href="https://cran.r-project.org/web/packages/noctua/index.html"><code>noctua</code></a>. <code>noctua</code> creates a wrapper of the <code>paws</code> connection to AWS Athena and developes a <code>DBI</code> interface for R users. We will go into the package <code>noctua</code> in the next blog. First here is the example how to work with AWS Athena when using <code>paws</code>.</p>
 
-<p>Submit a query to Athena using <code>paws</code></p>
+<p><em>Submit a query to Athena using <code>paws</code></em></p>
 
 <pre><code># create an AWS Athena object
 athena &lt;- paws::athena()
@@ -155,7 +152,7 @@ if(result$QueryExecution$Status$State == &quot;FAILED&quot;) {
 <pre><code>install.packages(&quot;paws&quot;)
 </code></pre>
 
-<p><strong>Note:</strong> For more examples, the developers of <code>paws</code> have created some example code <a href="https://github.com/paws-r/paws/tree/master/examples">https://github.com/paws-r/paws/tree/master/examples</a> and a  documentation website <a href="https://paws-r.github.io/">https://paws-r.github.io/</a>.</p>
+<p><strong>Note:</strong> For more examples, the developers of <code>paws</code> have created some code examples <a href="https://github.com/paws-r/paws/tree/master/examples">https://github.com/paws-r/paws/tree/master/examples</a> and a  documentation website <a href="https://paws-r.github.io/">https://paws-r.github.io/</a>.</p>
 
 <h2 id="botor-https-daroczig-github-io-botor"><a href="https://daroczig.github.io/botor/"><code>botor</code></a> :</h2>
 

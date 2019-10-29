@@ -1,27 +1,25 @@
 ---
 title: An Amazon SDK for R!?
 author: "Dyfan Jones"
-date: '2019-10-26'
+date: '2019-10-29'
 slug: an-amazon-sdk-for-r
 categories: [RBloggers]
 tags: [R, paws, Boto3, Python]
 description: ''
-thumbnail: '/post/2019-10-26-an-amazon-sdk-for-r_files/R_SDK.png'
+thumbnail: '/post/2019-10-29-an-amazon-sdk-for-r_files/R_SDK.png'
 ---
 
 [RBloggers](https://www.r-bloggers.com)|[RBloggers-feedburner](http://feeds.feedburner.com/RBloggers)
 
 # Intro:
 
-For a long time I have found it difficult to leverage the benefits of cloud computer in my R model builds. This was mainly down to the initial lack of understanding of cloud compute and the setting up of R on cloud computer environment.
-
-I then noticed that AWS was bring out a new product [AWS Sagemaker](https://aws.amazon.com/sagemaker/), and the possiblities of what it could provide seemed like a dream come true. 
+For a long time I have found it difficult to leverage the benefits of cloud computer in my R model builds. This was mainly down to the initial lack of understanding of cloud compute and the setting up of R on cloud computer environments. When I noticed that AWS was bringing out a new product [AWS Sagemaker](https://aws.amazon.com/sagemaker/), the possiblities of what it could provide seemed like a dream come true. 
 
 > Amazon SageMaker provides every developer and data scientist with the ability to build, train, and deploy machine learning models quickly. Amazon SageMaker is a fully-managed service that covers the entire machine learning workflow to label and prepare your data, choose an algorithm, train the model, tune and optimize it for deployment, make predictions, and take action. Your models get to production faster with much less effort and lower cost. (https://aws.amazon.com/sagemaker/)
 
-Does it work for R developers??? Well not exactly. True it provides a simple way set up an R environment in the cloud but it didn't give a means to access other AWS products for example [AWS S3](https://aws.amazon.com/s3/) and [AWS Athena](https://aws.amazon.com/athena/). For Python on the other hand it is very simple. Amazon has provided a SDK for Python called [`boto3`](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html), which comes pre-installed on AWS Sagemaker. 
+A question about AWS Sagemake came to mind: *Does it work for R developers???* Well...not exactly. True it provides a simple way set up an R environment in the cloud but it doesn't give the means to access other AWS products for example [AWS S3](https://aws.amazon.com/s3/) and [AWS Athena](https://aws.amazon.com/athena/) out of the box. However for Python this is not a problem. Amazon has provided a SDK for Python called [`boto3`](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html), which comes pre-installed on AWS Sagemaker. 
 
-Lucky for R users RStudio developed a package called [`reticulate`](https://rstudio.github.io/reticulate/) that let R interfaced into Python. In combination with `boto3` R finally could get access to all of AWS products from Sagemaker. However where there other method for R? 
+It isn't all bad news, RStudio has developed a package called [`reticulate`](https://rstudio.github.io/reticulate/) that lets R interfaced into Python. So using `reticulate` in combination with `boto3` gives R full access to all of AWS products from Sagemaker similar to Python. However are there any other methods for R user to connect to AWS? 
 
 # AWS interfaces for R:
 
@@ -29,11 +27,11 @@ Lucky for R users RStudio developed a package called [`reticulate`](https://rstu
 
 > Paws is a Package for Amazon Web Services in R. Paws provides access to the full suite of AWS services from within R.(https://github.com/paws-r/paws)
 
-When I wanted to programatically connect to AWS I would resort to Python. AWS's boto3 is an excellent means to connect to AWS and leverage it's functionality. However now R has it's own SDK, into AWS. This came as a little surprise to me as I started to accept that R might never have an SDK for AWS how wrong I was. 
+When I want to programatically connect to AWS I would resort to Python. AWS's `boto3` is an excellent means to connect to AWS and leverage it's functionality. However R now has it's own SDK, into AWS. This came as a little surprise to me as I started to accept that R might never have an SDK for AWS how wrong I was. 
 
 What particularly shocked me was how well developed and easy the package was. It felt natural to switch between Python's `boto3` and R's `paws`. Almost like it was a long lost brother. 
 
-Here is a quick example to show the comparison between `boto3` and `paws`. Returning a list of all objects in S3 inside a prefix:
+*Here is a quick example to show the comparison between `boto3` and `paws`. Returning a list of all objects in S3 inside a prefix:*
 
 **Python**
 
@@ -56,7 +54,7 @@ lapply(obj$Contents, function(x) x$Key)
 
 From this quick example it is clear that the `paws` SDK's syntax is extremely similar to `boto3`, although with an R twist. But this is only a good thing, as hundreds of people know the `boto3 ` already and therefore they will be familiar with `paws` by association. I can't express the potential for R users now they have a SDK into AWS. A good project that utilises the `paws` sdk is the package [`noctua`](https://cran.r-project.org/web/packages/noctua/index.html). `noctua` creates a wrapper of the `paws` connection to AWS Athena and developes a `DBI` interface for R users. We will go into the package `noctua` in the next blog. First here is the example how to work with AWS Athena when using `paws`.
 
-Submit a query to Athena using `paws`
+*Submit a query to Athena using `paws`*
 ```
 # create an AWS Athena object
 athena <- paws::athena()
@@ -87,7 +85,7 @@ From initial view it might look daunting however this is exactly the same interf
 install.packages("paws")
 ```
 
-**Note:** For more examples, the developers of `paws` have created some example code https://github.com/paws-r/paws/tree/master/examples and a  documentation website https://paws-r.github.io/.
+**Note:** For more examples, the developers of `paws` have created some code examples https://github.com/paws-r/paws/tree/master/examples and a  documentation website https://paws-r.github.io/.
 
 ## [`botor`](https://daroczig.github.io/botor/) :
 
