@@ -17,7 +17,7 @@ For a long time I have found it difficult to leverage the benefits of cloud comp
 
 > Amazon SageMaker provides every developer and data scientist with the ability to build, train, and deploy machine learning models quickly. Amazon SageMaker is a fully-managed service that covers the entire machine learning workflow to label and prepare your data, choose an algorithm, train the model, tune and optimize it for deployment, make predictions, and take action. Your models get to production faster with much less effort and lower cost. (https://aws.amazon.com/sagemaker/)
 
-A question about AWS Sagemake came to mind: *Does it work for R developers???* Well...not exactly. True it provides a simple way set up an R environment in the cloud but it doesn't give the means to access other AWS products for example [AWS S3](https://aws.amazon.com/s3/) and [AWS Athena](https://aws.amazon.com/athena/) out of the box. However for Python this is not a problem. Amazon has provided a SDK for Python called [`boto3`](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html), which comes pre-installed on AWS Sagemaker. 
+A question about AWS Sagemake came to mind: *Does it work for R developers???* Well...not exactly. True it provides a simple way set up an R environment in the cloud but it doesn't give the means to access other AWS products for example [AWS S3](https://aws.amazon.com/s3/) and [AWS Athena](https://aws.amazon.com/athena/) out of the box. However for Python this is not a problem. Amazon has provided a Software Development Kit (SDK) for Python called [`boto3`](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html), which comes pre-installed on AWS Sagemaker. 
 
 It isn't all bad news, RStudio has developed a package called [`reticulate`](https://rstudio.github.io/reticulate/) that lets R interfaced into Python. So using `reticulate` in combination with `boto3` gives R full access to all of AWS products from Sagemaker similar to Python. However are there any other methods for R user to connect to AWS? 
 
@@ -27,9 +27,9 @@ It isn't all bad news, RStudio has developed a package called [`reticulate`](htt
 
 > Paws is a Package for Amazon Web Services in R. Paws provides access to the full suite of AWS services from within R.(https://github.com/paws-r/paws)
 
-When I want to programatically connect to AWS I usually turn to Python. AWS's `boto3` is an excellent means of connecting to AWS and leverage it's functionality. However R now has it's own SDK into AWS. This came as a little surprise to me as I started to accept that R might never have an SDK for AWS. How wrong I was. 
+When I want to programatically connect to AWS I usually turn to Python. AWS's `boto3` is an excellent means of connecting to AWS and leverage it's functionality. However R now has it's own SDK into AWS, `paws`. This came as a little surprise to me as I started to accept that R might never have an SDK for AWS. How wrong I was. 
 
-What particularly shocked me was how well developed and easy the package was to use. It felt natural to switch between `boto3` and `paws`. Almost like it was a long lost brother. 
+What particularly shocked (pleasant shock) me was how well developed and easy the package was to use. It felt natural to switch between `boto3` and `paws`. Almost like it was a long lost brother. 
 
 *Here is a quick example to show the comparison between `boto3` and `paws`. Returning a list of all objects in S3 inside a prefix:*
 
@@ -52,9 +52,9 @@ obj <- s3$list_objects(Bucket = 'mybucket', Prefix = "prefix_1/")
 lapply(obj$Contents, function(x) x$Key)
 ```
 
-From this quick example it is clear that the `paws` SDK's syntax is extremely similar to `boto3`, although with an R twist. But this is only a good thing, as hundreds of people know the `boto3 ` already and therefore they will be familiar with `paws` by association. I can't express the potential for R users now they have a SDK into AWS. A good project that utilises the `paws` sdk is the package [`noctua`](https://cran.r-project.org/web/packages/noctua/index.html). `noctua` creates a wrapper of the `paws` connection to AWS Athena and developes a `DBI` interface for R users. We will go into the package `noctua` in the next blog. First here is the example how to work with AWS Athena when using `paws`.
+From this quick example it is clear that the `paws` SDK's syntax is extremely similar to `boto3`, although with an R twist. This can only a good thing, as hundreds of people know `boto3 ` already and therefore they will be familiar with `paws` by association. I can't express the potential the package `paws` gives R users. A good project that utilises the `paws` sdk is the package [`noctua`](https://cran.r-project.org/web/packages/noctua/index.html). `noctua` creates a wrapper of the `paws` connection to AWS Athena and developes a `DBI` interface for R users. We will go into the package `noctua` in the next blog. First here is an example how of to work with AWS Athena when using `paws`.
 
-*Submit a query to Athena using `paws`*
+*Querying to AWS Athena using `paws`*
 ```
 # create an AWS Athena object
 athena <- paws::athena()
@@ -125,16 +125,16 @@ s3_write(model, saveRDS, "s3://mybucket/crap_model.RDS")
 s3_model <- s3_read("s3://mybucket/crap_model.RDS", readRDS)
 ```
 
-It is really clear to see how useful `botor` is when working in AWS.
+It is really clear to see how useful `botor` is when working with AWS S3.
 
 ## Cloudyr Project:
 
-I personally havent used the AWS cloudyr packages, however I don't want to leave them out. The [cloudyr project](https://cloudyr.github.io/) aim is to bring R onto the cloud compute:
+I personally haven't used the AWS cloudyr packages, however I don't want to leave them out. The [cloudyr project](https://cloudyr.github.io/) aim is to bring R onto the cloud compute:
 
 > The goal of this initiative is to make cloud computing with R easier, starting with robust tools for working with cloud computing platforms.(https://cloudyr.github.io/)
 
-Please go to the cloudyr github https://github.com/cloudyr as alot of work has gone into making R easier to work with cloud computing. They have alot of documentation plus they are actively developing R packages to make user experience better.
+As I haven't utilised the wide range of packages that the `cloudyr project` provides I won't give examples. Please go to the cloudyr github https://github.com/cloudyr as alot of work has gone into making R easier to work with cloud computing. They have alot of documentation plus they are actively developing R packages to make user experience better.
 
 # Summary:
 
-I believe that all of these packages are critical if you wish to work in AWS when using R. `paws` certainly give a R feel utilising AWS products. `botor` helper functions make the experience very easily and helpful. Personally I would love Amazon to include these package in Sagemaker. Without them Sagemaker becomes near impossible to work with,  R users.
+I believe that all of these packages are critical if you wish to work with AWS when using R. As R has a SDK for AWS it would be great if AWS adds it to the base image for AWS Sagemaer, as it will make R developers `paws` certainly give a R feel utilising AWS products. `botor` helper functions make the experience very easily and helpful. Personally I would love Amazon to include these package in Sagemaker. Without them Sagemaker becomes near impossible to work with,  R users.
