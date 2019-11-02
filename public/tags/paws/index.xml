@@ -5,10 +5,278 @@
     <description>Recent content in paws on Dyfan Jones Brain Dump HQ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <lastBuildDate>Tue, 29 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 03 Nov 2019 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/tags/paws/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>R Owl of Athena</title>
+      <link>/post/r-owl-of-athena/</link>
+      <pubDate>Sun, 03 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/r-owl-of-athena/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;https://www.r-bloggers.com&#34;&gt;RBloggers&lt;/a&gt;|&lt;a href=&#34;http://feeds.feedburner.com/RBloggers&#34;&gt;RBloggers-feedburner&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;intro&#34;&gt;Intro:&lt;/h1&gt;
+
+&lt;p&gt;After developing the package &lt;a href=&#34;https://cran.r-project.org/web/packages/RAthena/index.html&#34;&gt;&lt;code&gt;RAthena&lt;/code&gt;&lt;/a&gt; I stumbled quite accidentally into the R SDK in to AWS &lt;a href=&#34;https://github.com/paws-r/paws&#34;&gt;&lt;code&gt;paws&lt;/code&gt;&lt;/a&gt;. As &lt;code&gt;RAthena&lt;/code&gt; utilises Python&amp;rsquo;s SDK &lt;a href=&#34;https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway&#34;&gt;&lt;code&gt;boto3&lt;/code&gt;&lt;/a&gt; I thought the development of another AWS Athena package couldn&amp;rsquo;t hurt. As mentioned in my &lt;a href=&#34;https://dyfanjones.me/post/an-amazon-sdk-for-r/&#34;&gt;previous blog&lt;/a&gt; the &lt;code&gt;paws&lt;/code&gt; syntax is very similar to &lt;code&gt;boto3&lt;/code&gt; so alot of my &lt;code&gt;RAthena&lt;/code&gt; code was very portable and this gave me my final excuse to develop my next R package.&lt;/p&gt;
+
+&lt;h1 id=&#34;paws-and-aws-athena&#34;&gt;&lt;code&gt;paws&lt;/code&gt; and AWS Athena:&lt;/h1&gt;
+
+&lt;p&gt;When working with AWS Athena through the SDKs (&lt;code&gt;boto3&lt;/code&gt; or &lt;code&gt;paws&lt;/code&gt;), the code can look abit daunting.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;For example: return all databases in AWS Athena&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-R&#34;&gt;# create an AWS Athena object
+athena &amp;lt;- paws::athena()
+
+# Submit query to AWS Athena
+res &amp;lt;- athena$start_query_execution(
+            QueryString = &amp;quot;show Databases&amp;quot;,
+            ResultConfiguration = 
+                list(OutputLocation = &amp;quot;s3://mybucket/queries/&amp;quot;))
+
+# Get Status of query
+result &amp;lt;- athena$get_query_execution(QueryExecutionId = res$QueryExecutionId)
+
+# Return results if query is successful
+if(result$QueryExecution$Status$State == &amp;quot;FAILED&amp;quot;) {
+  stop(result$QueryExecution$Status$StateChangeReason, call. = FALSE)
+} else {output &amp;lt;- 
+          athena$get_query_results(
+              QueryExecutionId = res$QueryExecutionId,
+              MaxResults = 1)}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This isn&amp;rsquo;t the prettiest code when wanting to query AWS Athena with the SQL, in the above example: &lt;code&gt;SHOW DATABASES&lt;/code&gt;. This is where &lt;code&gt;noctua&lt;/code&gt; comes in.&lt;/p&gt;
+
+&lt;h1 id=&#34;noctua&#34;&gt;&lt;code&gt;noctua&lt;/code&gt;&lt;/h1&gt;
+
+&lt;p&gt;To start off with I will go through the same 3 questions I went through in my &lt;a href=&#34;https://dyfanjones.me/post/athena-and-r-there-is-another-way/&#34;&gt;Athena and R &amp;hellip; there is another way!?&lt;/a&gt; blog.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;What is noctua?&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;noctua&lt;/code&gt; is a R package that creates a &lt;code&gt;DBI&lt;/code&gt; (Database Interface) for R, using the R package &lt;code&gt;DBI&lt;/code&gt; and the R SDK &lt;code&gt;paws&lt;/code&gt; as the backend (so basically the same as &lt;code&gt;RAthena&lt;/code&gt;)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Why was &lt;code&gt;noctua&lt;/code&gt; created when there are already methods for connecting to Athena?&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;noctua&lt;/code&gt; was created to provide an extra method to connect to Athena for R users. Plus it seemed natural to create &lt;code&gt;noctua&lt;/code&gt; due to the nature in how it connects to AWS Athena (through a SDK), which is the method &lt;code&gt;RAthena&lt;/code&gt; connects to AWS Athena.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Why is &lt;code&gt;noctua&lt;/code&gt; called &lt;code&gt;noctua&lt;/code&gt;?&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;This is a tricky one as &lt;code&gt;RAthena&lt;/code&gt; was already taken. So I looked for a historic reference to link the new package to AWS Athena. I settled on &lt;code&gt;noctua&lt;/code&gt; due to: &lt;a href=&#34;https://en.wikipedia.org/wiki/Athena&#34;&gt;Athena/Minerva&lt;/a&gt; is the Greek/Roman god of wisdom, handicraft, and warfare. One of the main symbols for Athena is the Owl. Noctua is the latin word for Owl.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;how-to-install&#34;&gt;How to install:&lt;/h1&gt;
+
+&lt;p&gt;&lt;code&gt;noctua&lt;/code&gt; is currently on the CRAN and Github:&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;CRAN version:&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;install.packages(&amp;quot;noctua&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;em&gt;Github development version:&lt;/em&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;remotes::install_github(&amp;quot;dyfanjones/noctua&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h1 id=&#34;usage&#34;&gt;Usage:&lt;/h1&gt;
+
+&lt;p&gt;As with all &lt;code&gt;DBI&lt;/code&gt; interface packages the key functions are all exactly the same. Which means that their is little to no upskilling required. The only difference between each method is how they connect and how they send data back to the database. So we will focuse mainly on these two aspects.&lt;/p&gt;
+
+&lt;h2 id=&#34;connecting-to-aws-athena&#34;&gt;Connecting to AWS Athena:&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;noctua&lt;/code&gt; offers a wide range of connection methods from hard coding to using Amazon Resource Name Roles (ARN roles). Which is very similar to the &lt;code&gt;RAthena&lt;/code&gt; package.&lt;/p&gt;
+
+&lt;h3 id=&#34;hard-coding-method&#34;&gt;Hard-Coding Method:&lt;/h3&gt;
+
+&lt;p&gt;This method isn&amp;rsquo;t recommended as your credentials are hard-coded.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(DBI)
+con &amp;lt;- dbConnect(noctua::athena(),
+                 aws_access_key_id = &amp;quot;YOUR AWS KEY ID&amp;quot;,
+                 aws_secret_access_key = &amp;quot;YOUR SECRET ACCESS KEY&amp;quot;,
+                 s3_staging_dir = &amp;quot;s3://path/to/query/bucket/&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; &lt;em&gt;&lt;code&gt;s3_staging_dir&lt;/code&gt; requires to be in the format of &lt;code&gt;s3 uri&lt;/code&gt; for example &amp;ldquo;s3://path/to/query/bucket/&amp;rdquo;&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;If you wish not to create AWS Profiles then setting environmental variables would be the recommended method.&lt;/p&gt;
+
+&lt;h3 id=&#34;environment-variable-method&#34;&gt;Environment Variable Method:&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;noctua&lt;/code&gt; supports &lt;a href=&#34;https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html&#34;&gt;AWS credentials&lt;/a&gt; set into the environment variables to avoid hard-coding. From what I have found out an easy way to set up environment variables (that persists) in R is to use the &lt;code&gt;file.edit&lt;/code&gt; function like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;file.edit(&amp;quot;~/.Renviron&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;And now you can simply add in your environment variables in the file you are editing for example:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;AWS_ACCESS_KEY_ID = YOUR AWS KEY ID
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once you have set your environment variables you can connect to Athena in the following method:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(DBI)
+con &amp;lt;- dbConnect(noctua::athena(),
+                 s3_staging_dir = &amp;quot;s3://path/to/query/bucket/&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If you can even set the &lt;code&gt;s3_staging_dir&lt;/code&gt; parameter as a environmental variable, to do this you need to set the following environmental variable:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;AWS_ATHENA_S3_STAGING_DIR = s3://path/to/query/bucket/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This allows for the following connection:&lt;/p&gt;
+
+&lt;h3 id=&#34;aws-profile-names&#34;&gt;AWS Profile Names:&lt;/h3&gt;
+
+&lt;p&gt;Another method is to use AWS Profile Names. AWS profile names can be setup either manually in the &lt;code&gt;~/.aws&lt;/code&gt; directory or by using the &lt;a href=&#34;https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html&#34;&gt;AWS Command Line Interface (AWS CLI)&lt;/a&gt;. Once you have setup your profile name you can connect to AWS Athena:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Using Default Profile Name:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(DBI)
+con &amp;lt;- dbConnect(noctua::athena())
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Using Non-Default Profile Name:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(DBI)
+con &amp;lt;- dbConnect(noctua::athena(),
+                 profile_name = &amp;quot;rathena&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;arn-roles&#34;&gt;ARN Roles:&lt;/h3&gt;
+
+&lt;p&gt;ARN roles are fairly useful if you need to assume a role that can connect to another AWS account and use the &lt;code&gt;Athena&lt;/code&gt; in that account. Or whether you want to create a temporary connection with different permissions than your current role (&lt;a href=&#34;https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html&#34;&gt;AWS ARN Documentation&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Assuming ARN role credentials before connecting to AWS Athena:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(noctua)
+library(DBI)
+assume_role(profile_name = &amp;quot;YOUR_PROFILE_NAME&amp;quot;,
+            role_arn = &amp;quot;arn:aws:sts::123456789012:assumed-role/role_name/role_session_name&amp;quot;,
+            set_env = TRUE)
+
+# Connect to Athena using ARN Role
+con &amp;lt;- dbConnect(athena(),
+                s3_staging_dir = &amp;quot;s3://path/to/query/bucket/&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Connect to AWS Athena directly using ARN role:&lt;/strong&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(DBI)
+con &amp;lt;- dbConnect(athena(),
+                  profile_name = &amp;quot;YOUR_PROFILE_NAME&amp;quot;,
+                  role_arn = &amp;quot;arn:aws:sts::123456789012:assumed-role/role_name/role_session_name&amp;quot;,
+                  s3_staging_dir = &#39;s3://path/to/query/bucket/&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; &lt;em&gt;ARN Roles have a duration timer before they will expire. To change the default you can increase the &lt;code&gt;duration_seconds&lt;/code&gt; parameter from the default 3600 seconds (1 hour).&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;temporary-sessions&#34;&gt;Temporary Sessions:&lt;/h3&gt;
+
+&lt;p&gt;Finally you can create temporary credentials before connecting to &lt;code&gt;Athena&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(noctua)
+library(DBI)
+
+# Create Temporary Credentials duration 1 hour
+get_session_token(&amp;quot;YOUR_PROFILE_NAME&amp;quot;,
+                  serial_number=&#39;arn:aws:iam::123456789012:mfa/user&#39;,
+                  token_code = &amp;quot;531602&amp;quot;,
+                  set_env = TRUE)
+
+# Connect to Athena using temporary credentials
+con &amp;lt;- dbConnect(athena(),
+                s3_staging_dir = &amp;quot;s3://path/to/query/bucket/&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; &lt;em&gt;This method will work for users who have set up &lt;a href=&#34;https://aws.amazon.com/iam/details/mfa/&#34;&gt;Multi-Factor Authentication&lt;/a&gt; (MFA).&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;querying&#34;&gt;Querying:&lt;/h2&gt;
+
+&lt;p&gt;To query AWS Athena using the &lt;code&gt;noctua&lt;/code&gt; it is very similar to querying any other database:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;library(DBI)
+
+con &amp;lt;- dbConnect(noctua::athena())
+
+dbGetQuery(con, &amp;quot;show databases&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;That is it. So if we look back at the initial &lt;code&gt;paws&lt;/code&gt; code when working with AWS Athena. The code is very intimidating when wanting to do basic AWS Athena queries. &lt;code&gt;noctua&lt;/code&gt; packages all this up and makes it super easy to work with.&lt;/p&gt;
+
+&lt;h2 id=&#34;uploading-data&#34;&gt;Uploading Data:&lt;/h2&gt;
+
+&lt;p&gt;It is all very well querying data from &lt;code&gt;AWS Athena&lt;/code&gt; but what is more useful is to upload data as well. &lt;code&gt;noctua&lt;/code&gt; has addressed this and implemented a method in &lt;code&gt;dbWriteTable&lt;/code&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dbWriteTable(con, &amp;quot;mtcars&amp;quot;, mtcars,
+             partition=c(&amp;quot;TIMESTAMP&amp;quot; = format(Sys.Date(), &amp;quot;%Y%m%d&amp;quot;)),
+             s3.location = &amp;quot;s3://mybucket/data/&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once you have uploaded data into &lt;code&gt;AWS Athena&lt;/code&gt; you can query it in the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dbGetQuery(con, &amp;quot;select * from mtcars&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here are all variable parameters for the &lt;code&gt;dbWriteTable&lt;/code&gt; method:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;conn:&lt;/strong&gt; An AthenaConnection object, produced by dbConnect()&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;name:&lt;/strong&gt; A character string specifying a table name. Names will be automatically quoted so you can use any sequence of characters, not just any valid bare table name.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;value:&lt;/strong&gt; A data.frame to write to the database.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;overwrite:&lt;/strong&gt; Allow overwriting the destination table. Cannot be &amp;lsquo;TRUE&amp;rsquo; if &amp;lsquo;append&amp;rsquo; is also &amp;lsquo;TRUE&amp;rsquo;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;append:&lt;/strong&gt; Allow appending to the destination table. Cannot be &amp;lsquo;TRUE&amp;rsquo; if &amp;lsquo;overwrite&amp;rsquo; is also &amp;lsquo;TRUE&amp;rsquo;.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;row.names:&lt;/strong&gt; Either TRUE, FALSE, NA or a string. If TRUE, always translate row names to a column called &amp;ldquo;row_names&amp;rdquo;. If FALSE, never translate row names. If NA, translate rownames only if they&amp;rsquo;re a character vector. A string is equivalent to TRUE, but allows you to override the default name. For backward compatibility, NULL is equivalent to FALSE.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;field.types:&lt;/strong&gt; Additional field types used to override derived types.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;partition:&lt;/strong&gt; Partition Athena table (needs to be a named list or vector) for example: c(var1 = &amp;ldquo;2019-20-13&amp;rdquo;)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;s3.location&lt;/strong&gt; s3 bucket to store Athena table, must be set as a s3 uri for example (&amp;ldquo;s3://mybucket/data/&amp;ldquo;)&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;file.type:&lt;/strong&gt; What file type to store data.frame on s3, RAthena currently supports [&amp;ldquo;csv&amp;rdquo;, &amp;ldquo;tsv&amp;rdquo;, &amp;ldquo;parquet&amp;rdquo;]. &lt;strong&gt;Note:&lt;/strong&gt; &lt;em&gt;file.type &amp;ldquo;parquet&amp;rdquo; is supported by R package &lt;a href=&#34;https://github.com/apache/arrow/tree/master/r&#34;&gt;&lt;code&gt;arrow&lt;/code&gt;&lt;/a&gt; and will need to be installed separately if you wish to upload data.frames in &amp;ldquo;parquet&amp;rdquo; format.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;&amp;hellip;:&lt;/strong&gt; Other arguments used by individual methods.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&#34;conclusion&#34;&gt;Conclusion:&lt;/h1&gt;
+
+&lt;p&gt;&lt;code&gt;noctua&lt;/code&gt; is a package that&lt;/p&gt;
+</description>
+      
+                  <category>R</category>
+      
+                  <category>paws</category>
+      
+                  <category>Athena</category>
+      
+      
+            <category>RBloggers</category>
+      
+    </item>
     
     <item>
       <title>An Amazon SDK for R!?</title>
