@@ -264,7 +264,9 @@ dbGetQuery(con, &amp;quot;show databases&amp;quot;)
 
 &lt;h1 id=&#34;conclusion&#34;&gt;Conclusion:&lt;/h1&gt;
 
-&lt;p&gt;&lt;code&gt;noctua&lt;/code&gt; is a package that&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;noctua&lt;/code&gt; is a package that gives R users the access to AWS Athena using the R AWS SDK &lt;code&gt;paws&lt;/code&gt;. Due to this no external software is required and it can all be installed from the CRAN. If you are interested in how to connect R to AWS Athena please check out &lt;a href=&#34;https://cran.r-project.org/web/packages/RAthena/index.html&#34;&gt;&lt;code&gt;RAthena&lt;/code&gt;&lt;/a&gt; as well (my other AWS Athena connectivity R package). All feature requests/ suggestions/issues are welcome please add them to: &lt;a href=&#34;https://github.com/DyfanJones/noctua/issues&#34;&gt;Github Issues&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Finally please star the github repositories if you like the work that has been done with R and AWS Athena &lt;a href=&#34;https://github.com/DyfanJones/noctua&#34;&gt;&lt;code&gt;noctua&lt;/code&gt;&lt;/a&gt; , &lt;a href=&#34;https://github.com/DyfanJones/RAthena&#34;&gt;&lt;code&gt;RAthena&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 </description>
       
                   <category>R</category>

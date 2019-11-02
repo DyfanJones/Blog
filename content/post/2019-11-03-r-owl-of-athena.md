@@ -240,4 +240,6 @@ Here are all variable parameters for the `dbWriteTable` method:
 
 # Conclusion:
 
-`noctua` is a package that 
+`noctua` is a package that gives R users the access to AWS Athena using the R AWS SDK `paws`. Due to this no external software is required and it can all be installed from the CRAN. If you are interested in how to connect R to AWS Athena please check out [`RAthena`](https://cran.r-project.org/web/packages/RAthena/index.html) as well (my other AWS Athena connectivity R package). All feature requests/ suggestions/issues are welcome please add them to: [Github Issues](https://github.com/DyfanJones/noctua/issues). 
+
+Finally please star the github repositories if you like the work that has been done with R and AWS Athena [`noctua`](https://github.com/DyfanJones/noctua) , [`RAthena`](https://github.com/DyfanJones/RAthena)
