@@ -24,3 +24,4 @@ For coding, I am a big open source fan and enjoy the 2 key languages for Data Sc
 # Current Projects
 
 * [Rathena](https://github.com/DyfanJones/RAthena): A DBI-compliant interface for R to Amazon Athena using Python Boto3 SDK backend
+* [noctua](https://github.com/DyfanJones/noctua): A DBI-compliant interface for R to Amazon Athena using R paws SDK backend
