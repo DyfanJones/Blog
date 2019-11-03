@@ -1,0 +1,33 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AWS Athena on Dyfan Jones Brain Dump HQ</title>
+    <link>/tags/aws-athena/</link>
+    <description>Recent content in AWS Athena on Dyfan Jones Brain Dump HQ</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-uk</language>
+    <lastBuildDate>Thu, 31 Oct 2019 00:00:00 +0000</lastBuildDate>
+    
+        <atom:link href="/tags/aws-athena/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>R Owl of Athena</title>
+      <link>/post/r-owl-of-athena/</link>
+      <pubDate>Thu, 31 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/r-owl-of-athena/</guid>
+      <description></description>
+      
+                  <category>R</category>
+      
+                  <category>paws</category>
+      
+                  <category>AWS Athena</category>
+      
+      
+            <category>RBloggers</category>
+      
+    </item>
+    
+  </channel>
+</rss>
