@@ -12,11 +12,11 @@ thumbnail: ''
 [RBloggers](https://www.r-bloggers.com)|[RBloggers-feedburner](http://feeds.feedburner.com/RBloggers)
 
 # Intro:
-After developing the package [`RAthena`](https://cran.r-project.org/web/packages/RAthena/index.html) I stumbled quite accidentally into the R SDK in to AWS [`paws`](https://github.com/paws-r/paws). As `RAthena` utilises Python's SDK [`boto3`](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway) I thought the development of another AWS Athena package couldn't hurt. As mentioned in my [previous blog](https://dyfanjones.me/post/an-amazon-sdk-for-r/) the `paws` syntax is very similar to `boto3` so alot of my `RAthena` code was very portable and this gave me my final excuse to develop my next R package.
+After developing the package [`RAthena`](https://cran.r-project.org/web/packages/RAthena/index.html), I stumbled quite accidentally into the R SDK for AWS [`paws`](https://github.com/paws-r/paws). As `RAthena` utilises Python's SDK [`boto3`](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway) I thought the development of another AWS Athena package couldn't hurt. As mentioned in my [previous blog](https://dyfanjones.me/post/an-amazon-sdk-for-r/) the `paws` syntax is very similar to `boto3` so alot of my `RAthena` code was very portable and this gave me my final excuse to develop my next R package.
 
 # `paws` and AWS Athena:
 
-When working with AWS Athena through the SDKs (`boto3` or `paws`), the code can look abit daunting. 
+Before getting into the next package, lets first look at how the SDK's interact with AWS Athena.
 
 *For example: return all databases in AWS Athena*
 ```R
@@ -38,10 +38,10 @@ if(result$QueryExecution$Status$State == "FAILED") {
 } else {output <- 
           athena$get_query_results(
               QueryExecutionId = res$QueryExecutionId,
-              MaxResults = 1)}
+              MaxResults = 10)}
 ```
 
-This isn't the prettiest code when wanting to query AWS Athena with the SQL, in the above example: `SHOW DATABASES`. This is where `noctua` comes in.
+This isn't the prettiest code when wanting to query AWS Athena with the SQL, in the above example: `SHOW DATABASES`. This example only returns the top 10 results. It is even more "interesting" if you wish to return the entire data frame from AWS Athena. This is where `noctua` comes in.
 
 # `noctua`
 
@@ -75,7 +75,7 @@ remotes::install_github("dyfanjones/noctua")
 
 # Usage:
 
-As with all `DBI` interface packages the key functions are all exactly the same. Which means that their is little to no upskilling required. The only difference between each method is how they connect and how they send data back to the database. So we will focuse mainly on these two aspects.
+As with all `DBI` interface packages the key functions are exactly the same. Which means that there is little to no upskilling required. The only difference between each method is how they connect and send data back to the database. So we will focus mainly on those two aspects.
 
 ## Connecting to AWS Athena:
 
@@ -94,34 +94,33 @@ con <- dbConnect(noctua::athena(),
 ```
 **Note:** *`s3_staging_dir` requires to be in the format of `s3 uri` for example "s3://path/to/query/bucket/"*
 
-If you wish not to create AWS Profiles then setting environmental variables would be the recommended method.
+If you do not wish to create AWS Profiles then setting environmental variables would be the recommended method.
 
 ### Environment Variable Method:
 
-`noctua` supports [AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) set into the environment variables to avoid hard-coding. From what I have found out an easy way to set up environment variables (that persists) in R is to use the `file.edit` function like so:
-```r
+`noctua` supports [AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) when set into the environment variables to avoid hard-coding. From what I have found out, an easy way to set up environment variables (that persists) in R is to use the `file.edit` function like so:
+```
 file.edit("~/.Renviron")
 ```
 And now you can simply add in your environment variables in the file you are editing for example:
 ```
 AWS_ACCESS_KEY_ID = YOUR AWS KEY ID
 ```
-
 Once you have set your environment variables you can connect to Athena in the following method:
-
-```r
+```
 library(DBI)
 con <- dbConnect(noctua::athena(),
                  s3_staging_dir = "s3://path/to/query/bucket/")
 ```
-
-If you can even set the `s3_staging_dir` parameter as a environmental variable, to do this you need to set the following environmental variable:
-
-```r
+You can set the `s3_staging_dir` parameter as an environmental variable, to do this you need to set the following environmental variable:
+```
 AWS_ATHENA_S3_STAGING_DIR = s3://path/to/query/bucket/
 ```
-
 This allows for the following connection:
+```
+library(DBI)
+con <- dbConnect(noctua::athena())
+```
 
 ### AWS Profile Names:
 
@@ -140,7 +139,7 @@ con <- dbConnect(noctua::athena(),
 ```
 ### ARN Roles:
 
-ARN roles are fairly useful if you need to assume a role that can connect to another AWS account and use the `Athena` in that account. Or whether you want to create a temporary connection with different permissions than your current role ([AWS ARN Documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html)).
+ARN roles are fairly useful if you need to assume a role that can connect to another AWS account and use the AWS Athena in that account. Or whether you want to create a temporary connection with different permissions than your current role ([AWS ARN Documentation](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html)).
 
 **Assuming ARN role credentials before connecting to AWS Athena:**
 ```r
@@ -157,7 +156,7 @@ con <- dbConnect(athena(),
 **Connect to AWS Athena directly using ARN role:**
 ```r
 library(DBI)
-con <- dbConnect(athena(),
+con <- dbConnect(noctua::athena(),
                   profile_name = "YOUR_PROFILE_NAME",
                   role_arn = "arn:aws:sts::123456789012:assumed-role/role_name/role_session_name",
                   s3_staging_dir = 's3://path/to/query/bucket/')
@@ -167,7 +166,7 @@ con <- dbConnect(athena(),
 
 ### Temporary Sessions:
 
-Finally you can create temporary credentials before connecting to `Athena`.
+Finally you can create temporary credentials before connecting to AWS Athena:
 ```r
 library(noctua)
 library(DBI)
@@ -187,7 +186,7 @@ con <- dbConnect(athena(),
 
 ## Querying:
 
-To query AWS Athena using the `noctua` it is very similar to querying any other database:
+To query AWS Athena using the `noctua` it is very similar to querying any other `DBI` database method:
 
 ```
 library(DBI)
@@ -196,11 +195,11 @@ con <- dbConnect(noctua::athena())
 
 dbGetQuery(con, "show databases")
 ```
-That is it. So if we look back at the initial `paws` code when working with AWS Athena. The code is very intimidating when wanting to do basic AWS Athena queries. `noctua` packages all this up and makes it super easy to work with.
+That is it! So if we look back at the initial `paws` code when working with AWS Athena. The code was very intimidating when wanting to do basic AWS Athena queries. `noctua` packages all that up and makes it super easy to work with.
 
 ## Uploading Data:
 
-It is all very well querying data from `AWS Athena` but what is more useful is to upload data as well. `noctua` has addressed this and implemented a method in `dbWriteTable`.
+It is all very well querying data from AWS Athena but what is more useful is to upload data as well. `noctua` has addressed this and implemented a method in `dbWriteTable`.
 
 ```r
 dbWriteTable(con, "mtcars", mtcars,
@@ -240,6 +239,6 @@ Here are all variable parameters for the `dbWriteTable` method:
 
 # Conclusion:
 
-`noctua` is a package that gives R users the access to AWS Athena using the R AWS SDK `paws`. Due to this no external software is required and it can all be installed from the CRAN. If you are interested in how to connect R to AWS Athena please check out [`RAthena`](https://cran.r-project.org/web/packages/RAthena/index.html) as well (my other AWS Athena connectivity R package). All feature requests/ suggestions/issues are welcome please add them to: [Github Issues](https://github.com/DyfanJones/noctua/issues). 
+`noctua` is a package that gives R users the access to AWS Athena using the R AWS SDK `paws`. Thus no external software is required and it can all be installed from the CRAN. If you are interested in how to connect R to AWS Athena please check out [`RAthena`](https://cran.r-project.org/web/packages/RAthena/index.html) as well (my other AWS Athena connectivity R package). All feature requests/ suggestions/issues are welcome please add them to: [Github Issues](https://github.com/DyfanJones/noctua/issues). 
 
 Finally please star the github repositories if you like the work that has been done with R and AWS Athena [`noctua`](https://github.com/DyfanJones/noctua) , [`RAthena`](https://github.com/DyfanJones/RAthena)
