@@ -6,7 +6,7 @@ comments: false
 menu: main
 ---
 
-## Table of Contents
+## Contents
 1. [R and Athena there is another way](##R and Athena there is another way)
 
 ## R and Athena there is another way
