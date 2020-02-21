@@ -7,7 +7,7 @@ categories: [RBloggers]
 tags: [R, Athena, Boto3, Python]
 ---
 
-[RBloggers](https://www.r-bloggers.com)|[RBloggers-feedburner](http://feeds.feedburner.com/RBloggers )
+[RBloggers](https://www.r-bloggers.com)|[RBloggers-feedburner](https://feeds.feedburner.com/RBloggers )
 
 # Recap:
 

@@ -9,7 +9,7 @@ description: ''
 thumbnail: '/post/2019-10-29-an-amazon-sdk-for-r_files/R_SDK.png'
 ---
 
-[RBloggers](https://www.r-bloggers.com)|[RBloggers-feedburner](http://feeds.feedburner.com/RBloggers)
+[RBloggers](https://www.r-bloggers.com)|[RBloggers-feedburner](https://feeds.feedburner.com/RBloggers)
 
 # Intro:
 

@@ -18,7 +18,7 @@
       <guid>/post/an-amazon-sdk-for-r/</guid>
       <description>
 
-&lt;p&gt;&lt;a href=&#34;https://www.r-bloggers.com&#34;&gt;RBloggers&lt;/a&gt;|&lt;a href=&#34;http://feeds.feedburner.com/RBloggers&#34;&gt;RBloggers-feedburner&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.r-bloggers.com&#34;&gt;RBloggers&lt;/a&gt;|&lt;a href=&#34;https://feeds.feedburner.com/RBloggers&#34;&gt;RBloggers-feedburner&lt;/a&gt;&lt;/p&gt;
 
 &lt;h1 id=&#34;intro&#34;&gt;Intro:&lt;/h1&gt;
 
@@ -172,7 +172,7 @@ s3_model &amp;lt;- s3_read(&amp;quot;s3://mybucket/crap_model.RDS&amp;quot;, rea
       <guid>/post/rathena-1-3-0-has-arrived/</guid>
       <description>
 
-&lt;p&gt;&lt;a href=&#34;https://www.r-bloggers.com&#34;&gt;RBloggers&lt;/a&gt;|&lt;a href=&#34;http://feeds.feedburner.com/RBloggers&#34;&gt;RBloggers-feedburner&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.r-bloggers.com&#34;&gt;RBloggers&lt;/a&gt;|&lt;a href=&#34;https://feeds.feedburner.com/RBloggers&#34;&gt;RBloggers-feedburner&lt;/a&gt;&lt;/p&gt;
 
 &lt;h1 id=&#34;recap&#34;&gt;Recap:&lt;/h1&gt;
 
@@ -224,7 +224,7 @@ s3_model &amp;lt;- s3_read(&amp;quot;s3://mybucket/crap_model.RDS&amp;quot;, rea
       <guid>/post/athena-and-r-there-is-another-way/</guid>
       <description>
 
-&lt;p&gt;&lt;a href=&#34;https://www.r-bloggers.com&#34;&gt;RBloggers&lt;/a&gt;|&lt;a href=&#34;http://feeds.feedburner.com/RBloggers&#34;&gt;RBloggers-feedburner&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.r-bloggers.com&#34;&gt;RBloggers&lt;/a&gt;|&lt;a href=&#34;https://feeds.feedburner.com/RBloggers&#34;&gt;RBloggers-feedburner&lt;/a&gt;&lt;/p&gt;
 
 &lt;h1 id=&#34;intro&#34;&gt;Intro:&lt;/h1&gt;
 

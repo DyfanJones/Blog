@@ -18,7 +18,7 @@
       <guid>/post/r-owl-of-athena/</guid>
       <description>
 
-&lt;p&gt;&lt;a href=&#34;https://www.r-bloggers.com&#34;&gt;RBloggers&lt;/a&gt;|&lt;a href=&#34;http://feeds.feedburner.com/RBloggers&#34;&gt;RBloggers-feedburner&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.r-bloggers.com&#34;&gt;RBloggers&lt;/a&gt;|&lt;a href=&#34;https://feeds.feedburner.com/RBloggers&#34;&gt;RBloggers-feedburner&lt;/a&gt;&lt;/p&gt;
 
 &lt;h1 id=&#34;intro&#34;&gt;Intro:&lt;/h1&gt;
 
@@ -292,7 +292,7 @@ dbGetQuery(con, &amp;quot;show databases&amp;quot;)
       <guid>/post/an-amazon-sdk-for-r/</guid>
       <description>
 
-&lt;p&gt;&lt;a href=&#34;https://www.r-bloggers.com&#34;&gt;RBloggers&lt;/a&gt;|&lt;a href=&#34;http://feeds.feedburner.com/RBloggers&#34;&gt;RBloggers-feedburner&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.r-bloggers.com&#34;&gt;RBloggers&lt;/a&gt;|&lt;a href=&#34;https://feeds.feedburner.com/RBloggers&#34;&gt;RBloggers-feedburner&lt;/a&gt;&lt;/p&gt;
 
 &lt;h1 id=&#34;intro&#34;&gt;Intro:&lt;/h1&gt;
 

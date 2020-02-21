@@ -9,7 +9,7 @@ description: ''
 thumbnail: ''
 ---
 
-[RBloggers](https://www.r-bloggers.com)|[RBloggers-feedburner](http://feeds.feedburner.com/RBloggers)
+[RBloggers](https://www.r-bloggers.com)|[RBloggers-feedburner](https://feeds.feedburner.com/RBloggers)
 
 # Intro:
 After developing the package [`RAthena`](https://cran.r-project.org/web/packages/RAthena/index.html), I stumbled quite accidentally into the R SDK for AWS [`paws`](https://github.com/paws-r/paws). As `RAthena` utilises Python's SDK [`boto3`](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html?id=docs_gateway) I thought the development of another AWS Athena package couldn't hurt. As mentioned in my [previous blog](https://dyfanjones.me/post/an-amazon-sdk-for-r/) the `paws` syntax is very similar to `boto3` so alot of my `RAthena` code was very portable and this gave me my final excuse to develop my next R package.
