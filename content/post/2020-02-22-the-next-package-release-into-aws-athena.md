@@ -11,7 +11,7 @@ tags:
   - paws
   - Python
 description: ''
-thumbnail: '/post/2020-02-22-the-next-package-release-into-aws-athena_files/r-athena-new.png'
+thumbnail: '/post/2020-02-22-the-next-package-release-into-aws-athena_files/bigdata-r.png'
 ---
 
 [RBloggers](https://www.r-bloggers.com)|[RBloggers-feedburner](https://feeds.feedburner.com/RBloggers)
