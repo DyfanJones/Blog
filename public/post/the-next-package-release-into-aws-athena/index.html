@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-uk">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>The next package release into AWS Athena - Dyfan Jones Brain Dump HQ</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+	<meta property="og:title" content="The next package release into AWS Athena" />
+<meta property="og:description" content="RBloggers|RBloggers-feedburner
+RAthena 1.7.1 and noctua 1.5.1 package versions have now been released to the CRAN. They both bring along several improvements with the connection to AWS Athena, noticeably the performance speed and several creature comforts.
+These packages have both been designed to reflect one another,even down to how they connect to AWS Athena. This means that all features going forward will exist in both packages. I will refer to these packages as one, as they basically work in the same way." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/the-next-package-release-into-aws-athena/" />
+<meta property="article:published_time" content="2020-02-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-02-22T00:00:00+00:00" />
+
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo">
+			<a class="logo__link" href="/" title="Dyfan Jones Brain Dump HQ" rel="home">
+				<div class="logo__title">Dyfan Jones Brain Dump HQ</div>
+				<div class="logo__tagline">A place for me to dump my ideas</div>
+			</a>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/home/about/">All About Me</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="/home/talks/">Talks</a>
+		</li>
+	</ul>
+</nav>
+
+
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">The next package release into AWS Athena</h1>
+			<div class="post__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
+	<time class="meta__text" datetime="2020-02-22T00:00:00">February 22, 2020</time>
+</div>
+
+<div class="meta__item-categories meta__item">
+  <span class="article-duration">6 min read &nbsp;</span>
+	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
+	<span class="meta__text"><a class="meta__link" href="/categories/rbloggers" rel="category">RBloggers</a></span>
+</div>
+</div>
+		</header>
+		<figure class="post__thumbnail">
+			<img src="/post/2020-02-22-the-next-package-release-into-aws-athena_files/bigdata-r.png" alt="The next package release into AWS Athena">
+		</figure><div class="content post__content clearfix">
+			
+
+<p><a href="https://www.r-bloggers.com">RBloggers</a>|<a href="https://feeds.feedburner.com/RBloggers">RBloggers-feedburner</a></p>
+
+<p><code>RAthena 1.7.1</code> and <code>noctua 1.5.1</code> package versions have now been released to the CRAN. They both bring along several improvements with the connection to <code>AWS Athena</code>, noticeably the performance speed and several creature comforts.</p>
+
+<p>These packages have both been designed to reflect one another,even down to how they connect to <code>AWS Athena</code>. This means that all features going forward will exist in both packages. I will refer to these packages as one, as they basically work in the same way.</p>
+
+<h1 id="performance-improvements">Performance improvements:</h1>
+
+<p>Initially the packages utilised <code>AWS Athena</code> SQL queries. This was to achieve all the functional requirements of the <code>DBI</code> package framework. However the package would always send a SQL query to <code>AWS Athena</code> which in turn would have to lift a flat file from <code>AWS S3</code>, before returning the final result to <code>R</code>. This means the performance of the packages would be limited and fairly slow compared to other data base backends.</p>
+
+<p><img src="/post/2020-02-22-the-next-package-release-into-aws-athena_files/r-athena-old.png" alt="" /></p>
+
+<p>The biggest change is the adoption of more functionality of the SDKs (software development kit) into AWS. The key component that has been adopted is <code>AWS Glue</code>. <code>AWS Glue</code> contains all of <code>AWS Athena</code> table DDL&rsquo;s. This means instead of going to <code>AWS Athena</code> for this information <code>AWS Glue</code> can be used instead.</p>
+
+<p><img src="/post/2020-02-22-the-next-package-release-into-aws-athena_files/r-athena-new.png" alt="" /></p>
+
+<p>By utilising <code>AWS Glue</code>, the table meta data (column names, column types, schema hierarchy etc&hellip;) can easily be retrieved at a fraction of the time it would of taken to query <code>AWS Athena</code>. Previously the <code>DBI</code> function <code>dbListTables</code> would send a query to <code>AWS Athena</code>, this would retrieve all the tables listed in all schemas. This would take over 3 seconds. Now using <code>AWS Glue</code> to retrieve the same data, it takes less than 0.5 of a second.</p>
+
+<h2 id="dplyr">dplyr</h2>
+
+<p>When <code>AWS Glue</code> is used to collect metadata around a table in <code>AWS Athena</code>, a performance in <code>dplyr::tbl</code> can be done. I would like to say thanks to @OssiLehtinen for developing the initial implementation as this improvement would have been overlooked.</p>
+
+<p><code>dplyr::tbl</code> has two key methods when creating the initial object. The first is called SQL identifiers and this is the method that benefits from the new <code>AWS Glue</code> functionality. To use SQL identifiers is fairly straight forward.</p>
+
+<pre><code>library(DBI)
+library(dplyr)
+library(RAthena) #Or library(noctua)
+
+con = dbConnect(athena())
+
+dbWriteTable(con, &quot;iris&quot;, iris)
+
+ident_iris = tbl(con, &quot;iris&quot;)
+</code></pre>
+
+<p><code>dplyr</code> can identify the <code>iris</code> table within the connected schema. When a user uses the SQL identifier method in <code>dplyr::tbl</code>, <code>AWS Glue</code> is called to retrieve all the meta data for <code>dplyr</code>. This increases the performance from 3.66 to 0.29 seconds. The second method is called SQL sub query. This unfortunately won&rsquo;t benefit from the new feature and will run in slower at 3.66 seconds.</p>
+
+<pre><code>subquery_iris = tbl(con, sql(&quot;select * from iris&quot;))
+</code></pre>
+
+<p>Therefore I recommend the use of SQL identifier method when using <code>dplyr's</code> interface.</p>
+
+<h1 id="creature-comforts">Creature Comforts</h1>
+
+<h2 id="aws-athena-metadata">AWS Athena Metadata</h2>
+
+<p>Due to user feature requests the packages now return more meta data around each query sent to <code>AWS Athena</code>. Thus the basic level of meta data returned, is the amount of data scanned by <code>AWS Athena</code>. This is formatted into a readable format depending on the amount of data scanned.</p>
+
+<pre><code>library(DBI)
+library(RAthena) #Or library(noctua)
+
+con = dbConnect(athena())
+
+dbWriteTable(con, &quot;iris&quot;, iris)
+
+dbGetQuery(con, &quot;select * from iris&quot;)
+</code></pre>
+
+<pre><code>Info: (Data scanned: 860 Bytes)
+     sepal_length sepal_width petal_length petal_width   species
+  1:          5.1         3.5          1.4         0.2    setosa
+  2:          4.9         3.0          1.4         0.2    setosa
+  3:          4.7         3.2          1.3         0.2    setosa
+  4:          4.6         3.1          1.5         0.2    setosa
+  5:          5.0         3.6          1.4         0.2    setosa
+ ---                                                            
+146:          6.7         3.0          5.2         2.3 virginica
+147:          6.3         2.5          5.0         1.9 virginica
+148:          6.5         3.0          5.2         2.0 virginica
+149:          6.2         3.4          5.4         2.3 virginica
+150:          5.9         3.0          5.1         1.8 virginica
+</code></pre>
+
+<p>However if you set the new parameter <code>statistics</code> to <code>TRUE</code> then all the metadata around that query is printed out like so:</p>
+
+<pre><code>dbGetQuery(con, &quot;select * from iris&quot;, statistics = TRUE)
+</code></pre>
+
+<pre><code>$EngineExecutionTimeInMillis
+[1] 1568
+
+$DataScannedInBytes
+[1] 860
+
+$DataManifestLocation
+character(0)
+
+$TotalExecutionTimeInMillis
+[1] 1794
+
+$QueryQueueTimeInMillis
+[1] 209
+
+$QueryPlanningTimeInMillis
+[1] 877
+
+$ServiceProcessingTimeInMillis
+[1] 17
+
+Info: (Data scanned: 860 Bytes)
+     sepal_length sepal_width petal_length petal_width   species
+  1:          5.1         3.5          1.4         0.2    setosa
+  2:          4.9         3.0          1.4         0.2    setosa
+  3:          4.7         3.2          1.3         0.2    setosa
+  4:          4.6         3.1          1.5         0.2    setosa
+  5:          5.0         3.6          1.4         0.2    setosa
+ ---                                                            
+146:          6.7         3.0          5.2         2.3 virginica
+147:          6.3         2.5          5.0         1.9 virginica
+148:          6.5         3.0          5.2         2.0 virginica
+149:          6.2         3.4          5.4         2.3 virginica
+150:          5.9         3.0          5.1         1.8 virginica
+</code></pre>
+
+<p>This can also be retrieved by using <code>dbStatistics</code>:</p>
+
+<pre><code>res = dbExecute(con, &quot;select * from iris&quot;)
+
+# return query statistic
+query_stats = dbStatistics(res)
+
+# return query results
+dbFetch(res)
+
+# Free all resources
+dbClearResult(res)
+</code></pre>
+
+<h2 id="rjdbc-inspired-function"><code>RJDBC</code> inspired function</h2>
+
+<p>I have to give full credit to the package <code>RJDBC</code> for inspiring me to create this function. <code>DBI</code> has got a good function called <code>dbListTables</code> that will list all the tables that are in <code>AWS Athena</code>. However it won&rsquo;t return to which schema each individual table is related to. To over come this <code>RJDBC</code> has a excellent function called <code>dbGetTables</code>. This function returns all the tables from <code>AWS Athena</code> as a <code>data.frame</code>. This has the advantage of detailing schema, table and table type. With the new integration into <code>AWS Glue</code> this can be returned quickly.</p>
+
+<pre><code>dbGetTables(con)
+</code></pre>
+
+<pre><code>      Schema             TableName      TableType
+ 1:  default             df_bigint EXTERNAL_TABLE
+ 2:  default                  iris EXTERNAL_TABLE
+ 3:  default               mtcars2 EXTERNAL_TABLE
+ 4:  default         nyc_taxi_2018 EXTERNAL_TABLE
+</code></pre>
+
+<p>This just makes it a little bit easier when working in different IDE&rsquo;s for example <code>Jupyter</code>.</p>
+
+<h2 id="backend-option-changes">Backend option changes</h2>
+
+<p>This is not really a creature comfort but it still interesting and useful. Both packages are dependent on <code>data.table</code> to read data into <code>R</code>. This is down to the amazing speed <code>data.table</code> offers when reading files into <code>R</code>. However a new package, with equally impressive read speeds, has come onto the scene called <a href="https://github.com/r-lib/vroom"><code>vroom</code></a>. As <code>vroom</code> has been designed to only read data into <code>R</code> similarly to <code>readr</code>, <code>data.table</code> is still used for all of the heavy lifting. However if a user wishes to use <code>vroom</code> as the file parser an <code>*_options</code> function has been created to enable this:</p>
+
+<pre><code>nocuta_options(file_parser = c(&quot;data.table&quot;, &quot;vroom&quot;))
+
+# Or 
+
+RAthena__options(file_parser = c(&quot;data.table&quot;, &quot;vroom&quot;))
+</code></pre>
+
+<p>By setting the file_parser to <code>vroom</code> then the backend will change to allow <code>vroom's</code> file parser to be used instead of <code>data.table</code>.</p>
+
+<p>If you aren&rsquo;t sure whether to use <code>vroom</code> over <code>data.table</code>, I draw your attention to <code>vroom</code> boasting a whopping 1.40GB/sec throughput.</p>
+
+<blockquote>
+<p><em>Statistics taken from vroom&rsquo;s github readme</em></p>
+</blockquote>
+
+<table>
+<thead>
+<tr>
+<th>package</th>
+<th>version</th>
+<th>time (sec)</th>
+<th>speed-up</th>
+<th>throughput</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>vroom</td>
+<td>1.1.0</td>
+<td>1.14</td>
+<td>58.44</td>
+<td>1.40 GB/sec</td>
+</tr>
+
+<tr>
+<td>data.table</td>
+<td>1.12.8</td>
+<td>11.88</td>
+<td>5.62</td>
+<td>134.13 MB/sec</td>
+</tr>
+
+<tr>
+<td>readr</td>
+<td>1.3.1</td>
+<td>29.02</td>
+<td>2.30</td>
+<td>54.92 MB/sec</td>
+</tr>
+
+<tr>
+<td>read.delim</td>
+<td>3.6.2</td>
+<td>66.74</td>
+<td>1.00</td>
+<td>23.88 MB/sec</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="rstudio-interface">RStudio Interface!</h2>
+
+<p>Due to the ability of <code>AWS Glue</code> to retrieve metadata for <code>AWS Athena</code> at speed, it has now been possible to add the interface into RStudio&rsquo;s connection tab. When a connection is established:</p>
+
+<pre><code>library(DBI)
+library(RAthena) #Or library(noctua)
+
+con = dbConnect(athena())
+</code></pre>
+
+<p>The connection icon will as follows:</p>
+
+<p><img src="/post/2020-02-22-the-next-package-release-into-aws-athena_files/rstudio-con-tab.png" alt="" /></p>
+
+<p>The AWS region you are connecting to will be reflected in the connection (highlighted above in the red square). This is to help users that are able to connect to multiple different <code>AWS Athena</code> over different regions.</p>
+
+<p>Once you have connected <code>AWS Athena</code>, schema hierarchy will be displayed. In my example you can see some of the tables I have created when testing these packages.</p>
+
+<p><img src="/post/2020-02-22-the-next-package-release-into-aws-athena_files/rstudio-con-schema.png" alt="" /></p>
+
+<p>For more information around RStudio&rsquo;s connection tab please check out <a href="https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/">RStudio preview connections</a>.</p>
+
+<h1 id="summary">Summary</h1>
+
+<p>To sum up, the <code>Rathena</code> and <code>noctua</code> latest versions have been released to cran with all the new goodies they bring. As these packages are based on AWS SDK&rsquo;s they are highly customisable. Features can easily be added to improve the packages when connecting to <code>AWS Athena</code>. So please raise any feature requests / bug issues to: <a href="https://github.com/DyfanJones/RAthena">https://github.com/DyfanJones/RAthena</a> and <a href="https://github.com/DyfanJones/noctua">https://github.com/DyfanJones/noctua</a></p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link btn" href="/tags/r/" rel="tag">R</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/athena/" rel="tag">Athena</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/boto3/" rel="tag">Boto3</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/paws/" rel="tag">paws</a></li>
+		<li class="tags__item"><a class="tags__link btn" href="/tags/python/" rel="tag">Python</a></li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="Dyfan Jones avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About Dyfan Jones</span>
+	</div>
+	<div class="authorbox__description">
+		Dyfan Jones a humble Data Scientist
+	</div>
+</div>
+
+<nav class="post-nav flex">
+	<div class="post-nav__item post-nav__item--prev">
+		<a class="post-nav__link" href="/post/r-owl-of-athena/" rel="prev"><span class="post-nav__caption">«&thinsp;Previous</span><p class="post-nav__post-title">R Owl of Athena</p></a>
+	</div>
+</nav>
+
+<div id="disqus_thread"></div>
+<script>
+
+
+
+
+(function() { 
+var d = document, s = d.createElement('script');
+s.src = 'https://dyfanjones.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+
+
+			</div>
+			<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q" aria-label="SEARCH...">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/the-next-package-release-into-aws-athena/">The next package release into AWS Athena</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/r-owl-of-athena/">R Owl of Athena</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/an-amazon-sdk-for-r/">An Amazon SDK for R!?</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/rathena-1-3-0-has-arrived/">RAthena 1.3.0 has arrived</a></li>
+			<li class="widget__item"><a class="widget__link" href="/post/athena-and-r-there-is-another-way/">Athena and R ... there is another way!?</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-categories widget">
+	<h4 class="widget__title">Categories</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/categories/rbloggers">Rbloggers</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/athena" title="Athena">Athena</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/boto3" title="Boto3">Boto3</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/paws" title="Paws">Paws</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/python" title="Python">Python</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/r" title="R">R</a>
+	</div>
+</div>
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="LinkedIn" rel="noopener noreferrer" href="https://linkedin.com/in/dyfan-jones-a8261799" target="_blank">
+				<svg class="widget-social__link-icon icon icon-linkedin" width="24" height="24" viewBox="0 0 352 352"><path d="M0,40v272c0,21.9,18.1,40,40,40h272c21.9,0,40-18.1,40-40V40c0-21.9-18.1-40-40-40H40C18.1,0,0,18.1,0,40z M312,32 c4.6,0,8,3.4,8,8v272c0,4.6-3.4,8-8,8H40c-4.6,0-8-3.4-8-8V40c0-4.6,3.4-8,8-8H312z M59.5,87c0,15.2,12.3,27.5,27.5,27.5 c15.2,0,27.5-12.3,27.5-27.5c0-15.2-12.3-27.5-27.5-27.5C71.8,59.5,59.5,71.8,59.5,87z M187,157h-1v-21h-45v152h47v-75 c0-19.8,3.9-39,28.5-39c24.2,0,24.5,22.4,24.5,40v74h47v-83.5c0-40.9-8.7-72-56.5-72C208.5,132.5,193.3,145.1,187,157z M64,288h47.5 V136H64V288z"/></svg>
+				<span>LinkedIn</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/DyfanJones" target="_blank">
+				<svg class="widget-social__link-icon icon icon-github" width="24" height="24" viewBox="0 0 384 374"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:dyfan.r.jones@gmail.com">
+				<svg class="widget-social__link-icon icon icon-mail" width="24" height="24" viewBox="0 0 416 288"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>dyfan.r.jones@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2020 Dyfan Jones Brain Dump HQ.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+</body>
+</html>

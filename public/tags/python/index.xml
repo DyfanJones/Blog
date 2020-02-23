@@ -5,10 +5,269 @@
     <description>Recent content in Python on Dyfan Jones Brain Dump HQ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <lastBuildDate>Tue, 29 Oct 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 22 Feb 2020 00:00:00 +0000</lastBuildDate>
     
         <atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>The next package release into AWS Athena</title>
+      <link>/post/the-next-package-release-into-aws-athena/</link>
+      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/the-next-package-release-into-aws-athena/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;https://www.r-bloggers.com&#34;&gt;RBloggers&lt;/a&gt;|&lt;a href=&#34;https://feeds.feedburner.com/RBloggers&#34;&gt;RBloggers-feedburner&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;RAthena 1.7.1&lt;/code&gt; and &lt;code&gt;noctua 1.5.1&lt;/code&gt; package versions have now been released to the CRAN. They both bring along several improvements with the connection to &lt;code&gt;AWS Athena&lt;/code&gt;, noticeably the performance speed and several creature comforts.&lt;/p&gt;
+
+&lt;p&gt;These packages have both been designed to reflect one another,even down to how they connect to &lt;code&gt;AWS Athena&lt;/code&gt;. This means that all features going forward will exist in both packages. I will refer to these packages as one, as they basically work in the same way.&lt;/p&gt;
+
+&lt;h1 id=&#34;performance-improvements&#34;&gt;Performance improvements:&lt;/h1&gt;
+
+&lt;p&gt;Initially the packages utilised &lt;code&gt;AWS Athena&lt;/code&gt; SQL queries. This was to achieve all the functional requirements of the &lt;code&gt;DBI&lt;/code&gt; package framework. However the package would always send a SQL query to &lt;code&gt;AWS Athena&lt;/code&gt; which in turn would have to lift a flat file from &lt;code&gt;AWS S3&lt;/code&gt;, before returning the final result to &lt;code&gt;R&lt;/code&gt;. This means the performance of the packages would be limited and fairly slow compared to other data base backends.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/2020-02-22-the-next-package-release-into-aws-athena_files/r-athena-old.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The biggest change is the adoption of more functionality of the SDKs (software development kit) into AWS. The key component that has been adopted is &lt;code&gt;AWS Glue&lt;/code&gt;. &lt;code&gt;AWS Glue&lt;/code&gt; contains all of &lt;code&gt;AWS Athena&lt;/code&gt; table DDL&amp;rsquo;s. This means instead of going to &lt;code&gt;AWS Athena&lt;/code&gt; for this information &lt;code&gt;AWS Glue&lt;/code&gt; can be used instead.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/2020-02-22-the-next-package-release-into-aws-athena_files/r-athena-new.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;By utilising &lt;code&gt;AWS Glue&lt;/code&gt;, the table meta data (column names, column types, schema hierarchy etc&amp;hellip;) can easily be retrieved at a fraction of the time it would of taken to query &lt;code&gt;AWS Athena&lt;/code&gt;. Previously the &lt;code&gt;DBI&lt;/code&gt; function &lt;code&gt;dbListTables&lt;/code&gt; would send a query to &lt;code&gt;AWS Athena&lt;/code&gt;, this would retrieve all the tables listed in all schemas. This would take over 3 seconds. Now using &lt;code&gt;AWS Glue&lt;/code&gt; to retrieve the same data, it takes less than 0.5 of a second.&lt;/p&gt;
+
+&lt;h2 id=&#34;dplyr&#34;&gt;dplyr&lt;/h2&gt;
+
+&lt;p&gt;When &lt;code&gt;AWS Glue&lt;/code&gt; is used to collect metadata around a table in &lt;code&gt;AWS Athena&lt;/code&gt;, a performance in &lt;code&gt;dplyr::tbl&lt;/code&gt; can be done. I would like to say thanks to @OssiLehtinen for developing the initial implementation as this improvement would have been overlooked.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;dplyr::tbl&lt;/code&gt; has two key methods when creating the initial object. The first is called SQL identifiers and this is the method that benefits from the new &lt;code&gt;AWS Glue&lt;/code&gt; functionality. To use SQL identifiers is fairly straight forward.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;library(DBI)
+library(dplyr)
+library(RAthena) #Or library(noctua)
+
+con = dbConnect(athena())
+
+dbWriteTable(con, &amp;quot;iris&amp;quot;, iris)
+
+ident_iris = tbl(con, &amp;quot;iris&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;dplyr&lt;/code&gt; can identify the &lt;code&gt;iris&lt;/code&gt; table within the connected schema. When a user uses the SQL identifier method in &lt;code&gt;dplyr::tbl&lt;/code&gt;, &lt;code&gt;AWS Glue&lt;/code&gt; is called to retrieve all the meta data for &lt;code&gt;dplyr&lt;/code&gt;. This increases the performance from 3.66 to 0.29 seconds. The second method is called SQL sub query. This unfortunately won&amp;rsquo;t benefit from the new feature and will run in slower at 3.66 seconds.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;subquery_iris = tbl(con, sql(&amp;quot;select * from iris&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Therefore I recommend the use of SQL identifier method when using &lt;code&gt;dplyr&#39;s&lt;/code&gt; interface.&lt;/p&gt;
+
+&lt;h1 id=&#34;creature-comforts&#34;&gt;Creature Comforts&lt;/h1&gt;
+
+&lt;h2 id=&#34;aws-athena-metadata&#34;&gt;AWS Athena Metadata&lt;/h2&gt;
+
+&lt;p&gt;Due to user feature requests the packages now return more meta data around each query sent to &lt;code&gt;AWS Athena&lt;/code&gt;. Thus the basic level of meta data returned, is the amount of data scanned by &lt;code&gt;AWS Athena&lt;/code&gt;. This is formatted into a readable format depending on the amount of data scanned.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;library(DBI)
+library(RAthena) #Or library(noctua)
+
+con = dbConnect(athena())
+
+dbWriteTable(con, &amp;quot;iris&amp;quot;, iris)
+
+dbGetQuery(con, &amp;quot;select * from iris&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;Info: (Data scanned: 860 Bytes)
+     sepal_length sepal_width petal_length petal_width   species
+  1:          5.1         3.5          1.4         0.2    setosa
+  2:          4.9         3.0          1.4         0.2    setosa
+  3:          4.7         3.2          1.3         0.2    setosa
+  4:          4.6         3.1          1.5         0.2    setosa
+  5:          5.0         3.6          1.4         0.2    setosa
+ ---                                                            
+146:          6.7         3.0          5.2         2.3 virginica
+147:          6.3         2.5          5.0         1.9 virginica
+148:          6.5         3.0          5.2         2.0 virginica
+149:          6.2         3.4          5.4         2.3 virginica
+150:          5.9         3.0          5.1         1.8 virginica
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;However if you set the new parameter &lt;code&gt;statistics&lt;/code&gt; to &lt;code&gt;TRUE&lt;/code&gt; then all the metadata around that query is printed out like so:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dbGetQuery(con, &amp;quot;select * from iris&amp;quot;, statistics = TRUE)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;$EngineExecutionTimeInMillis
+[1] 1568
+
+$DataScannedInBytes
+[1] 860
+
+$DataManifestLocation
+character(0)
+
+$TotalExecutionTimeInMillis
+[1] 1794
+
+$QueryQueueTimeInMillis
+[1] 209
+
+$QueryPlanningTimeInMillis
+[1] 877
+
+$ServiceProcessingTimeInMillis
+[1] 17
+
+Info: (Data scanned: 860 Bytes)
+     sepal_length sepal_width petal_length petal_width   species
+  1:          5.1         3.5          1.4         0.2    setosa
+  2:          4.9         3.0          1.4         0.2    setosa
+  3:          4.7         3.2          1.3         0.2    setosa
+  4:          4.6         3.1          1.5         0.2    setosa
+  5:          5.0         3.6          1.4         0.2    setosa
+ ---                                                            
+146:          6.7         3.0          5.2         2.3 virginica
+147:          6.3         2.5          5.0         1.9 virginica
+148:          6.5         3.0          5.2         2.0 virginica
+149:          6.2         3.4          5.4         2.3 virginica
+150:          5.9         3.0          5.1         1.8 virginica
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This can also be retrieved by using &lt;code&gt;dbStatistics&lt;/code&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;res = dbExecute(con, &amp;quot;select * from iris&amp;quot;)
+
+# return query statistic
+query_stats = dbStatistics(res)
+
+# return query results
+dbFetch(res)
+
+# Free all resources
+dbClearResult(res)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;rjdbc-inspired-function&#34;&gt;&lt;code&gt;RJDBC&lt;/code&gt; inspired function&lt;/h2&gt;
+
+&lt;p&gt;I have to give full credit to the package &lt;code&gt;RJDBC&lt;/code&gt; for inspiring me to create this function. &lt;code&gt;DBI&lt;/code&gt; has got a good function called &lt;code&gt;dbListTables&lt;/code&gt; that will list all the tables that are in &lt;code&gt;AWS Athena&lt;/code&gt;. However it won&amp;rsquo;t return to which schema each individual table is related to. To over come this &lt;code&gt;RJDBC&lt;/code&gt; has a excellent function called &lt;code&gt;dbGetTables&lt;/code&gt;. This function returns all the tables from &lt;code&gt;AWS Athena&lt;/code&gt; as a &lt;code&gt;data.frame&lt;/code&gt;. This has the advantage of detailing schema, table and table type. With the new integration into &lt;code&gt;AWS Glue&lt;/code&gt; this can be returned quickly.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;dbGetTables(con)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;      Schema             TableName      TableType
+ 1:  default             df_bigint EXTERNAL_TABLE
+ 2:  default                  iris EXTERNAL_TABLE
+ 3:  default               mtcars2 EXTERNAL_TABLE
+ 4:  default         nyc_taxi_2018 EXTERNAL_TABLE
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This just makes it a little bit easier when working in different IDE&amp;rsquo;s for example &lt;code&gt;Jupyter&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;backend-option-changes&#34;&gt;Backend option changes&lt;/h2&gt;
+
+&lt;p&gt;This is not really a creature comfort but it still interesting and useful. Both packages are dependent on &lt;code&gt;data.table&lt;/code&gt; to read data into &lt;code&gt;R&lt;/code&gt;. This is down to the amazing speed &lt;code&gt;data.table&lt;/code&gt; offers when reading files into &lt;code&gt;R&lt;/code&gt;. However a new package, with equally impressive read speeds, has come onto the scene called &lt;a href=&#34;https://github.com/r-lib/vroom&#34;&gt;&lt;code&gt;vroom&lt;/code&gt;&lt;/a&gt;. As &lt;code&gt;vroom&lt;/code&gt; has been designed to only read data into &lt;code&gt;R&lt;/code&gt; similarly to &lt;code&gt;readr&lt;/code&gt;, &lt;code&gt;data.table&lt;/code&gt; is still used for all of the heavy lifting. However if a user wishes to use &lt;code&gt;vroom&lt;/code&gt; as the file parser an &lt;code&gt;*_options&lt;/code&gt; function has been created to enable this:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;nocuta_options(file_parser = c(&amp;quot;data.table&amp;quot;, &amp;quot;vroom&amp;quot;))
+
+# Or 
+
+RAthena__options(file_parser = c(&amp;quot;data.table&amp;quot;, &amp;quot;vroom&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;By setting the file_parser to &lt;code&gt;vroom&lt;/code&gt; then the backend will change to allow &lt;code&gt;vroom&#39;s&lt;/code&gt; file parser to be used instead of &lt;code&gt;data.table&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;If you aren&amp;rsquo;t sure whether to use &lt;code&gt;vroom&lt;/code&gt; over &lt;code&gt;data.table&lt;/code&gt;, I draw your attention to &lt;code&gt;vroom&lt;/code&gt; boasting a whopping 1.40GB/sec throughput.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Statistics taken from vroom&amp;rsquo;s github readme&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;package&lt;/th&gt;
+&lt;th&gt;version&lt;/th&gt;
+&lt;th&gt;time (sec)&lt;/th&gt;
+&lt;th&gt;speed-up&lt;/th&gt;
+&lt;th&gt;throughput&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;vroom&lt;/td&gt;
+&lt;td&gt;1.1.0&lt;/td&gt;
+&lt;td&gt;1.14&lt;/td&gt;
+&lt;td&gt;58.44&lt;/td&gt;
+&lt;td&gt;1.40 GB/sec&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;data.table&lt;/td&gt;
+&lt;td&gt;1.12.8&lt;/td&gt;
+&lt;td&gt;11.88&lt;/td&gt;
+&lt;td&gt;5.62&lt;/td&gt;
+&lt;td&gt;134.13 MB/sec&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;readr&lt;/td&gt;
+&lt;td&gt;1.3.1&lt;/td&gt;
+&lt;td&gt;29.02&lt;/td&gt;
+&lt;td&gt;2.30&lt;/td&gt;
+&lt;td&gt;54.92 MB/sec&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;read.delim&lt;/td&gt;
+&lt;td&gt;3.6.2&lt;/td&gt;
+&lt;td&gt;66.74&lt;/td&gt;
+&lt;td&gt;1.00&lt;/td&gt;
+&lt;td&gt;23.88 MB/sec&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&#34;rstudio-interface&#34;&gt;RStudio Interface!&lt;/h2&gt;
+
+&lt;p&gt;Due to the ability of &lt;code&gt;AWS Glue&lt;/code&gt; to retrieve metadata for &lt;code&gt;AWS Athena&lt;/code&gt; at speed, it has now been possible to add the interface into RStudio&amp;rsquo;s connection tab. When a connection is established:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;library(DBI)
+library(RAthena) #Or library(noctua)
+
+con = dbConnect(athena())
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The connection icon will as follows:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/2020-02-22-the-next-package-release-into-aws-athena_files/rstudio-con-tab.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The AWS region you are connecting to will be reflected in the connection (highlighted above in the red square). This is to help users that are able to connect to multiple different &lt;code&gt;AWS Athena&lt;/code&gt; over different regions.&lt;/p&gt;
+
+&lt;p&gt;Once you have connected &lt;code&gt;AWS Athena&lt;/code&gt;, schema hierarchy will be displayed. In my example you can see some of the tables I have created when testing these packages.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/2020-02-22-the-next-package-release-into-aws-athena_files/rstudio-con-schema.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;For more information around RStudio&amp;rsquo;s connection tab please check out &lt;a href=&#34;https://blog.rstudio.com/2017/08/16/rstudio-preview-connections/&#34;&gt;RStudio preview connections&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&#34;summary&#34;&gt;Summary&lt;/h1&gt;
+
+&lt;p&gt;To sum up, the &lt;code&gt;Rathena&lt;/code&gt; and &lt;code&gt;noctua&lt;/code&gt; latest versions have been released to cran with all the new goodies they bring. As these packages are based on AWS SDK&amp;rsquo;s they are highly customisable. Features can easily be added to improve the packages when connecting to &lt;code&gt;AWS Athena&lt;/code&gt;. So please raise any feature requests / bug issues to: &lt;a href=&#34;https://github.com/DyfanJones/RAthena&#34;&gt;https://github.com/DyfanJones/RAthena&lt;/a&gt; and &lt;a href=&#34;https://github.com/DyfanJones/noctua&#34;&gt;https://github.com/DyfanJones/noctua&lt;/a&gt;&lt;/p&gt;
+</description>
+      
+                  <category>R</category>
+      
+                  <category>Athena</category>
+      
+                  <category>Boto3</category>
+      
+                  <category>paws</category>
+      
+                  <category>Python</category>
+      
+      
+            <category>RBloggers</category>
+      
+    </item>
     
     <item>
       <title>An Amazon SDK for R!?</title>
