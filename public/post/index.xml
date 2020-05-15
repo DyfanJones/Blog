@@ -11,6 +11,86 @@
     
     
     <item>
+      <title>R doesn&#39;t need to throttle AWS Athena anymore</title>
+      <link>/post/r-doesnt-need-to-throttle-aws-athena-anymore/</link>
+      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/post/r-doesnt-need-to-throttle-aws-athena-anymore/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;https://www.r-bloggers.com&#34;&gt;RBloggers&lt;/a&gt;|&lt;a href=&#34;https://feeds.feedburner.com/RBloggers&#34;&gt;RBloggers-feedburner&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;I am happy to announce that &lt;code&gt;RAthena-1.9.0&lt;/code&gt; and &lt;code&gt;noctua-1.7.0&lt;/code&gt; have been released onto the cran. They both bring two key features:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;More stability when working with &lt;code&gt;AWS Athena&lt;/code&gt;, focusing on &lt;code&gt;AWS&lt;/code&gt; &lt;code&gt;Rate Exceeded&lt;/code&gt; throttling errors&lt;/li&gt;
+&lt;li&gt;New helper function to convert &lt;code&gt;AWS S3&lt;/code&gt; backend files to save cost&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;NOTE:&lt;/strong&gt; &lt;code&gt;RAthena&lt;/code&gt; and &lt;code&gt;noctua&lt;/code&gt; features correspond to each other, as a result I will refer to them interchangeability.&lt;/p&gt;
+
+&lt;h1 id=&#34;stability&#34;&gt;Stability&lt;/h1&gt;
+
+&lt;h2 id=&#34;throttling-aws&#34;&gt;Throttling AWS&lt;/h2&gt;
+
+&lt;p&gt;One of the main problems when working with &lt;code&gt;AWS&lt;/code&gt; API is stumbling into &lt;code&gt;Rate Exceeded&lt;/code&gt; throttling error. With the latest update to the packages, the connection between &lt;code&gt;AWS Athena&lt;/code&gt; and &lt;code&gt;R&lt;/code&gt; has been made more robust through retry functionality. This allows &lt;code&gt;R&lt;/code&gt; to automatically retry its request using an exponential backoff with jitter (&lt;a href=&#34;https://httr.r-lib.org/articles/api-packages.html#turn-api-errors-into-r-errors&#34;&gt;Best practices for API packages&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/post/2020-05-15-r-doesnt-need-to-throttle-aws-athena-anymore_files/aws_retry.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;R&lt;/code&gt; sends a call to &lt;code&gt;AWS Athena&lt;/code&gt;, let&amp;rsquo;s say &lt;code&gt;dbListTables(con)&lt;/code&gt;. However &lt;code&gt;AWS&lt;/code&gt; is over run with requests, and returns an error back to &lt;code&gt;R&lt;/code&gt; saying it is overwhelmed (this is a &lt;code&gt;rate exceeded&lt;/code&gt; throttling error). As &lt;code&gt;RAthena&lt;/code&gt; and &lt;code&gt;noctua&lt;/code&gt; retry noisely, the error will be printed to the console letting you know &lt;code&gt;AWS&lt;/code&gt; is busy (&lt;code&gt;{expection message} + &amp;quot;Request failed. Retrying in &amp;quot; + {wait time}  + &amp;quot; seconds...&amp;quot;&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;R&lt;/code&gt; will then wait for a given time (please see error format above) and retry the request again. &lt;code&gt;AWS&lt;/code&gt; replies it is still busy and can&amp;rsquo;t do the request.&lt;/li&gt;
+&lt;li&gt;This time &lt;code&gt;R&lt;/code&gt; will back off for a long period of time, this gives &lt;code&gt;AWS&lt;/code&gt; some breathing room. Now when &lt;code&gt;R&lt;/code&gt; sends the request over to &lt;code&gt;AWS&lt;/code&gt;, &lt;code&gt;AWS&lt;/code&gt; is able to complete the call and return out desired results.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;This feature is a great step in the right direction for making &lt;code&gt;R&lt;/code&gt; and &lt;code&gt;AWS Athena&lt;/code&gt; work together seamlessly. For anyone who wishes to create their own retry method both packages have enabled this through their &lt;code&gt;..._options()&lt;/code&gt; function. For more information please refer to &lt;a href=&#34;https://dyfanjones.github.io/noctua/articles/how_to_retry.html&#34;&gt;link&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h1 id=&#34;save-the-pennies&#34;&gt;Save the pennies&lt;/h1&gt;
+
+&lt;h2 id=&#34;converting-aws-s3-files&#34;&gt;Converting &lt;code&gt;AWS S3&lt;/code&gt; files&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;AWS Athena&lt;/code&gt; costs by the amount of data it scans. This makes it very important to have your &lt;code&gt;AWS S3&lt;/code&gt; backend files in the suitable format to reduce the cost of using &lt;code&gt;AWS Athena&lt;/code&gt;. This is where the next key feature comes in. This feature basically creates a simple wrapper to allow you to convert &lt;code&gt;AWS S3&lt;/code&gt; files into a more suitable format.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;library(DBI)
+library(RAthena)
+
+con &amp;lt;- dbConnect(athena())
+
+# Upload iris data.frame to AWS Athena as a delimited file
+dbWriteTable(con, &amp;quot;iris_delim&amp;quot;, iris)
+
+# Convert to parquet using AWS Athena
+dbConvertTable(con,
+               obj = &amp;quot;iris_delim&amp;quot;,
+               name = &amp;quot;iris_parquet&amp;quot;,
+               file.type = &amp;quot;parquet&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In this example simply uploaded iris &lt;code&gt;data.frame&lt;/code&gt; to &lt;code&gt;AWS Athena&lt;/code&gt; in a default delimited file format (please see &lt;a href=&#34;https://dyfanjones.github.io/RAthena/reference/AthenaWriteTables.html&#34;&gt;link&lt;/a&gt; for more information around how to upload data to &lt;code&gt;AWS Athena&lt;/code&gt;). Then it is converted into &lt;a href=&#34;https://parquet.apache.org/&#34;&gt;&lt;code&gt;parquet&lt;/code&gt;&lt;/a&gt; file format using &lt;code&gt;AWS Athena&lt;/code&gt;. This wrapper isn&amp;rsquo;t limited to converting just AWS Athena tables, it can also convert &lt;a href=&#34;https://docs.aws.amazon.com/athena/latest/ug/select.html&#34;&gt;&lt;code&gt;SQL DML&lt;/code&gt;&lt;/a&gt; queries. Please refer to &lt;a href=&#34;https://dyfanjones.github.io/RAthena/reference/dbConvertTable.html&#34;&gt;&lt;code&gt;dbConvertTable&lt;/code&gt;&lt;/a&gt; for more documentation or to the &lt;code&gt;dbConvertTable&lt;/code&gt; vignette &lt;a href=&#34;https://dyfanjones.github.io/RAthena/articles/convert_and_save_cost.html&#34;&gt;link&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Finally for more informations around best practises with &lt;code&gt;AWS Athena&lt;/code&gt; please look at &lt;a href=&#34;https://aws.amazon.com/blogs/big-data/top-10-performance-tuning-tips-for-amazon-athena/&#34;&gt;Top 10 Perfromace Tuning Tips for Amazon Athena&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;sum-up&#34;&gt;Sum Up&lt;/h1&gt;
+
+&lt;p&gt;These two new features bring &lt;code&gt;R&lt;/code&gt; and &lt;code&gt;AWS Athena&lt;/code&gt; that little bit closer together. As always if you have any new features or identify any bugs please feel free to raise a pull request or ticket on the corresponding package github pages (&lt;a href=&#34;https://github.com/DyfanJones/RAthena/&#34;&gt;&lt;code&gt;RAthena&lt;/code&gt;&lt;/a&gt; and &lt;a href=&#34;https://github.com/DyfanJones/noctua&#34;&gt;&lt;code&gt;nocuta&lt;/code&gt;&lt;/a&gt;)&lt;/p&gt;
+</description>
+      
+                  <category>R</category>
+      
+                  <category>Athena</category>
+      
+                  <category>Boto3</category>
+      
+                  <category>paws1150</category>
+      
+                  <category>Python</category>
+      
+      
+            <category>RBloggers</category>
+      
+    </item>
+    
+    <item>
       <title>The next package release into AWS Athena</title>
       <link>/post/the-next-package-release-into-aws-athena/</link>
       <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
