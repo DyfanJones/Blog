@@ -1,7 +1,7 @@
 ---
 title: R doesn't need to throttle AWS Athena anymore
 author: Dyfan Jones
-date: '2020-02-22'
+date: '2020-05-15'
 slug: r-doesnt-need-to-throttle-aws-athena-anymore
 categories: [RBloggers]
 tags:
