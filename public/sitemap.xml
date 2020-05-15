@@ -28,6 +28,11 @@
   </url>
   
   <url>
+    <loc>/tags/paws1150/</loc>
+    <lastmod>2020-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/</loc>
     <lastmod>2020-02-22T00:00:00+00:00</lastmod>
   </url>
@@ -39,6 +44,11 @@
   
   <url>
     <loc>/tags/r/</loc>
+    <lastmod>2020-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/r-doesnt-need-to-throttle-aws-athena-anymore/</loc>
     <lastmod>2020-02-22T00:00:00+00:00</lastmod>
   </url>
   

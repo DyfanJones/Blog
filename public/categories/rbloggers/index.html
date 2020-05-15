@@ -59,6 +59,32 @@
 	<header class="main__header">
 		<h1 class="main__title">RBloggers</h1>
 	</header><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/post/r-doesnt-need-to-throttle-aws-athena-anymore/" rel="bookmark">
+			R doesn&#39;t need to throttle AWS Athena anymore
+			</a>
+		</h3>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg>
+	<time class="meta__text" datetime="2020-02-22T00:00:00">February 22, 2020</time>
+</div>
+
+<div class="meta__item-categories meta__item">
+  <span class="article-duration">3 min read &nbsp;</span>
+	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
+	<span class="meta__text"><a class="meta__link" href="/categories/rbloggers" rel="category">RBloggers</a></span>
+</div>
+</div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		RBloggers|RBloggers-feedburner
+I am happy to announce that RAthena-1.9.0 and noctua-1.7.0 have been released onto the cran. They both bring two key features:
+ More stability when working with AWS Athena, focusing on AWS Rate Exceeded throttling errors New helper function to convert AWS S3 backend files to save cost  NOTE: RAthena and noctua features correspond to each other, as a result I will refer to them interchangeability.
+Stability Throttling AWS One of the main problems when working with AWS API is stumbling into Rate Exceeded throttling error.
+	</div>
+</article><article class="list__item post">
 	<figure class="list__thumbnail">
 		<a href="/post/the-next-package-release-into-aws-athena/">
 			<img src="/post/2020-02-22-the-next-package-release-into-aws-athena_files/bigdata-r.png" alt="The next package release into AWS Athena" />
@@ -209,11 +235,11 @@ Intro: Currently there are two key ways in connecting to Amazon Athena from R, u
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/post/r-doesnt-need-to-throttle-aws-athena-anymore/">R doesn&#39;t need to throttle AWS Athena anymore</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/the-next-package-release-into-aws-athena/">The next package release into AWS Athena</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/r-owl-of-athena/">R Owl of Athena</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/an-amazon-sdk-for-r/">An Amazon SDK for R!?</a></li>
 			<li class="widget__item"><a class="widget__link" href="/post/rathena-1-3-0-has-arrived/">RAthena 1.3.0 has arrived</a></li>
-			<li class="widget__item"><a class="widget__link" href="/post/athena-and-r-there-is-another-way/">Athena and R ... there is another way!?</a></li>
 		</ul>
 	</div>
 </div>
@@ -231,6 +257,7 @@ Intro: Currently there are two key ways in connecting to Amazon Athena from R, u
 		<a class="widget-taglist__link widget__link btn" href="/tags/athena" title="Athena">Athena</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/boto3" title="Boto3">Boto3</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/paws" title="Paws">Paws</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/paws1150" title="Paws1150">Paws1150</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/python" title="Python">Python</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/r" title="R">R</a>
 	</div>
