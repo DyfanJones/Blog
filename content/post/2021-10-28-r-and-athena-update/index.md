@@ -16,7 +16,7 @@ thumbnail: '/post/2021-10-28-r-and-athena-update/update.jpg'
 
 ## Intro:
 
-As it has been an while since `RAthena` and `noctua` updates have been announce, I thought I would try and get them all out of the way now.
+As it has been an while since `RAthena` and `noctua` updates have been announce, I thought I would try and get them all out of the way now. This blog will cover, key new features that has been made from version 1.9.0 to 2.3.0.
 
 ## New Features:
 
