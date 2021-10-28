@@ -8,7 +8,7 @@ tags:
   - R
   - Athena
   - Boto3
-  - paws1150
+  - paws
   - Python
 description: ''
 thumbnail: ''
