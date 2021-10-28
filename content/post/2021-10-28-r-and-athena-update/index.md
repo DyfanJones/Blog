@@ -127,6 +127,7 @@ sqlData(con, dt)
 * **`AWS Athena UNLOAD`**: Add support to [`AWS Athena UNLOAD`](https://docs.aws.amazon.com/athena/latest/ug/unload.html/) . This is to take advantage of read/write speed `parquet`.
 
 > Set up AWS Athena table (example taken from AWS Data Wrangler: [Amazon Athena Tutorial](https://aws-data-wrangler.readthedocs.io/en/stable/tutorials/006%20-%20Amazon%20Athena.html)):
+
 ```python
 import awswrangler as wr
 
@@ -156,7 +157,9 @@ wr.s3.to_parquet(
 
 wr.catalog.table(database="awswrangler_test", table="noaa")
 ```
+
 > Benchmark unload method using `noctua`.
+
 ```R
 
 library(DBI)
@@ -189,6 +192,7 @@ system.time({
 #    user  system elapsed 
 #  13.738   1.886  11.029 
 ```
+
 > **Note:** Benchmark ran on `AWS Sagemaker` ml.t3.xlarge instance.
 
 ## Finally:
