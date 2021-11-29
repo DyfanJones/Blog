@@ -16,7 +16,7 @@ thumbnail: ''
 
 ## Intro:
 
-This is a quick update on the latest features for `RAthena` and `noctua`.
+This is a quick update on the latest features for `RAthena` and `noctua` 2.4.0.
 
 ## Latest features:
 
@@ -63,7 +63,6 @@ wr.catalog.table(database="awswrangler_test", table="noaa")
 Set up connection to `AWS Athena`.
 
 ```r
-
 library(DBI)
 library(RAthena) # or library(noctua)
 library(dplyr, warn.conflicts = F)
