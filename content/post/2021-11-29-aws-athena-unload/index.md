@@ -22,11 +22,11 @@ This is a quick update on the latest features for `RAthena` and `noctua`.
 
 ### `dbplyr`:
 
-`RAthena` and `noctua` now fully supports [`dbplyr` backend api 2+](https://dbplyr.tidyverse.org/articles/backend-2.html). `dplyr` database generics will be deprecated in later versions of the `dbplyr` package development. This is to future proof `RAthena` and `noctua`, while keeping the same functionality developed for `dbplyr` backend api 1.
+`RAthena` and `noctua` now fully supports [`dbplyr` backend api 2+](https://dbplyr.tidyverse.org/articles/backend-2.html). `dplyr` database generics will be deprecated in later versions of the `dbplyr` package development. This is to future proof `RAthena` and `noctua`, while keeping the same functionality developed for `dbplyr` backend api version 1.
 
 ### `dplyr` and unload:
 
-`RAthena` and `noctua` can now set AWS Athena unload on session level. This enables dplyr syntax to leverage [`AWS Athena unload`](https://docs.aws.amazon.com/athena/latest/ug/unload.html) without any extra code.
+`RAthena` and `noctua` can now set `AWS Athena Unload` on a session level. This enables dplyr syntax to leverage [`AWS Athena unload`](https://docs.aws.amazon.com/athena/latest/ug/unload.html) without any extra code.
 
 **Note:** Set up AWS Athena example table using [AWS Athena awswrangler example:](https://aws-data-wrangler.readthedocs.io/en/stable/tutorials/006%20-%20Amazon%20Athena.html)
 
@@ -65,7 +65,7 @@ Set up connection to `AWS Athena`.
 ```r
 
 library(DBI)
-library(RAthena)
+library(RAthena) # or library(noctua)
 library(dplyr, warn.conflicts = F)
 
 con <- dbConnect(athena())
@@ -88,7 +88,7 @@ dim(noaa)
 Query `AWS Athena` table using `AWS Athena unload` method.
 
 ```r
-RAthena_options(unload = TRUE)
+RAthena_options(unload = TRUE) # or noctua_options(unload = TRUE) for noctua
 
 system.time({noaa = collect(noaa_tbl)})
 #> Info: (Data scanned: 80.86 MB)
@@ -102,7 +102,7 @@ dim(noaa)
 Query `AWS Athena` table using `AWS Athena unload` method, while caching.
 
 ```r
-RAthena_options(cache_size = 10, unload = TRUE)
+RAthena_options(cache_size = 10, unload = TRUE) # or noctua_options(cache_size = 10, unload = TRUE) for noctua
 ```
 
 ```r
