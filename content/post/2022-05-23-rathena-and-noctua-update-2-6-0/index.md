@@ -101,4 +101,3 @@ install.packages('noctua')
 ```
 
 If there is any new features or bug fixes please raise them at [`RAthena` issues](https://github.com/DyfanJones/RAthena/issues) or [`noctua` issues](https://github.com/DyfanJones/noctua/issues).
-
