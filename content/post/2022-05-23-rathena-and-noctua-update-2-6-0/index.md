@@ -26,6 +26,7 @@ This is a quick update on the latest features for `RAthena` and `noctua` 2.6.0.
 ### Endpoint Override:
 
 Introducing a new parameter within the function `dbConnect`, `endpoint_override`. This allows `RAthena`/`noctua` to override each AWS service endpoint they connect to. `RAthena`/`noctua` connect to the following AWS services:
+
   - `AWS Athena` ( https://aws.amazon.com/athena/ ): main service to manipulate `AWS Athena`.
   - `AWS Glue` ( https://aws.amazon.com/athena/ ): service to the get `AWS Glue Catalogue` for `AWS Athena`.
   - `AWS S3` ( https://aws.amazon.com/s3/ ): to get `AWS Athena`'s results.
